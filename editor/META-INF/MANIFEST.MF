@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JSX_Plugin_for_Eclipse
+Bundle-SymbolicName: JSX_Plugin_for_Eclipse; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: jsx_plugin_for_eclipse.Activator
+Bundle-Vendor: vvakame_u1
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
