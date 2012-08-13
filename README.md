@@ -1,4 +1,5 @@
-jsx-plugin-for-eclipse
+JSX Plugin for Eclipse
 ======================
 
-JSX Plugin for Eclipse
+http://jsx.github.com/
+
