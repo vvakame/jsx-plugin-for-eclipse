@@ -9,7 +9,7 @@
             extensions="jsx"
             icon="icons/sample.gif"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            class="jsx_plugin_for_eclipse.editors.JsxEditor"
+            class="net.vvakame.ide.jsx.editors.JsxEditor"
             id="jsx_plugin_for_eclipse.editors.JsxEditor">
       </editor>
    </extension>

@@ -1,4 +1,4 @@
-package jsx_plugin_for_eclipse;
+package net.vvakame.ide.jsx;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
