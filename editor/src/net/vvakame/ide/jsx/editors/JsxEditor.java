@@ -17,6 +17,7 @@ public class JsxEditor extends TextEditor {
 		setDocumentProvider(new XMLDocumentProvider());
 	}
 
+	@Override
 	public void dispose() {
 		colorManager.dispose();
 		super.dispose();

@@ -1,6 +1,5 @@
 package net.vvakame.ide.jsx.editors.jsxprovider;
 
-
 import org.eclipse.jface.text.rules.*;
 
 public class XMLPartitionScanner extends RuleBasedPartitionScanner {
