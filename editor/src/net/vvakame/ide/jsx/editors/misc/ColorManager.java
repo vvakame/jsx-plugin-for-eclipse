@@ -1,4 +1,4 @@
-package net.vvakame.ide.jsx.editors;
+package net.vvakame.ide.jsx.editors.misc;
 
 import java.util.HashMap;
 import java.util.Iterator;

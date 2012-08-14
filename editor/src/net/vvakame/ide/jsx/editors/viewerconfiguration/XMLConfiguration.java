@@ -1,4 +1,8 @@
-package net.vvakame.ide.jsx.editors;
+package net.vvakame.ide.jsx.editors.viewerconfiguration;
+
+import net.vvakame.ide.jsx.editors.jsxprovider.XMLPartitionScanner;
+import net.vvakame.ide.jsx.editors.misc.ColorManager;
+import net.vvakame.ide.jsx.editors.misc.IXMLColorConstants;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextDoubleClickStrategy;

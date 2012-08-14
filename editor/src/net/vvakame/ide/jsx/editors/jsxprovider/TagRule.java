@@ -1,4 +1,4 @@
-package net.vvakame.ide.jsx.editors;
+package net.vvakame.ide.jsx.editors.jsxprovider;
 
 import org.eclipse.jface.text.rules.*;
 

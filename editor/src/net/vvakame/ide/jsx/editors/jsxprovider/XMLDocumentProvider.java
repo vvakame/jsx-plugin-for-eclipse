@@ -1,4 +1,5 @@
-package net.vvakame.ide.jsx.editors;
+package net.vvakame.ide.jsx.editors.jsxprovider;
+
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;

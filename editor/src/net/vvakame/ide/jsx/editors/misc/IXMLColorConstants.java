@@ -1,4 +1,4 @@
-package net.vvakame.ide.jsx.editors;
+package net.vvakame.ide.jsx.editors.misc;
 
 import org.eclipse.swt.graphics.RGB;
 

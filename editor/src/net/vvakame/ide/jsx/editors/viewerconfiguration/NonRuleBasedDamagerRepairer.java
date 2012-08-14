@@ -1,4 +1,4 @@
-package net.vvakame.ide.jsx.editors;
+package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
