@@ -6,7 +6,7 @@ import net.vvakame.ide.jsx.editors.misc.IXMLColorConstants;
 import org.eclipse.jface.text.*;
 import org.eclipse.jface.text.rules.*;
 
-public class XMLTagScanner extends RuleBasedScanner {
+class XMLTagScanner extends RuleBasedScanner {
 
 	public XMLTagScanner(ColorManager manager) {
 		IToken string = new Token(new TextAttribute(

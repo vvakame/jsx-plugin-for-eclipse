@@ -2,7 +2,7 @@ package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
 
-public class XMLWhitespaceDetector implements IWhitespaceDetector {
+class XMLWhitespaceDetector implements IWhitespaceDetector {
 
 	@Override
 	public boolean isWhitespace(char c) {

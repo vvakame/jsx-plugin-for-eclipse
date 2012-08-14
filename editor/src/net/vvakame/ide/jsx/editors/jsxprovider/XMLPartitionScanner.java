@@ -1,10 +1,9 @@
 package net.vvakame.ide.jsx.editors.jsxprovider;
 
 import org.eclipse.jface.text.rules.*;
+import static net.vvakame.ide.jsx.editors.misc.IXMLTagToken.*;
 
-public class XMLPartitionScanner extends RuleBasedPartitionScanner {
-	public final static String XML_COMMENT = "__xml_comment";
-	public final static String XML_TAG = "__xml_tag";
+class XMLPartitionScanner extends RuleBasedPartitionScanner {
 
 	public XMLPartitionScanner() {
 

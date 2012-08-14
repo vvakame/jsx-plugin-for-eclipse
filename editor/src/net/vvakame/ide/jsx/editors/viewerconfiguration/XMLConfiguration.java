@@ -1,6 +1,7 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import net.vvakame.ide.jsx.editors.jsxprovider.XMLPartitionScanner;
+import static net.vvakame.ide.jsx.editors.misc.IXMLTagToken.XML_COMMENT;
+import static net.vvakame.ide.jsx.editors.misc.IXMLTagToken.XML_TAG;
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.misc.IXMLColorConstants;
 
@@ -26,8 +27,8 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] { IDocument.DEFAULT_CONTENT_TYPE,
-				XMLPartitionScanner.XML_COMMENT, XMLPartitionScanner.XML_TAG };
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, XML_COMMENT,
+				XML_TAG };
 	}
 
 	@Override
@@ -63,8 +64,8 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 
 		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
 				getXMLTagScanner());
-		reconciler.setDamager(dr, XMLPartitionScanner.XML_TAG);
-		reconciler.setRepairer(dr, XMLPartitionScanner.XML_TAG);
+		reconciler.setDamager(dr, XML_TAG);
+		reconciler.setRepairer(dr, XML_TAG);
 
 		dr = new DefaultDamagerRepairer(getXMLScanner());
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
@@ -73,10 +74,9 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
 				new TextAttribute(
 						colorManager.getColor(IXMLColorConstants.XML_COMMENT)));
-		reconciler.setDamager(ndr, XMLPartitionScanner.XML_COMMENT);
-		reconciler.setRepairer(ndr, XMLPartitionScanner.XML_COMMENT);
+		reconciler.setDamager(ndr, XML_COMMENT);
+		reconciler.setRepairer(ndr, XML_COMMENT);
 
 		return reconciler;
 	}
-
 }

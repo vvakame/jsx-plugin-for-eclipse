@@ -2,7 +2,7 @@ package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
 import org.eclipse.jface.text.*;
 
-public class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
+class XMLDoubleClickStrategy implements ITextDoubleClickStrategy {
 	protected ITextViewer fText;
 
 	@Override

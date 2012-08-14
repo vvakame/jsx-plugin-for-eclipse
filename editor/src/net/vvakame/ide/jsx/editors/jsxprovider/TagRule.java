@@ -2,7 +2,7 @@ package net.vvakame.ide.jsx.editors.jsxprovider;
 
 import org.eclipse.jface.text.rules.*;
 
-public class TagRule extends MultiLineRule {
+class TagRule extends MultiLineRule {
 
 	public TagRule(IToken token) {
 		super("<", ">", token);
