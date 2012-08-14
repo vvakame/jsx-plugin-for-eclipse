@@ -19,15 +19,14 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 	public XMLConfiguration(ColorManager colorManager) {
 		this.colorManager = colorManager;
 	}
+
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] {
-			IDocument.DEFAULT_CONTENT_TYPE,
-			XMLPartitionScanner.XML_COMMENT,
-			XMLPartitionScanner.XML_TAG };
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE,
+				XMLPartitionScanner.XML_COMMENT, XMLPartitionScanner.XML_TAG };
 	}
+
 	public ITextDoubleClickStrategy getDoubleClickStrategy(
-		ISourceViewer sourceViewer,
-		String contentType) {
+			ISourceViewer sourceViewer, String contentType) {
 		if (doubleClickStrategy == null)
 			doubleClickStrategy = new XMLDoubleClickStrategy();
 		return doubleClickStrategy;
@@ -36,29 +35,27 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 	protected XMLScanner getXMLScanner() {
 		if (scanner == null) {
 			scanner = new XMLScanner(colorManager);
-			scanner.setDefaultReturnToken(
-				new Token(
-					new TextAttribute(
-						colorManager.getColor(IXMLColorConstants.DEFAULT))));
+			scanner.setDefaultReturnToken(new Token(new TextAttribute(
+					colorManager.getColor(IXMLColorConstants.DEFAULT))));
 		}
 		return scanner;
 	}
+
 	protected XMLTagScanner getXMLTagScanner() {
 		if (tagScanner == null) {
 			tagScanner = new XMLTagScanner(colorManager);
-			tagScanner.setDefaultReturnToken(
-				new Token(
-					new TextAttribute(
-						colorManager.getColor(IXMLColorConstants.TAG))));
+			tagScanner.setDefaultReturnToken(new Token(new TextAttribute(
+					colorManager.getColor(IXMLColorConstants.TAG))));
 		}
 		return tagScanner;
 	}
 
-	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+	public IPresentationReconciler getPresentationReconciler(
+			ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
 
-		DefaultDamagerRepairer dr =
-			new DefaultDamagerRepairer(getXMLTagScanner());
+		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
+				getXMLTagScanner());
 		reconciler.setDamager(dr, XMLPartitionScanner.XML_TAG);
 		reconciler.setRepairer(dr, XMLPartitionScanner.XML_TAG);
 
@@ -66,10 +63,9 @@ public class XMLConfiguration extends SourceViewerConfiguration {
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 
-		NonRuleBasedDamagerRepairer ndr =
-			new NonRuleBasedDamagerRepairer(
+		NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
 				new TextAttribute(
-					colorManager.getColor(IXMLColorConstants.XML_COMMENT)));
+						colorManager.getColor(IXMLColorConstants.XML_COMMENT)));
 		reconciler.setDamager(ndr, XMLPartitionScanner.XML_COMMENT);
 		reconciler.setRepairer(ndr, XMLPartitionScanner.XML_COMMENT);
 
