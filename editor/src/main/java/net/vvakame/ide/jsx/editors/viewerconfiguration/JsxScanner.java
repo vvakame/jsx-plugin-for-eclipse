@@ -1,14 +1,14 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import static net.vvakame.ide.jsx.editors.misc.IJsxToken.JSX_KEYWORD;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
+import net.vvakame.ide.jsx.editors.misc.IJsxColorConstants;
 import net.vvakame.ide.jsx.editors.rule.KeywordClassRule;
 import net.vvakame.ide.jsx.editors.rule.WordRuleFactory;
 
+import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
@@ -20,7 +20,8 @@ import org.eclipse.jface.text.rules.WordRule;
 class JsxScanner extends RuleBasedScanner {
 
 	public JsxScanner(ColorManager manager) {
-		IToken keyword = new Token(JSX_KEYWORD);
+		IToken keyword = new Token(new TextAttribute(
+				manager.getColor(IJsxColorConstants.KEYWORD)));
 
 		List<IRule> list = new ArrayList<IRule>();
 

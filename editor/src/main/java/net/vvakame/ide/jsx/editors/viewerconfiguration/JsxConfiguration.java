@@ -8,7 +8,6 @@ import java.util.WeakHashMap;
 
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.misc.IJsxColorConstants;
-import net.vvakame.ide.jsx.editors.misc.IXMLColorConstants;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextAttribute;
@@ -40,7 +39,7 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		} else {
 			JsxScanner scanner = new JsxScanner(colorManager);
 			scanner.setDefaultReturnToken(new Token(new TextAttribute(
-					colorManager.getColor(IJsxColorConstants.KEYWORD))));
+					colorManager.getColor(IJsxColorConstants.DEFAULT))));
 			scannerHash.put(JsxScanner.class, scanner);
 			return scanner;
 		}
@@ -71,9 +70,8 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		}
 		{
 			NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
-					new TextAttribute(
-							colorManager
-									.getColor(IXMLColorConstants.XML_COMMENT)));
+					new TextAttribute(colorManager
+							.getColor(IJsxColorConstants.BLOCK_COMMENT)));
 			reconciler.setDamager(ndr, JSX_COMMENT);
 			reconciler.setRepairer(ndr, JSX_COMMENT);
 		}
