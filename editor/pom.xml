@@ -4,27 +4,32 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsx-plugin-for-eclipse</artifactId>
-	<packaging>zip</packaging>
+	<packaging>eclipse-plugin</packaging>
 
 	<name>JSX Plugin for Eclipse</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0.qualifier</version>
 
 	<properties>
-		<jsx-plugin.version>${version}</jsx-plugin.version>
-		<eclipse-install>/Applications/eclipse4.2</eclipse-install>
+		<jsx-plugin.version>${project.version}</jsx-plugin.version>
+		<tycho-version>0.15.0</tycho-version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>eclipse-juno</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/juno</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>pde-maven-plugin</artifactId>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
 				<extensions>true</extensions>
-				<configuration>
-					<eclipseInstall>${eclipse-install}</eclipseInstall>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 </project>
-
