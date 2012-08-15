@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
+import net.vvakame.ide.jsx.editors.rule.KeywordClassRule;
+import net.vvakame.ide.jsx.editors.rule.WordRuleFactory;
 
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -22,25 +24,28 @@ class JsxScanner extends RuleBasedScanner {
 
 		List<IRule> list = new ArrayList<IRule>();
 
-		// FIXME
+		list.add(new KeywordClassRule());
+		list.add(new NumberRule(keyword));
+
 		IWordDetector detector = new IWordDetector() {
 
 			@Override
 			public boolean isWordStart(char c) {
-				return c == 'c';
+				return 'f' == c;
 			}
 
 			@Override
 			public boolean isWordPart(char c) {
-				System.out.println(c);
-				return "class".contains(new String(new char[] { c }));
+				return "unction".contains(new String(new char[] { c }));
 			}
 		};
-		WordRule wordRule = new WordRule(detector, keyword, false);
-		wordRule.addWord("class", keyword);
+		WordRule wordRule = new WordRule(detector);
+		wordRule.addWord("function", keyword);
 		list.add(wordRule);
 
-		list.add(new NumberRule(keyword));
+		list.add(WordRuleFactory.createRule("static", keyword));
+		list.add(WordRuleFactory.createRule("new", keyword));
+		list.add(WordRuleFactory.createRule("var", keyword));
 
 		setRules(list.toArray(new IRule[] {}));
 	}
