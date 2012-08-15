@@ -5,17 +5,17 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
-import static net.vvakame.ide.jsx.editors.misc.IXMLTagToken.*;
+import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
 
-public class XMLDocumentProvider extends FileDocumentProvider {
+public class JsxDocumentProvider extends FileDocumentProvider {
 
 	@Override
 	protected IDocument createDocument(Object element) throws CoreException {
 		IDocument document = super.createDocument(element);
 		if (document != null) {
 			IDocumentPartitioner partitioner = new FastPartitioner(
-					new XMLPartitionScanner(), new String[] { XML_TAG,
-							XML_COMMENT });
+					new JsxPartitionScanner(), new String[] { JSX_KEYWORD,
+							JSX_COMMENT });
 			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
 		}

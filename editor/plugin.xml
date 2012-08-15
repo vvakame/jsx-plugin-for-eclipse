@@ -12,6 +12,14 @@
             class="net.vvakame.ide.jsx.editors.JsxEditor"
             id="jsx_plugin_for_eclipse.editors.JsxEditor">
       </editor>
+      <editor
+            name="XML Editor"
+            extensions="xml"
+            icon="icons/sample.gif"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="net.vvakame.ide.jsx.editors.XmlEditor"
+            id="jsx_plugin_for_eclipse.editors.XmlEditor">
+      </editor>
    </extension>
 
 </plugin>

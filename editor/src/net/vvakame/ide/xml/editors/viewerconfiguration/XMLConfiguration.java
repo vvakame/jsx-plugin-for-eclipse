@@ -1,4 +1,4 @@
-package net.vvakame.ide.jsx.editors.viewerconfiguration;
+package net.vvakame.ide.xml.editors.viewerconfiguration;
 
 import static net.vvakame.ide.jsx.editors.misc.IXMLTagToken.XML_COMMENT;
 import static net.vvakame.ide.jsx.editors.misc.IXMLTagToken.XML_TAG;

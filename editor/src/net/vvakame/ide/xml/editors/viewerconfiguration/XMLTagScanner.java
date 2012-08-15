@@ -1,4 +1,4 @@
-package net.vvakame.ide.jsx.editors.viewerconfiguration;
+package net.vvakame.ide.xml.editors.viewerconfiguration;
 
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.misc.IXMLColorConstants;
