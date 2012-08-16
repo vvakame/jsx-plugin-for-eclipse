@@ -1,53 +1,45 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
+import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
-import net.vvakame.ide.jsx.editors.misc.IJsxColorConstants;
-import net.vvakame.ide.jsx.editors.rule.KeywordClassRule;
-import net.vvakame.ide.jsx.editors.rule.WordRuleFactory;
 
-import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.IWordDetector;
-import org.eclipse.jface.text.rules.NumberRule;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
-import org.eclipse.jface.text.rules.Token;
+import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 class JsxScanner extends RuleBasedScanner {
 
+	static final String[] KEYWORDS = { "class", "function" };
+
 	public JsxScanner(ColorManager manager) {
-		IToken keyword = new Token(new TextAttribute(
-				manager.getColor(IJsxColorConstants.KEYWORD)));
+		final IToken keyword = manager.getToken(JSX_KEYWORD);
 
-		List<IRule> list = new ArrayList<IRule>();
+		final IToken string = manager.getToken(JSX_STRING);
+		final IToken comment = manager.getToken(JSX_COMMENT);
 
-		list.add(new KeywordClassRule());
-		list.add(new NumberRule(keyword));
+		List<IRule> rules = new ArrayList<IRule>();
 
-		IWordDetector detector = new IWordDetector() {
+		// String
+		rules.add(new SingleLineRule("\"", "\"", string, '\\'));
+		rules.add(new SingleLineRule("'", "'", string, '\\'));
+		
+		// comment
+		rules.add(new EndOfLineRule("//", comment));
 
-			@Override
-			public boolean isWordStart(char c) {
-				return 'f' == c;
-			}
+		// keyword
+		WordRule wordRule = new WordRule(new JsxWordDetector());
+		for (int i = 0; i < KEYWORDS.length; i++) {
+			wordRule.addWord(KEYWORDS[i], keyword);
+		}
+		rules.add(wordRule);
 
-			@Override
-			public boolean isWordPart(char c) {
-				return "unction".contains(new String(new char[] { c }));
-			}
-		};
-		WordRule wordRule = new WordRule(detector);
-		wordRule.addWord("function", keyword);
-		list.add(wordRule);
-
-		list.add(WordRuleFactory.createRule("static", keyword));
-		list.add(WordRuleFactory.createRule("new", keyword));
-		list.add(WordRuleFactory.createRule("var", keyword));
-
-		setRules(list.toArray(new IRule[] {}));
+		setRules(rules.toArray(new IRule[] {}));
 	}
 }

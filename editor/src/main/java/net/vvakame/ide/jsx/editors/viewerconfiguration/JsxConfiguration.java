@@ -1,7 +1,6 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import static net.vvakame.ide.jsx.editors.misc.IJsxToken.JSX_COMMENT;
-import static net.vvakame.ide.jsx.editors.misc.IJsxToken.JSX_KEYWORD;
+import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -30,7 +29,8 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, JSX_KEYWORD };
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, JSX_KEYWORD,
+				JSX_COMMENT, JSX_STRING };
 	}
 
 	protected ITokenScanner getJsxScanner() {
@@ -51,7 +51,7 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		} else {
 			BlockCommentScanner scanner = new BlockCommentScanner(colorManager);
 			scanner.setDefaultReturnToken(new Token(new TextAttribute(
-					colorManager.getColor(IJsxColorConstants.BLOCK_COMMENT))));
+					colorManager.getColor(IJsxColorConstants.COMMENT))));
 			scannerHash.put(BlockCommentScanner.class, scanner);
 			return scanner;
 		}
@@ -71,7 +71,7 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		{
 			NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
 					new TextAttribute(colorManager
-							.getColor(IJsxColorConstants.BLOCK_COMMENT)));
+							.getColor(IJsxColorConstants.COMMENT)));
 			reconciler.setDamager(ndr, JSX_COMMENT);
 			reconciler.setRepairer(ndr, JSX_COMMENT);
 		}
