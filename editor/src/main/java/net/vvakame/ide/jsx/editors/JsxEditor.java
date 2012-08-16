@@ -1,6 +1,5 @@
 package net.vvakame.ide.jsx.editors;
 
-
 import net.vvakame.ide.jsx.editors.jsxprovider.JsxDocumentProvider;
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.viewerconfiguration.JsxConfiguration;
@@ -16,6 +15,8 @@ public class JsxEditor extends TextEditor {
 		colorManager = new ColorManager();
 		setSourceViewerConfiguration(new JsxConfiguration(colorManager));
 		setDocumentProvider(new JsxDocumentProvider());
+
+		System.out.println(JsxEditorMessages.Test_test);
 	}
 
 	@Override
