@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
@@ -35,7 +36,13 @@ public class ColorManager {
 		Token token = tokenTable.get(prefKey);
 		if (token == null) {
 			RGB rgb = rgbTable.get(prefKey);
-			token = new Token(new TextAttribute(getColor(rgb)));
+
+			if (prefKey.equals(IJsxToken.JSX_KEYWORD)) {
+				token = new Token(new TextAttribute(getColor(rgb), null,
+						SWT.BOLD));
+			} else {
+				token = new Token(new TextAttribute(getColor(rgb)));
+			}
 			tokenTable.put(prefKey, token);
 		}
 		return token;
