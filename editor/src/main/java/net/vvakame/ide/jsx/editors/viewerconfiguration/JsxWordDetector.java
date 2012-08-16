@@ -13,6 +13,8 @@ public class JsxWordDetector implements IWordDetector {
 			return true;
 		} else if (Character.getType(c) == Character.LETTER_NUMBER) {
 			return true;
+		} else if ('_' == c) {
+			return true;
 		}
 
 		return false;
