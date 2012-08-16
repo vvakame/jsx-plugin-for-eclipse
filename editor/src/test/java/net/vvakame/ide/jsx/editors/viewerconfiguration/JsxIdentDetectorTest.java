@@ -11,13 +11,13 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WordRule;
 import org.junit.Test;
 
-public class JsxWordDetectorTest {
+public class JsxIdentDetectorTest {
 
 	@Test
 	public void test() {
 		String document = "class";
 
-		WordRule rule = new WordRule(new JsxWordDetector());
+		WordRule rule = new WordRule(new JsxIdentDetector());
 		rule.addWord("class", new Token(this));
 
 		RuleBasedScanner scanner = new RuleBasedScanner();
@@ -25,6 +25,6 @@ public class JsxWordDetectorTest {
 		scanner.setRange(new Document(document), 0, document.length());
 
 		IToken token = scanner.nextToken();
-		assertThat((JsxWordDetectorTest) token.getData(), is(this));
+		assertThat((JsxIdentDetectorTest) token.getData(), is(this));
 	}
 }

@@ -16,45 +16,37 @@ import org.eclipse.jface.text.rules.WordRule;
 
 class JsxScanner extends RuleBasedScanner {
 
+	// from here.
+	// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L132
 	static final String[] KEYWORDS = {
-			// literals shared with ECMA 262literals
-			// shared with ECMA 262
-			"null",
-			"true",
-			"false",
+			// literals shared with ECMA 262
+			"null", "true", "false",
 			"NaN",
-			"Infinity"
+			"Infinity",
 			// keywords shared with ECMA 262
-			, "break", "do", "instanceof", "typeof", "case", "else", "new",
+			"break", "do", "instanceof", "typeof", "case", "else", "new",
 			"var", "catch", "finally", "return", "void", "continue", "for",
-			"switch", "while", "function", "this", "default", "if", "throw",
+			"switch", "while", "function", "this",
+			/* "default", */// contextual keywords
+			"if", "throw",
+			/* "assert", "log", // contextual keywords */
 			"delete", "in", "try",
 			// keywords of JSX
 			"class", "extends", "super", "import", "implements", "interface",
 			"static", "__FILE__", "__LINE__", "undefined" };
 
+	// from here.
+	// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L153
 	static final String[] RESERVED = {
-			// literals shared with ECMA 262literals
-			// shared with ECMA 262
-			"null",
-			"true",
-			"false",
-			"NaN",
-			"Infinity"
-			// keywords shared with ECMA 262
-			, "break", "do", "instanceof", "typeof", "case", "else", "new",
-			"var", "catch", "finally", "return", "void", "continue", "for",
-			"switch", "while", "function", "this", "default", "if", "throw",
-			"delete", "in", "try",
-			// keywords of JSX
-			"class", "extends", "super", "import", "implements", "interface",
-			"static", "__FILE__", "__LINE__", "undefined" };
+			// literals of ECMA 262 but not used by JSX
+			"debugger", "with",
+			// future reserved words of ECMA 262
+			"const", "export",
+			// future reserved words within strict mode of ECMA 262
+			"let", "private", "public", "yield", "protected",
 
-	static final String[] CONTEXTUAL = { "__noconvert__", "__readonly__",
-			"abstract", "final", "mixin", "override" };
-
-	static final String[] MODIFIERS = { "static", "abstract", "override",
-			"final", "const", "native", "__readonly__" };
+			// JSX specific reserved words
+			"extern", "native", "as", "operator" };
 
 	public JsxScanner(ColorManager manager) {
 		final IToken keyword = manager.getToken(JSX_KEYWORD);
@@ -72,17 +64,11 @@ class JsxScanner extends RuleBasedScanner {
 		rules.add(new EndOfLineRule("//", comment));
 
 		// keyword
-		WordRule wordRule = new WordRule(new JsxWordDetector());
+		WordRule wordRule = new WordRule(new JsxIdentDetector());
 		for (String word : KEYWORDS) {
 			wordRule.addWord(word, keyword);
 		}
 		for (String word : RESERVED) {
-			wordRule.addWord(word, keyword);
-		}
-		for (String word : CONTEXTUAL) {
-			wordRule.addWord(word, keyword);
-		}
-		for (String word : MODIFIERS) {
 			wordRule.addWord(word, keyword);
 		}
 		rules.add(wordRule);
