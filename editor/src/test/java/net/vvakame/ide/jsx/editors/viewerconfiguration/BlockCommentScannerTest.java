@@ -2,7 +2,6 @@ package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.misc.IJsxToken;
 
 import org.eclipse.jface.text.Document;
