@@ -49,7 +49,7 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		if (scannerHash.containsKey(BlockCommentScanner.class)) {
 			return scannerHash.get(BlockCommentScanner.class);
 		} else {
-			BlockCommentScanner scanner = new BlockCommentScanner(colorManager);
+			BlockCommentScanner scanner = new BlockCommentScanner();
 			scanner.setDefaultReturnToken(new Token(new TextAttribute(
 					colorManager.getColor(IJsxColorConstants.COMMENT))));
 			scannerHash.put(BlockCommentScanner.class, scanner);
