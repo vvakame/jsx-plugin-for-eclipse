@@ -8,20 +8,19 @@ import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
-import org.eclipse.jface.text.rules.WordRule;
+import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.junit.Test;
 
-public class JsxIdentDetectorTest {
+public class JsxWhitespaceDetectorTest {
 	final Object tokenObj = new Object();
 
 	@Test
 	public void test() {
-		String[] valid = { "class", "extends", "vvakame_", "_u1", "VVAKAME",
-				"U1ARYZ" };
+		String[] valid = { " ", "\t", "\n", "\r" };
 
 		for (String word : valid) {
-			WordRule rule = new WordRule(new JsxIdentDetector());
-			rule.addWord(word, new Token(tokenObj));
+			WhitespaceRule rule = new WhitespaceRule(
+					new JsxWhitespaceDetector(), new Token(tokenObj));
 
 			RuleBasedScanner scanner = new RuleBasedScanner();
 			scanner.setRules(new IRule[] { rule });
@@ -31,12 +30,11 @@ public class JsxIdentDetectorTest {
 			assertThat(word + " is valid.", token.getData(), is(tokenObj));
 		}
 
-		String[] invalid = { "fizzばず", "ほげ", "日本全国酒飲み音頭", "(´∀｀∩)↑age↑", "110",
-				" ", "　", "أعلنت قوات التحالف الشمالي" };
+		String[] invalid = { "", "　" };
 
 		for (String word : invalid) {
-			WordRule rule = new WordRule(new JsxIdentDetector());
-			rule.addWord(word, new Token(tokenObj));
+			WhitespaceRule rule = new WhitespaceRule(
+					new JsxWhitespaceDetector(), new Token(tokenObj));
 
 			RuleBasedScanner scanner = new RuleBasedScanner();
 			scanner.setRules(new IRule[] { rule });
