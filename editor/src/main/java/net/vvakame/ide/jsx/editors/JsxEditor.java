@@ -15,8 +15,6 @@ public class JsxEditor extends TextEditor {
 		colorManager = new ColorManager();
 		setSourceViewerConfiguration(new JsxConfiguration(colorManager));
 		setDocumentProvider(new JsxDocumentProvider());
-
-		System.out.println(JsxEditorMessages.Test_test);
 	}
 
 	@Override
