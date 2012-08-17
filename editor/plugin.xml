@@ -7,7 +7,7 @@
       <editor
             name="JSX Editor"
             extensions="jsx"
-            icon="icons/sample.gif"
+            icon="icons/jsx_editor.gif"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             class="net.vvakame.ide.jsx.editors.JsxEditor"
             id="jsx_plugin_for_eclipse.editors.JsxEditor">
