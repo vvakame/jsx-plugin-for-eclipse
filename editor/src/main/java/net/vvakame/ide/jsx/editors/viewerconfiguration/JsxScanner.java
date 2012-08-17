@@ -12,6 +12,7 @@ import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.SingleLineRule;
+import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 class JsxScanner extends RuleBasedScanner {
@@ -49,8 +50,8 @@ class JsxScanner extends RuleBasedScanner {
 			"extern", "native", "as", "operator" };
 
 	public JsxScanner(ColorManager manager) {
+		final IToken def = manager.getToken(JSX_DEFAULT);
 		final IToken keyword = manager.getToken(JSX_KEYWORD);
-
 		final IToken string = manager.getToken(JSX_STRING);
 		final IToken comment = manager.getToken(JSX_COMMENT);
 
@@ -64,7 +65,7 @@ class JsxScanner extends RuleBasedScanner {
 		rules.add(new EndOfLineRule("//", comment));
 
 		// keyword
-		WordRule wordRule = new WordRule(new JsxIdentDetector());
+		WordRule wordRule = new WordRule(new JsxIdentDetector(), def);
 		for (String word : KEYWORDS) {
 			wordRule.addWord(word, keyword);
 		}
@@ -72,6 +73,8 @@ class JsxScanner extends RuleBasedScanner {
 			wordRule.addWord(word, keyword);
 		}
 		rules.add(wordRule);
+
+		rules.add(new WhitespaceRule(new JsxWhitespaceDetector()));
 
 		setRules(rules.toArray(new IRule[] {}));
 	}

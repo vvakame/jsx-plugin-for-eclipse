@@ -20,6 +20,7 @@ public class ColorManager {
 	private Map<String, RGB> rgbTable = new HashMap<String, RGB>();
 
 	public ColorManager() {
+		rgbTable.put(IJsxToken.JSX_DEFAULT, IJsxColorConstants.DEFAULT);
 		rgbTable.put(IJsxToken.JSX_KEYWORD, IJsxColorConstants.KEYWORD);
 		rgbTable.put(IJsxToken.JSX_COMMENT, IJsxColorConstants.COMMENT);
 		rgbTable.put(IJsxToken.JSX_STRING, IJsxColorConstants.STRING);

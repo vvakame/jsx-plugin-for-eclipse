@@ -65,22 +65,16 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		{
 			DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
 					getJsxScanner());
-			reconciler.setDamager(dr, JSX_KEYWORD);
-			reconciler.setRepairer(dr, JSX_KEYWORD);
-		}
-		{
-			NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
-					new TextAttribute(colorManager
-							.getColor(IJsxColorConstants.COMMENT)));
-			reconciler.setDamager(ndr, JSX_COMMENT);
-			reconciler.setRepairer(ndr, JSX_COMMENT);
+			reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
+			reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		}
 
 		{
-			DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
-					getJsxScanner());
-			reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
-			reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
+			NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
+					new TextAttribute(
+							colorManager.getColor(IJsxColorConstants.COMMENT)));
+			reconciler.setDamager(ndr, JSX_COMMENT);
+			reconciler.setRepairer(ndr, JSX_COMMENT);
 		}
 
 		return reconciler;
