@@ -15,16 +15,36 @@ public class JsxIdentDetectorTest {
 
 	@Test
 	public void test() {
-		String document = "class";
+		String[] valid = { "class", "extends", "vvakame_", "_u1", "VVAKAME",
+				"U1ARYZ" };
 
-		WordRule rule = new WordRule(new JsxIdentDetector());
-		rule.addWord("class", new Token(this));
+		for (String word : valid) {
+			WordRule rule = new WordRule(new JsxIdentDetector());
+			rule.addWord(word, new Token(this));
 
-		RuleBasedScanner scanner = new RuleBasedScanner();
-		scanner.setRules(new IRule[] { rule });
-		scanner.setRange(new Document(document), 0, document.length());
+			RuleBasedScanner scanner = new RuleBasedScanner();
+			scanner.setRules(new IRule[] { rule });
+			scanner.setRange(new Document(word), 0, word.length());
 
-		IToken token = scanner.nextToken();
-		assertThat((JsxIdentDetectorTest) token.getData(), is(this));
+			IToken token = scanner.nextToken();
+			assertThat(word + " is valid.",
+					(JsxIdentDetectorTest) token.getData(), is(this));
+		}
+
+		String[] invalid = { "fizzばず", "ほげ", "日本全国酒飲み音頭", "(´∀｀∩)↑age↑", "110",
+				" ", "　", "أعلنت قوات التحالف الشمالي" };
+
+		for (String word : invalid) {
+			WordRule rule = new WordRule(new JsxIdentDetector());
+			rule.addWord(word, new Token(this));
+
+			RuleBasedScanner scanner = new RuleBasedScanner();
+			scanner.setRules(new IRule[] { rule });
+			scanner.setRange(new Document(word), 0, word.length());
+
+			IToken token = scanner.nextToken();
+			assertThat(word + " is invalid.",
+					(JsxIdentDetectorTest) token.getData(), nullValue());
+		}
 	}
 }
