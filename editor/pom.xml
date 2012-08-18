@@ -12,7 +12,6 @@
 	<properties>
 		<jsx-plugin.version>${project.version}</jsx-plugin.version>
 		<tycho-version>0.15.0</tycho-version>
-		<os-jvm-flags />
 	</properties>
 
 	<repositories>
@@ -52,33 +51,22 @@
 				<version>${tycho-version}</version>
 				<executions>
 					<execution>
-						<id>tycho-surefire</id>
+						<id>surefire</id>
 						<phase>test</phase>
 						<goals>
 							<goal>test</goal>
 						</goals>
 						<configuration>
+							<argLine>-XstartOnFirstThread</argLine>
 							<useUIHarness>false</useUIHarness>
-							<useUIThread>false</useUIThread>
-							<argLine>${os-jvm-flags}</argLine>
+							<includes>
+								<include>**/*Test.java</include>
+							</includes>
+							<testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
-	<profiles>
-		<profile>
-			<id>macosx-jvm-flags</id>
-			<activation>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-			<properties>
-				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
-			</properties>
-		</profile>
-	</profiles>
 </project>
