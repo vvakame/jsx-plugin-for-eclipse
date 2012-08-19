@@ -7,7 +7,7 @@
 	<packaging>eclipse-plugin</packaging>
 
 	<name>JSX Plugin for Eclipse</name>
-	<version>1.0.0.qualifier</version>
+	<version>0.1.0</version>
 
 	<properties>
 		<jsx-plugin.version>${project.version}</jsx-plugin.version>
