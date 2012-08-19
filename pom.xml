@@ -22,6 +22,7 @@
 
 	<modules>
 		<module>editor</module>
+		<module>editor.test</module>
 	</modules>
 
 	<build>

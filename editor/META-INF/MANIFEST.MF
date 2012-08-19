@@ -14,3 +14,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  junit.jar
+Export-Package: net.vvakame.ide.jsx,
+ net.vvakame.ide.jsx.editors,
+ net.vvakame.ide.jsx.editors.jsxprovider,
+ net.vvakame.ide.jsx.editors.misc,
+ net.vvakame.ide.jsx.editors.viewerconfiguration
