@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+.head {
+	clear: both;
+}
+
+.clear {
+	clear: both;
+}
+
+.cell {
+	display: block;
+	float: left;
+	background-color: #E0E0E0;
+	width: 30px;
+	height: 30px;
+	border-width: 1px;
+	border-style: solid
+}
+
+.opened {
+	background-color: #FFFFFF;
+}
+
+.bomb {
+	background-color: #FF0000;
+}
+
+.neighbor1:before {
+	content: "1";
+}
+
+.neighbor2:before {
+	content: "2";
+}
+
+.neighbor3:before {
+	content: "3";
+}
+
+.neighbor4:before {
+	content: "4";
+}
+
+.neighbor5:before {
+	content: "5";
+}
+
+.neighbor6:before {
+	content: "6";
+}
+
+.neighbor7:before {
+	content: "7";
+}
+
+.neighbor8:before {
+	content: "8";
+}
