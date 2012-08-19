@@ -40,6 +40,17 @@
 					<argLine>${os-jvm-flags}</argLine>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<projectnatures>
+						<projectnature>org.eclipse.jdt.core.javanature</projectnature>
+						<projectnature>org.eclipse.pde.PluginNature</projectnature>
+					</projectnatures>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
