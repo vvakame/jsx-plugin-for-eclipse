@@ -9,11 +9,15 @@
 	</parent>
 
 	<groupId>net.vvakame</groupId>
-	<artifactId>jsx-plugin-editor-for-eclipse</artifactId>
-	<packaging>eclipse-plugin</packaging>
+	<artifactId>jsx-plugin-editor-test-for-eclipse</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
 
-	<name>JSX Plugin for Eclipse - main</name>
+	<name>JSX Plugin for Eclipse - test</name>
 	<version>0.2.0.qualifier</version>
+
+	<properties>
+		<os-jvm-flags />
+	</properties>
 
 	<build>
 		<plugins>
@@ -27,6 +31,29 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<useUIHarness>false</useUIHarness>
+					<argLine>${os-jvm-flags}</argLine>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>macosx-jvm-flags</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+			</properties>
+		</profile>
+	</profiles>
 </project>

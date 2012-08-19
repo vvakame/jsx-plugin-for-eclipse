@@ -11,7 +11,7 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
 
-class BlockCommentScanner extends RuleBasedScanner {
+public class BlockCommentScanner extends RuleBasedScanner {
 
 	public BlockCommentScanner() {
 

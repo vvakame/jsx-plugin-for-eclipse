@@ -15,7 +15,7 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
-class JsxScanner extends RuleBasedScanner {
+public class JsxScanner extends RuleBasedScanner {
 
 	// from here.
 	// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L132

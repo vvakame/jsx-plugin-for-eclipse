@@ -2,7 +2,7 @@ package net.vvakame.ide.jsx.editors;
 
 import org.eclipse.osgi.util.NLS;
 
-final class JsxEditorMessages extends NLS {
+public final class JsxEditorMessages extends NLS {
 
 	private static final String BUNDLE_NAME = JsxEditorMessages.class
 			.getSimpleName();
