@@ -1,4 +1,5 @@
 grammar JSX;
+options {backtrack=true; memoize=true;}
 
 @header {
 package test;
