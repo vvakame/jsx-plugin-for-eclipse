@@ -17,36 +17,43 @@ importStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
 classDefinition
-	:	class
-	|	interface
-	|	mixin
+	:	_class
+	|	_interface
+	|	_mixin
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
-classModifiers
+_classModifiers
 	:	'abstract' | 'final' | 'native' | '__fake__';
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
-class
-	:	classModifiers* 'class' IDENT formalTypeArguments? ('extends' IDENT)? ('implements' IDENT (',' IDENT)*)? '{' member* '}'
+_class
+	:	_classModifiers* 'class' IDENT formalTypeArguments? ('extends' IDENT)? ('implements' IDENT (',' IDENT)*)? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 // TODO interface is not allowed static member
-interface
-	:	classModifiers* 'interface' IDENT formalTypeArguments? '{' member* '}'
+_interface
+	:	_classModifiers* 'interface' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 // TODO interface is not allowed static member
-mixin	
-	:	classModifiers* 'mixin' IDENT formalTypeArguments? '{' member* '}'
+_mixin	
+	:	_classModifiers* 'mixin' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1090
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1159
-// FIXME
-member	: 	'';
+memberDefinition
+	: 	_memberDefinitionModifiers+ 'const' IDENT (':' typeDeclaration)? ('=' assignExpr)? ';'
+	|	_memberDefinitionModifiers+ 'function' functionDefinition
+	|	_memberDefinitionModifiers+ 'var' IDENT (':' typeDeclaration)? ('=' assignExpr)? ';'
+	;
+
+_memberDefinitionModifiers
+	:	('static' | 'abstract' | 'override' | 'final' | 'native' | '__readonly__' | 'inline' | '__pure__')
+	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
@@ -55,13 +62,12 @@ functionDefinition
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
 formalTypeArguments
-	:	'.' '<' IDENT (',' IDENT)* '>'
+	:	('.' '<' IDENT (',' IDENT)* '>')?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
-// FIXME
 actualTypeArguments
-	:
+	:	('.' '<' typeDeclaration (',' typeDeclaration)+)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1398
@@ -95,13 +101,13 @@ primaryTypeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
-// FIXME
+// TODO is this right?
 objectTypeDeclaration
-	:	
+	:	('.' IDENT )? actualTypeArguments templateTypeDeclaration?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1507
-// FIXME
+// TODO Can this declaration is removal?
 templateTypeDeclaration
 	:
 	;
@@ -117,27 +123,43 @@ functionTypeDeclaration
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1598
-// FIXME
 initializeBlock
-	:	
+	:	constructorInvocationStatement
+	|	block
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1610
-// FIXME
 block
-	:
+	:	statement '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1621
-// FIXME
 statement
-	:
+	:	'{' block
+	|	'var' variableStatement
+	|	';'
+	|	'if' ifStatement
+	|	(IDENT ':')? 'do' doWhileStatement
+	|	(IDENT ':')? 'while' whileStatement
+	|	(IDENT ':')? 'for' forStatement
+	|	'continue' continueStatement
+	|	'break' breakStatement
+	|	'return' returnStatement
+	|	(IDENT ':')? 'switch' switchStatement
+	|	'throw' throwStatement
+	|	'try' tryStatement
+	|	'assert' assertStatement
+	|	'log' logStatement
+	|	'delete' deleteStatement
+	|	'debugger' debuggerStatement
+	|	'function' functionStatement
+	|	'void'
+	|	expr ';'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1696
-// FIXME
 constructorInvocationStatement
-	:
+	:	('super' | 'this' | objectTypeDeclaration) '(' argsExpr ';'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1736
