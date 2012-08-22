@@ -17,9 +17,7 @@ importStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
 classDefinition
-	:	_class
-	|	_interface
-	|	_mixin
+	:	_classModifiers* (_class | _interface | _mixin)
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
@@ -28,19 +26,19 @@ _classModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 _class
-	:	_classModifiers* 'class' IDENT formalTypeArguments? ('extends' IDENT)? ('implements' IDENT (',' IDENT)*)? '{' memberDefinition* '}'
+	:	'class' IDENT formalTypeArguments? ('extends' IDENT)? ('implements' IDENT (',' IDENT)*)? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 // TODO interface is not allowed static member
 _interface
-	:	_classModifiers* 'interface' IDENT formalTypeArguments? '{' memberDefinition* '}'
+	:	'interface' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 // TODO interface is not allowed static member
 _mixin	
-	:	_classModifiers* 'mixin' IDENT formalTypeArguments? '{' memberDefinition* '}'
+	:	'mixin' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1090
@@ -57,7 +55,7 @@ _memberDefinitionModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
-	:	'function' IDENT formalTypeArguments '(' functionArgumentsExpr? ')' '{' (initializeBlock | block) '}'
+	:	'function' IDENT formalTypeArguments '(' functionArgumentsExpr? ')' '{'  '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
@@ -67,7 +65,7 @@ formalTypeArguments
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
 actualTypeArguments
-	:	('.' '<' typeDeclaration (',' typeDeclaration)+)?
+	:	'.' '<' typeDeclaration (',' typeDeclaration)+
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1398
@@ -103,7 +101,7 @@ primaryTypeDeclaration
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
 // TODO is this right?
 objectTypeDeclaration
-	:	('.' IDENT )? actualTypeArguments templateTypeDeclaration?
+	:	'.' IDENT actualTypeArguments templateTypeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1507
@@ -139,13 +137,10 @@ statement
 	|	'var' variableStatement
 	|	';'
 	|	'if' ifStatement
-	|	(IDENT ':')? 'do' doWhileStatement
-	|	(IDENT ':')? 'while' whileStatement
-	|	(IDENT ':')? 'for' forStatement
+	|	_statementBlock
 	|	'continue' continueStatement
 	|	'break' breakStatement
 	|	'return' returnStatement
-	|	(IDENT ':')? 'switch' switchStatement
 	|	'throw' throwStatement
 	|	'try' tryStatement
 	|	'assert' assertStatement
@@ -155,6 +150,13 @@ statement
 	|	'function' functionStatement
 	|	'void'
 	|	expr ';'
+	;
+	
+_statementBlock
+	:	(IDENT ':')? 'do' doWhileStatement
+	|	(IDENT ':')? 'while' whileStatement
+	|	(IDENT ':')? 'for' forStatement
+	|	(IDENT ':')? 'switch' switchStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1696
@@ -481,7 +483,7 @@ MULTILINE_COMMENT
 
 // FIXME
 SIGLELINE_COMMENT
-	:	'//' .* '\n'?
+	:	'//' ~('\n')* '\n'?
 	;
 	
 // FIXME
