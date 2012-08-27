@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/jsx-antlr-syntax/src/main/java/net/vvakame/jsx/antlr/Main.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.vvakame.jsx.antlr.Main"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../jsx-code/jsx/main.jsx"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="jsx-antlr-syntax"/>
+</launchConfiguration>
