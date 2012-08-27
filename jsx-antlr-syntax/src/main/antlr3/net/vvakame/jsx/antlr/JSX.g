@@ -50,23 +50,23 @@ _mixinDef
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1090
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1159
 memberDefinition
-	: 	_memberDefinitionModifiers+ 'const' IDENT (':' typeDeclaration)? ('=' assignExpr)? ';'
-	|	_memberDefinitionModifiers+ 'function' functionDefinition
-	|	_memberDefinitionModifiers+ 'var' IDENT (':' typeDeclaration)? ('=' assignExpr)? ';'
+	: 	_memberDefinitionModifiers* 'const' IDENT (':' typeDeclaration)? ('=' assignExpr)? ';'
+	|	_memberDefinitionModifiers* 'function' functionDefinition
+	|	_memberDefinitionModifiers* 'var' IDENT (':' typeDeclaration)? ('=' assignExpr)? ';'
 	;
 
 _memberDefinitionModifiers
-	:	('static' | 'abstract' | 'override' | 'final' | 'native' | '__readonly__' | 'inline' | '__pure__')
+	:	'static' | 'abstract' | 'override' | 'final' | 'native' | '__readonly__' | 'inline' | '__pure__'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
-	:	'function' IDENT formalTypeArguments '(' functionArgumentsExpr? ')' '{'  '}'
+	:	IDENT formalTypeArguments? '(' functionArgumentsExpr? ')' (':' typeDeclaration)? '{' (initializeBlock | block)?  '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
 formalTypeArguments
-	:	('.' '<' IDENT (',' IDENT)* '>')?
+	:	'.' '<' IDENT (',' IDENT)* '>'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
@@ -173,7 +173,7 @@ constructorInvocationStatement
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1736
 // FIXME
 variableStatement
-	:
+	:	variableDeclarations ';'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1748
@@ -281,13 +281,13 @@ subStatements
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2087
 // FIXME
 variableDeclarations
-	:
+	:	variableDeclaration (',' variableDeclaration)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2103
 // FIXME
 variableDeclaration
-	:
+	:	IDENT (':' typeDeclaration)? ('=' assignExpr)?
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2125
@@ -299,7 +299,7 @@ expr
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
 // FIXME
 assignExpr
-	:
+	:	'hoge'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
@@ -468,8 +468,9 @@ hashLiteral
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
+// TODO is this right?
 functionArgumentsExpr
-	:	('...'? IDENT)? (':' )?
+	:	('...' IDENT | IDENT)? (':' typeDeclaration)? (',' ('...' IDENT | IDENT)? (':' typeDeclaration)?)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
@@ -478,28 +479,39 @@ argsExpr
 	:
 	;
 
-string	:	DOUBLE_QUOTED
+string
+	:	DOUBLE_QUOTED
 	|	SINGLE_QUOTED
 	;
 
-// FIXME
 MULTILINE_COMMENT
-	:	'/*' ~('*/')* '*/'
+	:	'/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
 	;
 
-// FIXME
 SIGLELINE_COMMENT
-	:	'//' ~('\n')* '\n'?
+	:	'//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
 	;
-	
-// FIXME
-CHAR	:	('a'..'z' | 'A'..'Z');
 
-IDENT	:	('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+;
+// FIXME this is terrible
+CHAR
+	:	('a'..'z' | 'A'..'Z' | '/' | '.')
+	;
 
-// FIXME
+IDENT
+	:	('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+
+	;
+
+// FIXME this is terrible
 DOUBLE_QUOTED
-	:	'"' CHAR* '"';
-// FIXME
+	:	'"' CHAR* '"'
+	;
+
+// FIXME this is terrible
 SINGLE_QUOTED
-	:	'\'' CHAR* '\'';
+	:	'\'' CHAR* '\''
+	;
+
+WS
+	:	(' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}
+	;
+    
