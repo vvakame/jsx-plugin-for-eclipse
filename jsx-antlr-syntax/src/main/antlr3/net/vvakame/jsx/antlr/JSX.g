@@ -1,12 +1,17 @@
 grammar JSX;
-options {backtrack=true; memoize=true;}
+
+options {
+    backtrack=true;
+    memoize=true;
+    output=AST;
+}
 
 @header {
-package test;
+    package net.vvakame.jsx.antlr;
 }
 
 @lexer::header {
-package test;
+    package net.vvakame.jsx.antlr;
 }
 
 programFile:  importStatement* classDefinition* ;
@@ -18,7 +23,7 @@ importStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
 classDefinition
-	:	_classModifiers* (_class | _interface | _mixin)
+	:	_classModifiers* (_classDef | _interfaceDef | _mixinDef)
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
@@ -26,19 +31,19 @@ _classModifiers
 	:	'abstract' | 'final' | 'native' | '__fake__';
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
-_class
+_classDef
 	:	'class' IDENT formalTypeArguments? ('extends' IDENT)? ('implements' IDENT (',' IDENT)*)? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 // TODO interface is not allowed static member
-_interface
+_interfaceDef
 	:	'interface' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 // TODO interface is not allowed static member
-_mixin	
+_mixinDef	
 	:	'mixin' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 

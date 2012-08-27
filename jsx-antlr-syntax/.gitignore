@@ -1,2 +1,7 @@
-output/
+.classpath
+.project
+.settings/
+target/
+
+*.tokens
 
