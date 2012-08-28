@@ -23,6 +23,7 @@ public class SyntaxTest {
 				break;
 			}
 
+			System.out.println(fileName);
 			assertParseSuccess(fileName, stream);
 		}
 	}
@@ -36,6 +37,7 @@ public class SyntaxTest {
 				break;
 			}
 
+			System.out.println(fileName);
 			assertParseFailure(fileName, stream);
 		}
 	}

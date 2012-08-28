@@ -61,7 +61,7 @@ _memberDefinitionModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
-	:	IDENT formalTypeArguments? '(' functionArgumentsExpr? ')' (':' typeDeclaration)? '{' (initializeBlock | block)?  '}'
+	:	IDENT formalTypeArguments? '(' functionArgumentsExpr? ')' (':' typeDeclaration)? '{' (initializeBlock | block)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
@@ -279,7 +279,7 @@ subStatements
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2087
-// FIXME
+// FIXME parser can't parse "var foo, bar;"
 variableDeclarations
 	:	variableDeclaration (',' variableDeclaration)*
 	;
@@ -297,15 +297,16 @@ expr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
-// FIXME
 assignExpr
-	:	'hoge'
+	:	lhsExpr ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|=') assignExpr
+	|	condExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
-// FIXME
 condExpr
-	:
+	:	lorExpr '?' ':' assignExpr
+	|	lorExpr '?' assignExpr ':' assignExpr
+	|	lorExpr
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2180
@@ -315,87 +316,92 @@ binaryOpExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2196
-// FIXME
 lorExpr
-	:
+	:	landExpr ('||' landExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2202
-// FIXME
 landExpr
-	:
+	:	borExpr ('&&' borExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2208
-// FIXME
+// FIXME apply excludePattern
 borExpr
-	:
+	:	bxorExpr ('|' bxorExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2214
-// FIXME
 bxorExpr
-	:
+	:	bandExpr ('^' bandExpr)*
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2220
-// FIXME
+// FIXME apply excludePattern
 bandExpr
-	:
+	:	eqExpr ('&' eqExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2226
-// FIXME
 eqExpr
-	:
+	:	relExpr (('==' | '!=') relExpr)*
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2232
-// FIXME
+// FIXME in?
 relExpr
-	:
+	:	shiftExpr (('<=' | '>=' | '<' | '>' | 'in') shiftExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2244
-// FIXME
 shiftExpr
-	:
+	:	addExpr (('>>>' | '<<' | '>>') addExpr)*
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2251
-// FIXME
+// FIXME apply excludePattern
 addExpr
-	:
+	:	mulExpr (('+' | '-') mulExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2260
-// FIXME
 mulExpr
-	:
+	:	unaryExpr (('*' | '/' | '%') unaryExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2266
-// FIXME
 unaryExpr
-	:
+	:	('++' | '--' | '+' | '-' | '!' | 'typeof') unaryExpr
+	|	asExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2290
-// FIXME
 asExpr
-	:
+	:	postfixExpr ('as' '__noconvert__' typeDeclaration)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2305
-// FIXME
 postfixExpr
-	:
+	:	'++'
+	|	'--'
+	|	'instanceof' typeDeclaration
+	|	lhsExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
 // FIXME
 lhsExpr
-	:
+	:	superExpr
+	|	lambdaExpr _lhsExprSub?
+	|	functionExpr _lhsExprSub?
+	|	newExpr _lhsExprSub?
+	|	primaryExpr _lhsExprSub?
+	;
+	
+_lhsExprSub
+	:	'(' argsExpr
+	|	'[' expr ']'
+	|	':' IDENT actualTypeArguments
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2381
@@ -444,7 +450,16 @@ findLocal
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2554
 // FIXME
 primaryExpr
-	:
+	:	'this'
+	|	'undefined'
+	|	'null'
+	|	'false'
+	|	'true'
+	|	'[' arrayLiteral
+	|	'{' hashLiteral
+	|	'(' expr ')'
+	|	IDENT objectTypeDeclaration
+	|	IDENT
 	;
 
 // TODO literal? not statements?
@@ -483,6 +498,7 @@ string
 	:	DOUBLE_QUOTED
 	|	SINGLE_QUOTED
 	;
+	
 
 MULTILINE_COMMENT
 	:	'/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
@@ -509,6 +525,35 @@ DOUBLE_QUOTED
 // FIXME this is terrible
 SINGLE_QUOTED
 	:	'\'' CHAR* '\''
+	;
+
+REGEXP_LITERAL
+	:	'/' CHAR '/' ('m' | 'g' | 'i')*
+	;
+	
+DECIMAL_INTEGER_LITERAL
+	:	'0'
+	|	('1'..'9') ('0'..'9')*
+	;
+	
+fragment
+EXPONENT_PART
+	:	('e' | 'E') ('+' | '-')? ('0'..'9')+
+	;
+
+NUMBER_LITERAL
+	:	DECIMAL_INTEGER_LITERAL '.' ('0'..'9')* EXPONENT_PART
+	|	'.' ('0'..'9')+ EXPONENT_PART
+	|	DECIMAL_INTEGER_LITERAL EXPONENT_PART
+	|	'NaN'
+	|	'Infinity'
+	;
+	
+	
+// TODO -> (?![\\.0-9eE]) 
+INTEGER_LITERAL
+	:	'0' ('x' | 'X') ('0' .. '9' | 'a' .. 'f' | 'A' .. 'F')+
+	|	DECIMAL_INTEGER_LITERAL
 	;
 
 WS
