@@ -129,21 +129,18 @@ functionTypeDeclaration
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1598
 initializeBlock
 	:	constructorInvocationStatement
-	|	block
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1610
 block
-	:	statement '}'
+	:	statement* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1621
 statement
-	:	'{' block
+	:	';'
 	|	'var' variableStatement
-	|	';'
 	|	'if' ifStatement
-	|	_statementBlock
 	|	'continue' continueStatement
 	|	'break' breakStatement
 	|	'return' returnStatement
@@ -155,6 +152,8 @@ statement
 	|	'debugger' debuggerStatement
 	|	'function' functionStatement
 	|	'void'
+	|	'{' block
+	|	_statementBlock
 	|	expr ';'
 	;
 	
@@ -171,7 +170,6 @@ constructorInvocationStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1736
-// FIXME
 variableStatement
 	:	variableDeclarations ';'
 	;
@@ -185,7 +183,7 @@ functionStatement
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1764
 // FIXME
 ifStatement
-	:
+	:	'(' expr ')' subStatements ('else' subStatements)?
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1781
@@ -273,9 +271,8 @@ debuggerStatement
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2080
-// FIXME
 subStatements
-	:
+	:	statement
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2087
@@ -291,9 +288,8 @@ variableDeclaration
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2125
-// FIXME
 expr
-	:
+	:	assignExpr (',' assignExpr)*
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
