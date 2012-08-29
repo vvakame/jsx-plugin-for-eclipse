@@ -175,9 +175,9 @@ variableStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1748
-// FIXME
+// TODO check me. is this implementation valid?
 functionStatement
-	:
+	:	IDENT functionExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1764
@@ -425,9 +425,8 @@ lambdaBody
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2471
-// FIXME
 functionExpr
-	:
+	:	'(' functionArgumentsExpr ':'? typeDeclaration? '{' block
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2518
