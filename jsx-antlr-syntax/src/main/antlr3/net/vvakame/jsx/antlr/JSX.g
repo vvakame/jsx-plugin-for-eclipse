@@ -360,10 +360,10 @@ postfixExpr
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
 lhsExpr
-	:	superExpr
-	|	lambdaExpr _lhsExprSub?
-	|	functionExpr _lhsExprSub?
-	|	newExpr _lhsExprSub?
+	:	'super' superExpr
+	|	'(' lambdaExpr _lhsExprSub?
+	|	'function' functionExpr _lhsExprSub?
+	|	'new' newExpr _lhsExprSub?
 	|	primaryExpr _lhsExprSub?
 	;
 	
@@ -374,9 +374,8 @@ _lhsExprSub
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2381
-// FIXME
 newExpr
-	:	'temporary'
+	:	typeDeclarationNoArrayNoVoid ('[' assignExpr? ']')* '(' argsExpr
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2415
