@@ -218,9 +218,9 @@ returnStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1919
-// FIXME
+// TODO is this valid?
 switchStatement
-	:
+	:	'(' expr ')' '{' (('case' expr ':' | 'default' ':') statement)* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1981
