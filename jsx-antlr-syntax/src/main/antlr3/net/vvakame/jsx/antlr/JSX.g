@@ -181,7 +181,6 @@ functionStatement
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1764
-// FIXME
 ifStatement
 	:	'(' expr ')' subStatements ('else' subStatements)?
 	;
@@ -223,9 +222,9 @@ breakStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1905
-// FIXME
 returnStatement
-	:
+	:	';'
+	|	expr ';'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1919
@@ -454,8 +453,11 @@ primaryExpr
 	|	'[' arrayLiteral
 	|	'{' hashLiteral
 	|	'(' expr ')'
+	|	NUMBER_LITERAL
 	|	IDENT objectTypeDeclaration
 	|	IDENT
+	|	string
+	|	REGEXP_LITERAL
 	;
 
 // TODO literal? not statements?
