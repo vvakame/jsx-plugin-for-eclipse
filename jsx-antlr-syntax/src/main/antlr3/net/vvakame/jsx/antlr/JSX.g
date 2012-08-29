@@ -181,15 +181,13 @@ ifStatement
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1781
-// FIXME
 doWhileStatement
-	:
+	:	subStatements 'while' '(' expr ')'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1796
-// FIXME	
 whileStatement
-	:
+	:	'(' expr ')' subStatements
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1809
@@ -204,15 +202,13 @@ forInStatement
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1889
-// FIXME
 continueStatement
-	:
+	:	IDENT? ';'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1897
-// FIXME
 breakStatement
-	:
+	:	IDENT? ';'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1905
