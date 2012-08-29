@@ -379,9 +379,8 @@ newExpr
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2415
-// FIXME
 superExpr
-	:	'temporary'
+	:	'.' IDENT '(' argsExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2431
