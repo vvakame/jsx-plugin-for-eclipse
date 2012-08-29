@@ -71,8 +71,9 @@ formalTypeArguments
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
+// TODO is this syntax is valid?
 actualTypeArguments
-	:	'.' '<' typeDeclaration (',' typeDeclaration)+
+	:	('.' '<' typeDeclaration (',' typeDeclaration)+)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1398
@@ -108,7 +109,8 @@ primaryTypeDeclaration
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
 // TODO is this right?
 objectTypeDeclaration
-	:	(('super' | IDENT) '.' IDENT)? actualTypeArguments
+	:	('super' | IDENT) actualTypeArguments
+	|	('.' IDENT)? actualTypeArguments
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1519
@@ -224,15 +226,13 @@ switchStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1981
-// FIXME	
 throwStatement
-	:
+	:	expr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1989
-// FIXME
 tryStatement
-	:
+	:	'{' block ('catch' '(' IDENT ':' typeDeclaration ')' '{' block)* ('finally' '{' block )?
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2037
