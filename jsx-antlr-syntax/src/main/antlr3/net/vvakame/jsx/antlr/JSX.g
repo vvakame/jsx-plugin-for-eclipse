@@ -236,25 +236,21 @@ tryStatement
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2037
-// FIXME
 assertStatement
-	:
+	:	expr ';'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2047
-// FIXME
 logStatement
-	:
+	:	assignExpr (',' assignExpr)* ';'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2065
-// FIXME
 deleteStatement
-	:
+	:	expr ';'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2075
-// FIXME
 debuggerStatement
 	:
 	;
