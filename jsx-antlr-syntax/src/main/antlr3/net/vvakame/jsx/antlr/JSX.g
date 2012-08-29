@@ -39,13 +39,11 @@ _classDef
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
-// TODO interface is not allowed static member
 _interfaceDef
 	:	'interface' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
-// TODO interface is not allowed static member
 _mixinDef	
 	:	'mixin' IDENT formalTypeArguments? '{' memberDefinition* '}'
 	;
@@ -110,13 +108,7 @@ primaryTypeDeclaration
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
 // TODO is this right?
 objectTypeDeclaration
-	:	(('super' | IDENT) '.' IDENT)? actualTypeArguments templateTypeDeclaration
-	;
-
-// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1507
-// TODO Can this declaration is removal?
-templateTypeDeclaration
-	:
+	:	(('super' | IDENT) '.' IDENT)? actualTypeArguments
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1519
@@ -303,12 +295,6 @@ assignExpr
 condExpr
 	:	lorExpr ('?' assignExpr? ':' assignExpr)?
 	;
-
-// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2180
-// FIXME
-binaryOpExpr
-	:
-	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2196
 lorExpr
@@ -381,7 +367,6 @@ postfixExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
-// FIXME
 lhsExpr
 	:	superExpr
 	|	lambdaExpr _lhsExprSub?
@@ -432,14 +417,7 @@ forEachScope
 	:
 	;
 	
-// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2532
-// FIXME
-findLocal
-	:
-	;
-	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2554
-// FIXME
 primaryExpr
 	:	IDENT objectTypeDeclaration?
 	|	'this'
