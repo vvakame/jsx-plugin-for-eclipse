@@ -14,7 +14,9 @@ options {
     package net.vvakame.jsx.antlr;
 }
 
-programFile:  importStatement* classDefinition* ;
+programFile
+	:	 importStatement* classDefinition*
+	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
 importStatement
@@ -28,7 +30,8 @@ classDefinition
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
 _classModifiers
-	:	'abstract' | 'final' | 'native' | '__fake__';
+	:	'abstract' | 'final' | 'native' | '__fake__'
+	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 _classDef
@@ -107,7 +110,7 @@ primaryTypeDeclaration
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
 // TODO is this right?
 objectTypeDeclaration
-	:	'.' IDENT actualTypeArguments templateTypeDeclaration
+	:	(('super' | IDENT) '.' IDENT)? actualTypeArguments templateTypeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1507
@@ -153,8 +156,8 @@ statement
 	|	'function' functionStatement
 	|	'void'
 	|	'{' block
-	|	_statementBlock
 	|	expr ';'
+	|	_statementBlock
 	;
 	
 _statementBlock
@@ -198,15 +201,14 @@ whileStatement
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1809
-// FIXME
 forStatement
-	:
+	:	forInStatement
+	|	'(' ('var' variableDeclarations | expr)? ';' expr? ';' expr? ')' subStatements
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1866
-// FIXME
 forInStatement
-	:
+	:	'(' ('var' variableDeclaration | lhsExpr) 'in' expr ')' subStatements
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1889
@@ -290,7 +292,7 @@ variableDeclaration
 expr
 	:	assignExpr (',' assignExpr)*
 	;
-	
+
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
 assignExpr
 	:	lhsExpr ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|=') assignExpr
@@ -299,9 +301,7 @@ assignExpr
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
 condExpr
-	:	lorExpr '?' ':' assignExpr
-	|	lorExpr '?' assignExpr ':' assignExpr
-	|	lorExpr
+	:	lorExpr ('?' assignExpr? ':' assignExpr)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2180
@@ -377,10 +377,7 @@ asExpr
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2305
 postfixExpr
-	:	'++'
-	|	'--'
-	|	'instanceof' typeDeclaration
-	|	lhsExpr
+	:	lhsExpr ('++' | '--' | 'nstanceof' typeDeclaration)?
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
@@ -402,19 +399,19 @@ _lhsExprSub
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2381
 // FIXME
 newExpr
-	:
+	:	'temporary'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2415
 // FIXME
 superExpr
-	:
+	:	'temporary'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2431
 // FIXME
 lambdaExpr
-	:
+	:	'temporary'
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2449
@@ -444,7 +441,8 @@ findLocal
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2554
 // FIXME
 primaryExpr
-	:	'this'
+	:	IDENT objectTypeDeclaration?
+	|	'this'
 	|	'undefined'
 	|	'null'
 	|	'false'
@@ -452,31 +450,26 @@ primaryExpr
 	|	'[' arrayLiteral
 	|	'{' hashLiteral
 	|	'(' expr ')'
-	|	NUMBER_LITERAL
-	|	IDENT objectTypeDeclaration
-	|	IDENT
 	|	string
+	|	numberLiteral
 	|	REGEXP_LITERAL
 	;
 
 // TODO literal? not statements?
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
-// FIXME
 nullLiteral
-	:
+	:	(':' typeDeclaration)?
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2613
-// FIXME
 arrayLiteral
-	:
+	:	(assignExpr (',' assignExpr)*)? ']' (':' typeDeclaration)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2633
-// FIXME
 hashLiteral
-	:
+	:	((IDENT | numberLiteral | string) ':' assignExpr (',' (IDENT | numberLiteral | string) ':' assignExpr)*)? '}' (':' typeDeclaration)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
@@ -486,14 +479,20 @@ functionArgumentsExpr
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
-// FIXME
 argsExpr
-	:
+	:	')'
+	|	assignExpr (',' assignExpr)* ')'
 	;
+
 
 string
 	:	DOUBLE_QUOTED
 	|	SINGLE_QUOTED
+	;
+
+numberLiteral
+	:	NUMBER_LITERAL
+	|	INTEGER_LITERAL
 	;
 	
 
@@ -506,12 +505,13 @@ SIGLELINE_COMMENT
 	;
 
 // FIXME this is terrible
+fragment
 CHAR
 	:	('a'..'z' | 'A'..'Z' | '/' | '.')
 	;
 
 IDENT
-	:	('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+
+	:	('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
 	;
 
 // FIXME this is terrible
@@ -527,7 +527,8 @@ SINGLE_QUOTED
 REGEXP_LITERAL
 	:	'/' CHAR '/' ('m' | 'g' | 'i')*
 	;
-	
+
+fragment
 DECIMAL_INTEGER_LITERAL
 	:	'0'
 	|	('1'..'9') ('0'..'9')*
@@ -539,9 +540,8 @@ EXPONENT_PART
 	;
 
 NUMBER_LITERAL
-	:	DECIMAL_INTEGER_LITERAL '.' ('0'..'9')* EXPONENT_PART
-	|	'.' ('0'..'9')+ EXPONENT_PART
-	|	DECIMAL_INTEGER_LITERAL EXPONENT_PART
+	:	DECIMAL_INTEGER_LITERAL( '.' ('0'..'9')*)? EXPONENT_PART?
+	|	'.' ('0'..'9')+ EXPONENT_PART?
 	|	'NaN'
 	|	'Infinity'
 	;

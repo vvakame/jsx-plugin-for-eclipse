@@ -3,5 +3,7 @@
 .settings/
 target/
 
+src/main/antlr3/net/vvakame/jsx/antlr/output/
+
 *.tokens
 
