@@ -7,3 +7,5 @@ src/main/antlr3/net/vvakame/jsx/antlr/output/
 
 *.tokens
 
+# Package Files #
+*.jar
