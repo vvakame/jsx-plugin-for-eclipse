@@ -62,7 +62,7 @@ _memberDefinitionModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
-	:	IDENT formalTypeArguments? '(' functionArgumentsExpr? ')' (':' typeDeclaration)? '{' (initializeBlock | block)?
+	:	IDENT formalTypeArguments? '(' functionArgumentsExpr? (':' typeDeclaration)? '{' (initializeBlock | block)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
@@ -282,7 +282,7 @@ assignExpr
 	:	lhsExpr ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|=') assignExpr
 	|	condExpr
 	;
-	
+
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
 condExpr
 	:	lorExpr ('?' assignExpr? ':' assignExpr)?
@@ -341,7 +341,7 @@ addExpr
 mulExpr
 	:	unaryExpr (('*' | '/' | '%') unaryExpr)*
 	;
-	
+
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2266
 unaryExpr
 	:	('++' | '--' | '+' | '-' | '!' | 'typeof') unaryExpr
@@ -384,16 +384,14 @@ superExpr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2431
-// FIXME
 lambdaExpr
-	:	'temporary'
+	:	functionArgumentsExpr (':' typeDeclaration)? '->' lambdaBody
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2449
-// FIXME
-
 lambdaBody
-	:
+	:	'{' block
+	|	expr
 	;
 	
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2471
@@ -443,7 +441,8 @@ hashLiteral
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
 // TODO is this right?
 functionArgumentsExpr
-	:	('...' IDENT | IDENT)? (':' typeDeclaration)? (',' ('...' IDENT | IDENT)? (':' typeDeclaration)?)?
+	:	')'
+	|	('...' IDENT | IDENT)? (':' typeDeclaration)? (',' ('...' IDENT | IDENT)? (':' typeDeclaration)?)? ')'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
