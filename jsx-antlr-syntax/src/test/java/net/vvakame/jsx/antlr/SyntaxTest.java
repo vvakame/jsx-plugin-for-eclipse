@@ -9,12 +9,13 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import net.vvakame.jsx.antlr.util.AntlrUtil;
 import net.vvakame.jsx.antlr.util.AntlrUtil.AntlrData;
 
 import org.antlr.runtime.RecognitionException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SyntaxTest {
@@ -48,11 +49,32 @@ public class SyntaxTest {
 	}
 
 	@Test
-	@Ignore
 	public void tryParseJsxTestCode() throws IOException, RecognitionException {
 		File gitRoot = getGitRootDirectory();
 
-		String[] jsxExistsDirPaths = { "JSX/t/run/" };
+		String[] jsxExistsDirPaths = { "JSX/t/run/", "JSX/t/lib/",
+				"JSX/t/optimize/", "JSX/t/source-map/" };
+
+		List<String> ignoreFiles = Arrays.asList(new String[] {
+				// FIXME file contains '/', ANTLR parse '?'==EOF. why?
+				"run/003.binaryops.jsx",
+				"run/021.issue1.jsx",
+				"run/126.fused-assign-number-to-int.todo.jsx",
+				"run/170.cast-int-in-return.jsx",
+				"run/171.fused-div-of-int.jsx",
+
+				// FIXME unknown???
+				"run/078.bitnot.jsx", "run/137.same-pred-op-with-parens.jsx",
+				"lib/005.builtins.jsx",
+				"lib/009.console.jsx",
+				"lib/010.web.jsx",
+				"optimize/011.fold-const-propagate-number.jsx",
+				"optimize/012.fold-const-propagate-int.jsx",
+
+				// FIXME too difficult... can't parse ">>" to ">" ">"
+				"run/175.T-of-ArrayT-should-never-be-maybeundef.jsx",
+				"run/181.issue48.jsx", "run/184.implements-template.jsx",
+				"run/198.template-as-param.jsx", });
 
 		for (String dirPath : jsxExistsDirPaths) {
 			File dir = new File(gitRoot, dirPath);
@@ -63,10 +85,15 @@ public class SyntaxTest {
 				}
 			});
 
-			for (File file : jsxFiles) {
+			TEST: for (File file : jsxFiles) {
 				InputStream stream = getStream(file);
 
 				String fileName = file.getAbsolutePath();
+				for (String ignoreFile : ignoreFiles) {
+					if (file.getAbsolutePath().endsWith(ignoreFile)) {
+						continue TEST;
+					}
+				}
 				System.out.println(fileName);
 				assertParseSuccess(fileName, stream);
 			}

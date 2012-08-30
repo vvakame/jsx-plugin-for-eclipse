@@ -19,7 +19,7 @@ options {
 // commit 4053b064a59c387dfcfcc9eb3fbd85750cc0a658
 
 programFile
-	:	 importStatement* classDefinition*
+	:	 importStatement* classDefinition* EOF
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
@@ -39,12 +39,12 @@ _classModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 _classDef
-	:	'class' IDENT formalTypeArguments? ('extends' IDENT)? ('implements' IDENT (',' IDENT)*)? '{' memberDefinition* '}'
+	:	'class' IDENT formalTypeArguments? ('extends' objectTypeDeclaration)? ('implements' objectTypeDeclaration (',' objectTypeDeclaration)*)? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 _interfaceDef
-	:	'interface' IDENT formalTypeArguments? '{' memberDefinition* '}'
+	:	'interface' IDENT formalTypeArguments? ('implements' objectTypeDeclaration (',' objectTypeDeclaration)*)? '{' memberDefinition* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
@@ -66,17 +66,18 @@ _memberDefinitionModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
-	:	IDENT formalTypeArguments? '(' functionArgumentsExpr? (':' typeDeclaration)? '{' (initializeBlock | block)?
+	:	'constructor' formalTypeArguments '(' functionArgumentsExpr '{' initializeBlock
+	|	IDENT formalTypeArguments '(' functionArgumentsExpr ':' typeDeclaration (';' | '{' block)
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
 formalTypeArguments
-	:	'.' '<' IDENT (',' IDENT)* '>'
+	:	('.' '<' IDENT (',' IDENT)* '>')?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
 actualTypeArguments
-	:	('.' '<' typeDeclaration (',' typeDeclaration)+ '>')?
+	:	('.' '<' typeDeclaration (',' typeDeclaration)* '>')?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1398
@@ -111,8 +112,7 @@ primaryTypeDeclaration
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
 objectTypeDeclaration
-	:	('super' | IDENT) actualTypeArguments
-	|	('.' IDENT)? actualTypeArguments
+	:	(('super' | IDENT) actualTypeArguments)? ('.' IDENT)? actualTypeArguments
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1519
@@ -122,12 +122,16 @@ lightFunctionTypeDeclaration
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1552
 functionTypeDeclaration
-	:	'(' '...'? typeDeclaration (',' '...'? typeDeclaration)* ')' ':' typeDeclaration
+	// :	'(' '...'? typeDeclaration (',' '...'? typeDeclaration)* ')' ':' typeDeclaration
+	:	IDENT? '(' ')' ':' typeDeclaration
+	|	IDENT? '(' '...' IDENT? ':' typeDeclaration ')' ':' typeDeclaration
+	|	IDENT? '(' (IDENT? ':' typeDeclaration) (',' IDENT? ':' typeDeclaration)* ',' '...' IDENT? ':' typeDeclaration ')' ':' typeDeclaration
+	|	IDENT? '(' (IDENT? ':' typeDeclaration) (',' IDENT? ':' typeDeclaration)* ')' ':' typeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1598
 initializeBlock
-	:	constructorInvocationStatement
+	:	constructorInvocationStatement* (block? | '}')
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1610
@@ -222,7 +226,7 @@ returnStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1919
 switchStatement
-	:	'(' expr ')' '{' (('case' expr ':' | 'default' ':') statement)* '}'
+	:	'(' expr ')' '{' (('case' expr ':' | 'default' ':') statement*)* '}'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1981
@@ -277,8 +281,12 @@ expr
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
 assignExpr
-	:	lhsExpr ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|=') assignExpr
+	:	lhsExpr _assignExprOpe assignExpr
 	|	condExpr
+	;
+
+_assignExprOpe
+	:	('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|=')
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
@@ -326,7 +334,17 @@ relExpr
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2244
 shiftExpr
-	:	addExpr (('>>>' | '<<' | '>>') addExpr)*
+	:	addExpr (_shiftExprOpe addExpr)*
+	;
+
+_shiftExprOpe
+	:	'>>>'
+	|	'<<'
+	|	('>' '>')=> t1='>' t2='>'
+		{
+			$t1.getLine() == $t2.getLine() && 
+			$t1.getCharPositionInLine() + 1 == $t2.getCharPositionInLine()
+		}?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2251
@@ -348,32 +366,32 @@ unaryExpr
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2290
 asExpr
-	:	postfixExpr ('as' '__noconvert__' typeDeclaration)*
+	:	postfixExpr ('as' '__noconvert__'? typeDeclaration)*
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2305
 postfixExpr
-	:	lhsExpr ('++' | '--' | 'nstanceof' typeDeclaration)?
+	:	lhsExpr ('++' | '--' | 'instanceof' typeDeclaration)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
 lhsExpr
 	:	'super' superExpr
-	|	'(' lambdaExpr _lhsExprSub?
-	|	'function' functionExpr _lhsExprSub?
-	|	'new' newExpr _lhsExprSub?
-	|	primaryExpr _lhsExprSub?
+	|	'(' lambdaExpr _lhsExprSub*
+	|	'function' functionExpr _lhsExprSub*
+	|	'new' newExpr _lhsExprSub*
+	|	primaryExpr _lhsExprSub*
 	;
 
 _lhsExprSub
 	:	'(' argsExpr
 	|	'[' expr ']'
-	|	':' IDENT actualTypeArguments
+	|	'.' IDENT actualTypeArguments
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2381
 newExpr
-	:	typeDeclarationNoArrayNoVoid ('[' assignExpr? ']')* '(' argsExpr
+	:	typeDeclarationNoArrayNoVoid ('[' assignExpr? ']')* ('(' argsExpr)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2415
@@ -402,7 +420,7 @@ primaryExpr
 	:	IDENT objectTypeDeclaration?
 	|	'this'
 	|	'undefined'
-	|	'null'
+	|	'null' nullLiteral
 	|	'false'
 	|	'true'
 	|	'[' arrayLiteral
@@ -431,7 +449,7 @@ hashLiteral
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
 functionArgumentsExpr
 	:	')'
-	|	('...' IDENT | IDENT)? (':' typeDeclaration)? (',' ('...' IDENT | IDENT)? (':' typeDeclaration)?)? ')'
+	|	('...' IDENT | IDENT)? (':' typeDeclaration)? (',' ('...' IDENT | IDENT)? (':' typeDeclaration)?)* ')'
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
