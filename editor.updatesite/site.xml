@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/jsx.plugin.feature_1.0.0.201208301430.jar" id="jsx.plugin.feature" version="1.0.0.201208301430"/>
+   <category-def name="jsx plugin editor for eclipse" label="jsx plugin editor for eclipse"/>
+</site>
