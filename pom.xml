@@ -23,6 +23,8 @@
 	<modules>
 		<module>editor</module>
 		<module>editor.test</module>
+		<module>editor.feature</module>
+		<module>editor.updatesite</module>
 	</modules>
 
 	<build>
