@@ -1,0 +1,3 @@
+[submodule "JSX"]
+	path = JSX
+	url = https://github.com/jsx/JSX.git
