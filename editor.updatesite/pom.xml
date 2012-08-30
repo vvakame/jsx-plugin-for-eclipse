@@ -4,12 +4,12 @@
 
 	<parent>
 		<groupId>net.vvakame</groupId>
-		<artifactId>jsx-plugin-for-eclipse</artifactId>
+		<artifactId>jsx.eclipse.plugin.parent</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>net.vvakame</groupId>
-	<artifactId>jsx.plugin.updatesite</artifactId>
+	<artifactId>jsx.eclipse.plugin.updatesite</artifactId>
 	<packaging>eclipse-update-site</packaging>
 
 	<name>JSX Plugin for Eclipse - updatesite</name>
