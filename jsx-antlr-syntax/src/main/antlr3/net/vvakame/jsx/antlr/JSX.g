@@ -1,6 +1,7 @@
 grammar JSX;
 
 options {
+    language=Java;
     backtrack=true;
     memoize=true;
     output=AST;
@@ -460,29 +461,52 @@ SIGLELINE_COMMENT
 	:	'//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
 	;
 
-// FIXME this is terrible
-fragment
-CHAR
-	:	('a'..'z' | 'A'..'Z' | '/' | '.')
-	;
-
 IDENT
 	:	('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
 	;
 
-// FIXME this is terrible
-DOUBLE_QUOTED
-	:	'"' CHAR* '"'
+fragment
+CHAR_EXCLUDE_DOUBLE_QUOTED_SPECIAL
+	:	~('"' | '\\')
 	;
 
-// FIXME this is terrible
+fragment
+DOUBLE_QUOTED_CHARS
+	:	CHAR_EXCLUDE_DOUBLE_QUOTED_SPECIAL* ('\\' . CHAR_EXCLUDE_DOUBLE_QUOTED_SPECIAL*)*
+	;
+
+DOUBLE_QUOTED
+	:	'"' DOUBLE_QUOTED_CHARS  '"'
+	;
+
+fragment
+CHAR_EXCLUDE_SINGLE_QUOTED_SPECIAL
+	:	~('\'' | '\\')
+	;
+
+fragment
+SINGLE_QUOTED_CHARS
+	:	CHAR_EXCLUDE_SINGLE_QUOTED_SPECIAL* ('\\' . CHAR_EXCLUDE_SINGLE_QUOTED_SPECIAL*)*
+	;
+
 SINGLE_QUOTED
-	:	'\'' CHAR* '\''
+	:	'\'' SINGLE_QUOTED_CHARS '\''
+	;
+
+fragment
+CHAR_EXCLUDE_REGEXP_SPECIAL
+	:	~('/' | '\\')
+	;
+
+fragment
+REGEXP_CHARS
+	:	CHAR_EXCLUDE_REGEXP_SPECIAL* ('\\' . CHAR_EXCLUDE_REGEXP_SPECIAL*)*
 	;
 
 REGEXP_LITERAL
-	:	'/' CHAR '/' ('m' | 'g' | 'i')*
+	:	'/' REGEXP_CHARS '/' ('m' | 'g' | 'i')*
 	;
+
 
 fragment
 DECIMAL_INTEGER_LITERAL
@@ -502,12 +526,11 @@ NUMBER_LITERAL
 	|	'Infinity'
 	;
 
-// TODO -> (?![\\.0-9eE]) 
 INTEGER_LITERAL
 	:	'0' ('x' | 'X') ('0' .. '9' | 'a' .. 'f' | 'A' .. 'F')+
 	|	DECIMAL_INTEGER_LITERAL
 	;
 
 WS
-	:	(' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}
+	:	(' ' | '\r' | '\t' | '\u000C' | '\n') {$channel=HIDDEN;}
 	;
