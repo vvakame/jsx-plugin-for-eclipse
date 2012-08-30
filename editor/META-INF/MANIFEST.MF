@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JSX Plugin for Eclipse - main
-Bundle-SymbolicName: jsx-plugin-editor-for-eclipse;singleton:=true
+Bundle-SymbolicName: jsx.eclipse.plugin;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: net.vvakame.ide.jsx.Activator
 Bundle-Vendor: vvakame_u1
