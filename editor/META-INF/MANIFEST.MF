@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: JSX Plugin for Eclipse
+Bundle-Name: JSX Plugin for Eclipse - main
 Bundle-SymbolicName: jsx-plugin-editor-for-eclipse;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: net.vvakame.ide.jsx.Activator
@@ -12,10 +12,10 @@ Require-Bundle: org.eclipse.ui,
  org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- junit.jar
 Export-Package: net.vvakame.ide.jsx,
  net.vvakame.ide.jsx.editors,
  net.vvakame.ide.jsx.editors.jsxprovider,
  net.vvakame.ide.jsx.editors.misc,
  net.vvakame.ide.jsx.editors.viewerconfiguration
+Bundle-ClassPath: .,
+ junit.jar
