@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="jsx.plugin.feature"
-      label="Jsx-plugin-feature"
+      id="jsx.eclipse.plugin.feature"
+      label="JSX Plugin for Eclipse - feature"
       version="0.2.0.qualifier">
 
    <description url="http://www.example.com/description">
@@ -17,7 +17,7 @@
    </license>
 
    <plugin
-         id="jsx-plugin-editor-for-eclipse"
+         id="jsx.eclipse.plugin"
          download-size="0"
          install-size="0"
          version="0.0.0"
