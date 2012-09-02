@@ -12,10 +12,14 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import net.vvakame.jsx.antlr.JSXParser.programFile_return;
 import net.vvakame.jsx.antlr.util.AntlrUtil;
 import net.vvakame.jsx.antlr.util.AntlrUtil.AntlrData;
 
+import org.antlr.runtime.ANTLRInputStream;
+import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
 
 public class SyntaxTest {
@@ -98,6 +102,25 @@ public class SyntaxTest {
 				assertParseSuccess(fileName, stream);
 			}
 		}
+	}
+
+	@Test
+	public void tryWalk() throws IOException, RecognitionException {
+		String fileName = "/jsx/valid/013.jsx";
+		InputStream stream = getStream(fileName);
+
+		JSXLexer lexer = new JSXLexer();
+
+		lexer.setCharStream(new ANTLRInputStream(stream));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		JSXParser parser = new JSXParser(tokens);
+
+		tokens.LT(1);
+		programFile_return programFileReturn = parser.programFile();
+
+		Tree t = (Tree) programFileReturn.getTree();
+
+		AntlrUtil.printTree(t);
 	}
 
 	static InputStream getStream(String fileName) {

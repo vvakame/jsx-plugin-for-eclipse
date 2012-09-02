@@ -2,6 +2,7 @@ package net.vvakame.jsx.antlr.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
 import net.vvakame.jsx.antlr.JSXLexer;
 import net.vvakame.jsx.antlr.JSXParser;
@@ -52,5 +53,36 @@ public class AntlrUtil {
 			this.programFileReturn = programFileReturn;
 			this.t = t;
 		}
+	}
+
+	public static void printTree(Tree t) {
+		printTree(t, 1);
+	}
+
+	static void printTree(Tree t, int depth) {
+		for (int i = 0; i < t.getChildCount(); i++) {
+			Tree tree = t.getChild(i);
+			String str = String.format("L%04d:C%03d depth_%02d %-20s Token:%s",
+					tree.getLine(), tree.getCharPositionInLine(), depth,
+					tree.getText(), typeToToken(tree.getType()));
+			System.out.println(str);
+			printTree(tree, depth + 1);
+		}
+	}
+
+	static String typeToToken(int type) {
+		for (Field field : JSXLexer.class.getFields()) {
+			try {
+				if (type == field.getInt(null)) {
+					return field.getName();
+				}
+			} catch (IllegalArgumentException e) {
+				throw new RuntimeException(e);
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		return "NotExists";
 	}
 }
