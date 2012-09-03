@@ -428,7 +428,7 @@ primaryExpr
 	|	'(' expr ')'
 	|	string
 	|	numberLiteral
-	|	REGEXP_LITERAL
+	|	regexp_literal
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
@@ -512,17 +512,17 @@ SINGLE_QUOTED
 	;
 
 fragment
-CHAR_EXCLUDE_REGEXP_SPECIAL
+char_exclude_regexp_special
 	:	~('/' | '\\')
 	;
 
 fragment
-REGEXP_CHARS
-	:	CHAR_EXCLUDE_REGEXP_SPECIAL* ('\\' . CHAR_EXCLUDE_REGEXP_SPECIAL*)*
+regexp_chars
+	:	char_exclude_regexp_special* ('\\' . char_exclude_regexp_special*)*
 	;
 
-REGEXP_LITERAL
-	:	'/' REGEXP_CHARS '/' ('m' | 'g' | 'i')*
+regexp_literal
+	:	'/' regexp_chars '/' IDENT?
 	;
 
 
