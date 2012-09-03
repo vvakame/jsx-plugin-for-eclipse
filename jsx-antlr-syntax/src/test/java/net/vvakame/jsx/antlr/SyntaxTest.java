@@ -62,14 +62,8 @@ public class SyntaxTest {
 
 		List<String> ignoreFiles = Arrays.asList(new String[] {
 				// FIXME unknown???
-				"lib/005.builtins.jsx",
-				"lib/009.console.jsx",
-				"lib/010.web.jsx",
-
-				// FIXME too difficult... can't parse ">>" to ">" ">"
-				"run/175.T-of-ArrayT-should-never-be-maybeundef.jsx",
-				"run/181.issue48.jsx", "run/184.implements-template.jsx",
-				"run/198.template-as-param.jsx", });
+				"lib/005.builtins.jsx", "lib/009.console.jsx",
+				"lib/010.web.jsx", });
 
 		for (String dirPath : jsxExistsDirPaths) {
 			File dir = new File(gitRoot, dirPath);
@@ -93,6 +87,20 @@ public class SyntaxTest {
 				assertParseSuccess(fileName, stream);
 			}
 		}
+	}
+
+	@Test
+	public void test() throws IOException, RecognitionException {
+		File gitRoot = getGitRootDirectory();
+
+		File file = new File(gitRoot,
+				"JSX/t/run/175.T-of-ArrayT-should-never-be-maybeundef.jsx");
+		InputStream stream = getStream(file);
+
+		String fileName = file.getAbsolutePath();
+
+		System.out.println(fileName);
+		assertParseSuccess(fileName, stream);
 	}
 
 	@Test

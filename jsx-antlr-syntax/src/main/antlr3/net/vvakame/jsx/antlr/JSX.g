@@ -286,7 +286,29 @@ assignExpr
 	;
 
 _assignExprOpe
-	:	('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|=')
+	:	'='
+	|	'*='
+	|	'/='
+	|	'%='
+	|	'+='
+	|	'-='
+	|	'<<='
+	|	('>' '>' '=')=> t1='>' t2='>' t3='='
+		{
+			$t1.getLine() == $t2.getLine() && $t2.getLine() == $t3.getLine() &&
+			$t1.getCharPositionInLine() + 1 == $t2.getCharPositionInLine() &&
+			$t2.getCharPositionInLine() + 1 == $t3.getCharPositionInLine()
+		}?
+	|	('>' '>' '>' '=')=> t1='>' t2='>' t3='>' t4='='
+		{
+			$t1.getLine() == $t2.getLine() && $t2.getLine() == $t3.getLine() && $t3.getLine() == $t4.getLine() &&
+			$t1.getCharPositionInLine() + 1 == $t2.getCharPositionInLine() &&
+			$t2.getCharPositionInLine() + 1 == $t3.getCharPositionInLine() &&
+			$t3.getCharPositionInLine() + 1 == $t4.getCharPositionInLine()
+		}?
+	|	'&='
+	|	'^='
+	|	'|='
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
@@ -338,12 +360,17 @@ shiftExpr
 	;
 
 _shiftExprOpe
-	:	'>>>'
-	|	'<<'
+	:	'<<'
 	|	('>' '>')=> t1='>' t2='>'
 		{
 			$t1.getLine() == $t2.getLine() && 
 			$t1.getCharPositionInLine() + 1 == $t2.getCharPositionInLine()
+		}?
+	|	('>' '>' '>')=> t1='>' t2='>' t3='>'
+		{
+			$t1.getLine() == $t2.getLine() && $t2.getLine() == $t3.getLine() &&
+			$t1.getCharPositionInLine() + 1 == $t2.getCharPositionInLine() &&
+			$t2.getCharPositionInLine() + 1 == $t3.getCharPositionInLine()
 		}?
 	;
 
