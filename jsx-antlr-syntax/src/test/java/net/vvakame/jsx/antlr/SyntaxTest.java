@@ -60,13 +60,6 @@ public class SyntaxTest {
 				"JSX/t/optimize/", "JSX/t/source-map/" };
 
 		List<String> ignoreFiles = Arrays.asList(new String[] {
-				// FIXME file contains '/', ANTLR parse '?'==EOF. why?
-				"run/003.binaryops.jsx",
-				"run/021.issue1.jsx",
-				"run/126.fused-assign-number-to-int.todo.jsx",
-				"run/170.cast-int-in-return.jsx",
-				"run/171.fused-div-of-int.jsx",
-
 				// FIXME unknown???
 				"run/078.bitnot.jsx", "run/137.same-pred-op-with-parens.jsx",
 				"lib/005.builtins.jsx",
