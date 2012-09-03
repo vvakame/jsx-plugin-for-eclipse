@@ -428,7 +428,7 @@ primaryExpr
 	|	'(' expr ')'
 	|	string
 	|	numberLiteral
-	|	regexp_literal
+	|	regexpLiteral
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
@@ -511,20 +511,11 @@ SINGLE_QUOTED
 	:	'\'' SINGLE_QUOTED_CHARS '\''
 	;
 
-fragment
-char_exclude_regexp_special
-	:	~('/' | '\\')
+// MEMO ('m' | 'g' | 'i')? can't parse succeed. alternative to IDENT?
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L104
+regexpLiteral
+	:	'/' ~('/' | '\\')* ('\\' . ~('/' | '\\')* )* '/' IDENT?
 	;
-
-fragment
-regexp_chars
-	:	char_exclude_regexp_special* ('\\' . char_exclude_regexp_special*)*
-	;
-
-regexp_literal
-	:	'/' regexp_chars '/' IDENT?
-	;
-
 
 fragment
 DECIMAL_INTEGER_LITERAL
