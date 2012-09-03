@@ -20,6 +20,7 @@ import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SyntaxTest {
@@ -61,12 +62,9 @@ public class SyntaxTest {
 
 		List<String> ignoreFiles = Arrays.asList(new String[] {
 				// FIXME unknown???
-				"run/078.bitnot.jsx", "run/137.same-pred-op-with-parens.jsx",
 				"lib/005.builtins.jsx",
 				"lib/009.console.jsx",
 				"lib/010.web.jsx",
-				"optimize/011.fold-const-propagate-number.jsx",
-				"optimize/012.fold-const-propagate-int.jsx",
 
 				// FIXME too difficult... can't parse ">>" to ">" ">"
 				"run/175.T-of-ArrayT-should-never-be-maybeundef.jsx",
@@ -98,6 +96,7 @@ public class SyntaxTest {
 	}
 
 	@Test
+	@Ignore("this is sample code!")
 	public void tryWalk() throws IOException, RecognitionException {
 		String fileName = "/jsx/valid/013.jsx";
 		InputStream stream = getStream(fileName);
