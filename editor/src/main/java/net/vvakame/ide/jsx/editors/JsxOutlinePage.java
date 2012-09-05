@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import net.vvakame.ide.jsx.parser.SourceInfo;
 import net.vvakame.ide.jsx.parser.SyntaxTree;
+import net.vvakame.ide.jsx.parser.antlr.SourceInfoAntlrImpl;
+import net.vvakame.ide.jsx.parser.antlr.SyntaxTreeAntlrImpl;
 import net.vvakame.jsx.antlr.JSXLexer;
 import net.vvakame.jsx.antlr.JSXParser;
 import net.vvakame.jsx.antlr.JSXParser.programFile_return;
@@ -49,7 +51,7 @@ public class JsxOutlinePage extends ContentOutlinePage {
 				if (el instanceof SyntaxTree) {
 					SyntaxTree tree = (SyntaxTree) el;
 					System.out.println(tree);
-					editor.selectAndReveal(tree.index, 0);
+					editor.selectAndReveal(tree.index(), 0);
 				}
 			}
 		});
@@ -81,10 +83,10 @@ public class JsxOutlinePage extends ContentOutlinePage {
 			return;
 		}
 
-		SourceInfo srcInfo = new SourceInfo(source);
+		SourceInfo srcInfo = new SourceInfoAntlrImpl(source);
 
 		Tree t = (Tree) programFileReturn.getTree();
-		SyntaxTree syntaxTree = SyntaxTree.construct(srcInfo, t);
+		SyntaxTree syntaxTree = SyntaxTreeAntlrImpl.construct(srcInfo, t);
 
 		TreeViewer viewer = getTreeViewer();
 		viewer.setInput(syntaxTree);
@@ -96,12 +98,12 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		@Override
 		public Object[] getChildren(Object parentElement) {
 			SyntaxTree tree = (SyntaxTree) parentElement;
-			return tree.children.toArray();
+			return tree.children().toArray();
 		}
 
 		@Override
 		public Object getParent(Object element) {
-			return ((SyntaxTree) element).parent;
+			return ((SyntaxTree) element).parent();
 		}
 
 		@Override
@@ -128,7 +130,7 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		@Override
 		public String getText(Object element) {
 			SyntaxTree tree = (SyntaxTree) element;
-			return tree.name;
+			return tree.name();
 		}
 	}
 }
