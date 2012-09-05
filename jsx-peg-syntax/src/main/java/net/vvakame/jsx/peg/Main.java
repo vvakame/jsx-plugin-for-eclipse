@@ -1,8 +1,8 @@
 package net.vvakame.jsx.peg;
 
-import mouse.runtime.ParserBase.Phrase;
 import mouse.runtime.Source;
 import mouse.runtime.SourceString;
+import net.vvakame.jsx.peg.util.PegUtil;
 import net.vvakame.peg.JsxParser;
 
 class Main {
@@ -12,8 +12,7 @@ class Main {
 		Source src = new SourceString("-1 + 1 + 2");
 		boolean result = parser.parse(src);
 		System.out.println(result);
-		
-		Phrase lhs = parser.lhs();
-		System.out.println(lhs.text());
+
+		PegUtil.walk(parser);
 	}
 }
