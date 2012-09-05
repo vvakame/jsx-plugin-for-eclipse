@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
+ org.eclipse.ui.views;bundle-version="3.6.100",
  org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
@@ -18,4 +19,8 @@ Export-Package: net.vvakame.ide.jsx,
  net.vvakame.ide.jsx.editors.misc,
  net.vvakame.ide.jsx.editors.viewerconfiguration
 Bundle-ClassPath: .,
+ jsx-antlr-syntax-0.0.1.jar,
+ antlr-runtime-3.4.jar,
+ stringtemplate-3.2.1.jar,
+ antlr-2.7.7.jar,
  junit.jar

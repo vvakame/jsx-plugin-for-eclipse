@@ -15,6 +15,14 @@
 	<name>JSX Plugin for Eclipse - main</name>
 	<version>0.2.0.qualifier</version>
 
+	<dependencies>
+		<dependency>
+			<groupId>net.vvakame</groupId>
+			<artifactId>jsx-antlr-syntax</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
