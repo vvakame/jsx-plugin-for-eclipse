@@ -2,11 +2,9 @@ package net.vvakame.ide.jsx.editors;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import net.vvakame.ide.jsx.parser.SourceInfo;
+import net.vvakame.ide.jsx.parser.SyntaxTree;
 import net.vvakame.jsx.antlr.JSXLexer;
 import net.vvakame.jsx.antlr.JSXParser;
 import net.vvakame.jsx.antlr.JSXParser.programFile_return;
@@ -131,93 +129,6 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		public String getText(Object element) {
 			SyntaxTree tree = (SyntaxTree) element;
 			return tree.name;
-		}
-	}
-
-	private static class SyntaxTree {
-		SyntaxTree parent;
-		List<SyntaxTree> children = new ArrayList<SyntaxTree>();
-		@SuppressWarnings("unused")
-		String type = "unknown";
-		String name = "no name";
-		int index;
-		int line;
-		int column;
-
-		static void construct(SourceInfo srcInfo, SyntaxTree parent, Tree t) {
-			SyntaxTree st = new SyntaxTree();
-
-			for (int i = 0; i < t.getChildCount(); i++) {
-				Tree child = t.getChild(i);
-				construct(srcInfo, st, child);
-			}
-
-			st.name = t.getText();
-			st.line = t.getLine();
-			st.column = t.getCharPositionInLine();
-			st.index = srcInfo.getIndex(st.line, st.column);
-
-			parent.children.add(st);
-			st.parent = parent;
-		}
-
-		static SyntaxTree construct(SourceInfo srcInfo, Tree t) {
-			SyntaxTree st = new SyntaxTree();
-			construct(srcInfo, st, t);
-			return st.children.get(0);
-		}
-
-		@Override
-		public String toString() {
-			return "SyntaxTree [name=" + name + ", index=" + index + ", line="
-					+ line + ", column=" + column + "]";
-		}
-	}
-
-	private class SourceInfo {
-		final String src;
-
-		Map<Integer, Integer> lengthMemo = new HashMap<Integer, Integer>();
-		String lines[];
-
-		SourceInfo(String src) {
-			this.src = src;
-		}
-
-		int getIndex(int line, int column) {
-			if (lines == null) {
-				lines = src.split("(\r\n|\r|\n)");
-			}
-			if (lines.length < line) {
-				return getIndex(line - 1, column);
-			}
-
-			if (line == 1) {
-				return column;
-			} else {
-				int lineTotal = getTotalLength(line - 1);
-				return lineTotal + column;
-			}
-		}
-
-		private int getTotalLength(final int includeLine) {
-			{
-				Integer lineFirst = lengthMemo.get(includeLine);
-				if (lineFirst != null) {
-					return lineFirst;
-				}
-			}
-
-			if (includeLine == 1) {
-				int len = lines[0].length() + 1;
-				lengthMemo.put(includeLine, len);
-				return len;
-			} else {
-				int beforeLine = getTotalLength(includeLine - 1);
-				int thisLine = beforeLine + lines[includeLine - 1].length() + 1;
-				lengthMemo.put(includeLine, thisLine);
-				return thisLine;
-			}
 		}
 	}
 }
