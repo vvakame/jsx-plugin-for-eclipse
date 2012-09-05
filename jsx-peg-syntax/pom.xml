@@ -93,15 +93,15 @@
 						<goals>
 							<goal>generate</goal>
 						</goals>
+						<configuration>
+							<grammar>src/main/peg/JSX.peg</grammar>
+							<directory>${peg-generated-dir}/net/vvakame/peg</directory>
+							<package>net.vvakame.peg</package>
+							<parser>JsxParser</parser>
+							<memoizing>true</memoizing>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<grammar>src/main/peg/JSX.peg</grammar>
-					<directory>${peg-generated-dir}/net/vvakame/peg</directory>
-					<package>net.vvakame.peg</package>
-					<parser>JsxParser</parser>
-					<memoizing>true</memoizing>
-				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
