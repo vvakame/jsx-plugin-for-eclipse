@@ -11,6 +11,10 @@
 
 	<packaging>jar</packaging>
 
+	<properties>
+		<peg-generated-dir>peg-generated</peg-generated-dir>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>se.romanredz.mouse</groupId>
@@ -43,6 +47,24 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-dir</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<mkdir dir="${peg-generated-dir}/net/vvakame/peg" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<executions>
@@ -54,7 +76,7 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>peg-generated</source>
+								<source>${peg-generated-dir}</source>
 							</sources>
 						</configuration>
 					</execution>
@@ -64,9 +86,18 @@
 				<groupId>se.romanredz.mouse</groupId>
 				<artifactId>mouse-maven-plugin</artifactId>
 				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>mouse</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<grammar>src/main/peg/JSX.peg</grammar>
-					<directory>peg-generated/net/vvakame/peg</directory>
+					<directory>${peg-generated-dir}/net/vvakame/peg</directory>
 					<package>net.vvakame.peg</package>
 					<parser>JsxParser</parser>
 					<memoizing>true</memoizing>
