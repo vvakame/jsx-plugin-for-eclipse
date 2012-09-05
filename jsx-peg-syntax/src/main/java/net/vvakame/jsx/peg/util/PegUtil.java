@@ -20,6 +20,14 @@ public class PegUtil {
 		}
 	}
 
+	public static void walk(Phrase phrase) {
+		String rule = phrase.rule();
+		String text = phrase.text();
+
+		String str = String.format("%s:%s", rule, text);
+		System.out.println(str);
+	}
+
 	static void walk(String prefix, Phrase phrase, int depth) {
 		String rule = phrase.rule();
 		String text = phrase.text();

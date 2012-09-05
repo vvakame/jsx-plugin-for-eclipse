@@ -80,6 +80,8 @@
 							<directory>${peg-generated-dir}</directory>
 							<package>net.vvakame.peg</package>
 							<parser>JsxParser</parser>
+							<semantics>JsxSemantics</semantics>
+							<skeleton>true</skeleton>
 							<memoizing>true</memoizing>
 						</configuration>
 					</execution>

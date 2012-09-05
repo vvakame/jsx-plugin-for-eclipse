@@ -1,10 +1,10 @@
 programFile
-	=	importStatement* classDefinition*
+	=	importStatement* classDefinition* {}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
 importStatement
-	=	IMPORT (ident (COMMA ident)* FROM)? string (INTO ident)? SEMI
+	=	IMPORT (ident (COMMA ident)* FROM)? string (INTO ident)? SEMI {}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
