@@ -9,10 +9,9 @@ class Main {
 
 	public static void main(String[] args) {
 		JsxParser parser = new JsxParser();
-		Source src = new SourceString("-1 + 1 + 2");
-		boolean result = parser.parse(src);
-		System.out.println(result);
+		Source src = new SourceString("import \"hoge\";\nimport \"fuga\";");
+		parser.parse(src);
 
-		PegUtil.walk(parser);
+		PegUtil.walk(parser.semantics());
 	}
 }

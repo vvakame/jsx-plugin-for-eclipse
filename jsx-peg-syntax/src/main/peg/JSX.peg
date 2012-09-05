@@ -1,9 +1,50 @@
-    
-   // Example 3
+programFile
+	=	importStatement* classDefinition*
+	;
 
-   Sum     = Space Sign Number (AddOp Number)* !_;
-   Number  = Digits Space ; 
-   Sign    = ("-" Space)? ;
-   AddOp   = [-+] Space ;
-   Digits  = [0-9]+ ;
-   Space   = " "* ;
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
+importStatement
+	=	IMPORT (ident (COMMA ident)* FROM)? string (INTO ident)? SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
+classDefinition
+	=	"class"
+	;
+
+ident
+	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing
+	;
+
+
+string
+	=	"\"" [a-z]+ "\"" spacing
+	;
+
+spacing
+	=	space*
+	;
+
+space
+	=	" " / "\t" / "\r" / "\n"
+	;
+
+IMPORT
+	=	"import" spacing
+	;
+
+COMMA
+	=	"," spacing
+	;
+
+FROM
+	=	"from" spacing
+	;
+
+INTO
+	=	"into" spacing
+	;
+
+SEMI
+	=	";" spacing
+	;
