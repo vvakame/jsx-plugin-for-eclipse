@@ -1,4 +1,4 @@
 // importStatement
 
-import "js/web.jsx";
 import "view.jsx";
+import hoge , hoge from "js/web.jsx" into hoge;

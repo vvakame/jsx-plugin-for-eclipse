@@ -1,5 +1,5 @@
 programFile
-	=	spacing? importStatement* classDefinition* !_ {}
+	=	spacing importStatement* classDefinition* !_ {}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
@@ -9,7 +9,7 @@ importStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
 classDefinition
-	=	oClassModifiers* (oClassDef / oInterfaceDef / oMixinDef) spacing?
+	=	oClassModifiers* (oClassDef / oInterfaceDef / oMixinDef) spacing
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
@@ -19,25 +19,152 @@ oClassModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oClassDef
-	=	CLASS IDENT formalTypeArguments? (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LBRA memberDefinition* RBRA
+	=	CLASS ident formalTypeArguments? (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oInterfaceDef
-	=	INTERFACE IDENT formalTypeArguments? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LBRA memberDefinition* RBRA
+	=	INTERFACE ident formalTypeArguments? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oMixinDef	
-	=	MIXIN IDENT formalTypeArguments? LBRA memberDefinition* RBRA
+	=	MIXIN ident formalTypeArguments? LWING memberDefinition* RWING
 	;
 
-objectTypeDeclaration = "a";
-memberDefinition = "a";
-IDENT = "a";
-formalTypeArguments = "a";
-typeDeclaration = "a";
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1090
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1159
+memberDefinition
+	= 	oMemberDefinitionModifiers* CONST ident (COLON typeDeclaration)? (EQ assignExpr)? SEMI
+	/	oMemberDefinitionModifiers* FUNCTION functionDefinition
+	/	oMemberDefinitionModifiers* VAR ident (COLON typeDeclaration)? (EQ assignExpr)? SEMI
+	;
+
+oMemberDefinitionModifiers
+	=	STATIC / ABSTRACT / OVERRIDE / FINAL / NATIVE / BLTCONREADONLY / INLINE / BLTCONPURE
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
+functionDefinition
+	=	CONSTRUCTOR formalTypeArguments LPAR functionArgumentsExpr LWING initializeBlock
+	/	ident formalTypeArguments LPAR functionArgumentsExpr COLON typeDeclaration (SEMI / LWING block)
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
+formalTypeArguments
+	=	(DOT LT ident (COMMA ident)* GT)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
+actualTypeArguments
+	=	(DOT LT typeDeclaration (COMMA typeDeclaration)* GT)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1398
+typeDeclaration
+	=	VOID
+	/	typeDeclarationNoArrayNoVoid (LBRA RBRA)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1422
+typeDeclarationNoArrayNoVoid
+	=	MAYBEUNDEFINED
+	/	NULLABLE nullableTypeDeclaration
+	/	VARIANT
+	/	primaryTypeDeclaration
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1440
+nullableTypeDeclaration
+	=	DOT LT typeDeclaration GT
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1466
+primaryTypeDeclaration
+	=	LPAR lightFunctionTypeDeclaration
+	/	FUNCTION functionTypeDeclaration
+	/	BOOLEAN
+	/	INT
+	/	NUMBER
+	/	STRING
+	/	objectTypeDeclaration
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
+objectTypeDeclaration
+	=	((SUPER / ident) actualTypeArguments)? (DOT ident)? actualTypeArguments
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1519
+lightFunctionTypeDeclaration
+	=	ARGS? typeDeclaration (COMMA ARGS? typeDeclaration)* RPAR ARROW typeDeclaration
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1552
+functionTypeDeclaration
+	=	ident? LPAR (ARGS ident? COLON typeDeclaration RPAR)? COLON typeDeclaration
+	/	ident? LPAR (ident? COLON typeDeclaration) (COMMA ident? COLON typeDeclaration)* COMMA (ARGS ident? COLON typeDeclaration RPAR)? COLON typeDeclaration
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1598
+initializeBlock
+	=	constructorInvocationStatement* (block? / RWING)
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1610
+block
+	=	statement* RWING
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1621
+statement
+	=	SEMI
+	/	VAR variableStatement
+	/	IF ifStatement
+	/	CONTINUE continueStatement
+	/	BREAK breakStatement
+	/	RETURN returnStatement
+	/	THROW throwStatement
+	/	TRY tryStatement
+	/	ASSERT assertStatement
+	/	LOG logStatement
+	/	DELETE deleteStatement
+	/	DEBUGGER debuggerStatement
+	/	FUNCTION functionStatement
+	/	VOID
+	/	LWING block
+	/	expr SEMI
+	/	(ident SEMI)? DO doWhileStatement
+	/	(ident SEMI)? WHILE whileStatement
+	/	(ident SEMI)? FOR forStatement
+	/	(ident SEMI)? SWITCH switchStatement
+	;
+
+
 assignExpr = "a";
+tryStatement = "a";
+logStatement = "a";
+breakStatement = "a";
+switchStatement = "a";
+continueStatement = "a";
+forStatement = "a";
+doWhileStatement = "a";
+functionStatement = "a";
+throwStatement = "a";
+returnStatement = "a";
+variableStatement = "a";
+deleteStatement = "a";
+debuggerStatement = "a";
+assertStatement = "a";
+ifStatement = "a";
+whileStatement = "a";
+constructorInvocationStatement = "a";
+expr = "a";
+
+
+
+
+
 
 
 // Literals
@@ -63,7 +190,7 @@ hashLiteral
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
 functionArgumentsExpr
 	=	RPAR
-	/	(ARGS IDENT / IDENT)? (COLON typeDeclaration)? (COMMA (ARGS IDENT / IDENT)? (COLON typeDeclaration)?)* RPAR
+	/	(ARGS ident / ident)? (COLON typeDeclaration)? (COMMA (ARGS ident / ident)? (COLON typeDeclaration)?)* RPAR
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
@@ -73,8 +200,8 @@ argsExpr
 	;
 
 string
-	=	doubleQuoted
-	/	singleQuoted
+	=	doubleQuoted spacing?
+	/	singleQuoted spacing?
 	;
 
 doubleQuoted
@@ -128,7 +255,7 @@ singlelineComment
 	;
 
 spacing
-	=	(space / multilineComment / singlelineComment)+
+	=	(space / multilineComment / singlelineComment)*
 	;
 
 space
