@@ -36,12 +36,40 @@ objectTypeDeclaration = "a";
 memberDefinition = "a";
 IDENT = "a";
 formalTypeArguments = "a";
-
+typeDeclaration = "a";
+assignExpr = "a";
 
 
 // Literals
 ident
 	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
+nullLiteral
+	=	(":" typeDeclaration)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2613
+arrayLiteral
+	=	(assignExpr ("," assignExpr)*)? "]" (":" typeDeclaration)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2633
+hashLiteral
+	=	((ident / numberLiteral / string) COLON assignExpr (COMMA (ident / numberLiteral / string) COLON assignExpr)*)? RBRA (COLON typeDeclaration)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
+functionArgumentsExpr
+	=	RPAR
+	/	(ARGS IDENT / IDENT)? (COLON typeDeclaration)? (COMMA (ARGS IDENT / IDENT)? (COLON typeDeclaration)?)* RPAR
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
+argsExpr
+	=	RPAR
+	/	assignExpr (COMMA assignExpr)* RPAR
 	;
 
 string
@@ -60,6 +88,35 @@ singleQuoted
 regexp
 	=	"/" (!"/" !"\\" _)* ("\\" _ (!"/" !"\\" _)*)* "/" ("m" / "g" / "i")*
 	;
+
+
+numberLiteral
+	=	numberLiteral2
+	/	integerLiteral
+	;
+
+decimalIntegerLiteral
+	=	"0"
+	/	[1-9] [0-9]*
+	;
+
+exponentPart
+	=	[eE] [+-]? [0-9]+
+	;
+
+// TODO rename
+numberLiteral2
+	=	decimalIntegerLiteral ("." [0-9]*)? exponentPart?
+	/	"." [0-9]+ exponentPart?
+	/	"NaN"
+	/	"Infinity"
+	;
+
+integerLiteral
+	=	"0" [xX] [0-9a-fA-F]+
+	/	decimalIntegerLiteral
+	;
+
 
 // hidden
 multilineComment
