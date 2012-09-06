@@ -33,6 +33,13 @@
 					<source>1.6</source>
 					<target>1.6</target>
 					<encoding>UTF-8</encoding>
+					<extraClasspathElements>
+						<extraClasspathElement>
+							<groupId>net.vvakame</groupId>
+							<artifactId>jsx-antlr-syntax</artifactId>
+							<version>0.0.1</version>
+						</extraClasspathElement>
+					</extraClasspathElements>
 				</configuration>
 			</plugin>
 		</plugins>
