@@ -1,5 +1,5 @@
 programFile
-	=	importStatement* classDefinition* {}
+	=	spacing? importStatement* classDefinition* !_ {}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
@@ -9,42 +9,486 @@ importStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
 classDefinition
-	=	"class"
+	=	oClassModifiers* (oClassDef / oInterfaceDef / oMixinDef) spacing?
 	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
+oClassModifiers
+	=	ABSTRACT / FINAL / NATIVE / BLTCONFAKE
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
+oClassDef
+	=	CLASS IDENT formalTypeArguments? (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LBRA memberDefinition* RBRA
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
+oInterfaceDef
+	=	INTERFACE IDENT formalTypeArguments? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LBRA memberDefinition* RBRA
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
+oMixinDef	
+	=	MIXIN IDENT formalTypeArguments? LBRA memberDefinition* RBRA
+	;
+
+objectTypeDeclaration = "a";
+memberDefinition = "a";
+IDENT = "a";
+formalTypeArguments = "a";
+
+
+
+// Literals
 ident
 	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing
 	;
 
-
 string
-	=	"\"" [a-z]+ "\"" spacing
+	=	doubleQuoted
+	/	singleQuoted
+	;
+
+doubleQuoted
+	=	"\"" ^["\\]* ("\\" _ (!"\"" !"\\" _)*)* "\""
+	;
+
+singleQuoted
+	=	"'" (!"'" !"\\" _)* ("\\" _ (!"'" !"\\" _)*)* "'"
+	;
+
+regexp
+	=	"/" (!"/" !"\\" _)* ("\\" _ (!"/" !"\\" _)*)* "/" ("m" / "g" / "i")*
+	;
+
+// hidden
+multilineComment
+	=	"/*" ( !"*/" _ )* "*/"
+	;
+
+singlelineComment
+	=	"//" ( !"\n" !"\r" _)* ("\r" / "\r\n" / "\n")
 	;
 
 spacing
-	=	space*
+	=	(space / multilineComment / singlelineComment)+
 	;
 
 space
-	=	" " / "\t" / "\r" / "\n"
+	=	[ \t\r\n]
 	;
 
-IMPORT
-	=	"import" spacing
+
+
+// Tokens
+NOT
+	=	"!" spacing
+	;
+
+NOTEQ // not eq
+	=	"!=" spacing
+	;
+
+SUR
+	=	"%" spacing
+	;
+
+SUREEQ // sur eq
+	=	"%=" spacing
+	;
+
+AND
+	=	"&&" spacing
+	;
+
+BITAND // bit and
+	=	"&" spacing
+	;
+
+BITANDEQ // bit and eq
+	=	"&=" spacing
+	;
+
+LPAR // L par
+	=	"(" spacing
+	;
+
+RPAR // R par
+	=	")" spacing
+	;
+
+MUL
+	=	"*" spacing
+	;
+
+MULEQ // mul eq
+	=	"*=" spacing
+	;
+
+ADD
+	=	"+" spacing
+	;
+
+INC
+	=	"++" spacing
+	;
+
+ADDEQ // add eq
+	=	"+=" spacing
 	;
 
 COMMA
 	=	"," spacing
 	;
 
+SUB
+	=	"-" spacing
+	;
+
+DEC
+	=	"--" spacing
+	;
+
+SUBEQ // subeq
+	=	"-=" spacing
+	;
+
+ARROW
+	=	"->" spacing
+	;
+
+DOT
+	=	"." spacing
+	;
+
+ARGS
+	=	"..." spacing
+	;
+
+DIV
+	=	"/" spacing
+	;
+
+DIVEQ // div eq
+	=	"/=" spacing
+	;
+
+COLON
+	=	":" spacing
+	;
+
+SEMI
+	=	";" spacing
+	;
+
+LT
+	=	"<" spacing
+	;
+
+LSHIFT // L shift
+	=	"<<" spacing
+	;
+
+LSHIFTEQ // L shift eq
+	=	"<<=" spacing
+	;
+
+LTEQ // lt eq
+	=	"<=" spacing
+	;
+
+ASSIGN
+	=	"=" spacing
+	;
+
+EQ
+	=	"==" spacing
+	;
+
+GT
+	=	">" spacing
+	;
+
+GTEQ // gt eq
+	=	">=" spacing
+	;
+
+COND
+	=	"?" spacing
+	;
+
+LBRA // L bra
+	=	"[" spacing
+	;
+
+RBRA // r bra
+	=	"]" spacing
+	;
+
+XOR
+	=	"^" spacing
+	;
+
+XOREQ // xor eq
+	=	"^=" spacing
+	;
+
+LWING // L wing
+	=	"{" spacing
+	;
+
+BITOR // bit or
+	=	"|" spacing
+	;
+
+BITOREQ // bit or eq
+	=	"|=" spacing
+	;
+
+OR
+	=	"||" spacing
+	;
+
+RWING // R wing
+	=	"}" spacing
+	;
+
+MAYBEUNDEFINED // may be undefined
+	=	"MayBeUndefined" spacing
+	;
+
+NULLABLE
+	=	"Nullable" spacing
+	;
+
+ABSTRACT
+	=	"abstract" spacing
+	;
+
+AS
+	=	"as" spacing
+	;
+
+ASSERT
+	=	"assert" spacing
+	;
+
+BOOLEAN
+	=	"boolean" spacing
+	;
+
+BREAK
+	=	"break" spacing
+	;
+
+CASE
+	=	"case" spacing
+	;
+
+CATCH
+	=	"catch" spacing
+	;
+
+CLASS
+	=	"class" spacing
+	;
+
+CONST
+	=	"const" spacing
+	;
+
+CONSTRUCTOR
+	=	"constructor" spacing
+	;
+
+CONTINUE
+	=	"continue" spacing
+	;
+
+DEBUGGER
+	=	"debugger" spacing
+	;
+
+DEFAULT
+	=	"default" spacing
+	;
+
+DELETE
+	=	"delete" spacing
+	;
+
+DO
+	=	"do" spacing
+	;
+
+ELSE
+	=	"else" spacing
+	;
+
+EXTENDS
+	=	"extends" spacing
+	;
+
+FALSE
+	=	"false" spacing
+	;
+
+FINAL
+	=	"final" spacing
+	;
+
+FINALLY
+	=	"finally" spacing
+	;
+
+FOR
+	=	"for" spacing
+	;
+
 FROM
 	=	"from" spacing
+	;
+
+FUNCTION
+	=	"function" spacing
+	;
+
+IF
+	=	"if" spacing
+	;
+
+IMPLEMENTS
+	=	"implements" spacing
+	;
+
+IMPORT
+	=	"import" spacing
+	;
+
+IN
+	=	"in" spacing
+	;
+
+INLINE
+	=	"inline" spacing
+	;
+
+INSTANCEOF
+	=	"instanceof" spacing
+	;
+
+INT
+	=	"int" spacing
+	;
+
+INTERFACE
+	=	"interface" spacing
 	;
 
 INTO
 	=	"into" spacing
 	;
 
-SEMI
-	=	";" spacing
+LOG
+	=	"log" spacing
+	;
+
+MIXIN
+	=	"mixin" spacing
+	;
+
+NATIVE
+	=	"native" spacing
+	;
+
+NEW
+	=	"new" spacing
+	;
+
+NULL
+	=	"null" spacing
+	;
+
+NUMBER
+	=	"number" spacing
+	;
+
+OVERRIDE
+	=	"override" spacing
+	;
+
+RETURN
+	=	"return" spacing
+	;
+
+STATIC
+	=	"static" spacing
+	;
+
+STRING
+	=	"string" spacing
+	;
+
+SUPER
+	=	"super" spacing
+	;
+
+SWITCH
+	=	"switch" spacing
+	;
+
+THIS
+	=	"this" spacing
+	;
+
+THROW
+	=	"throw" spacing
+	;
+
+TRUE
+	=	"true" spacing
+	;
+
+TRY
+	=	"try" spacing
+	;
+
+TYPEOF
+	=	"typeof" spacing
+	;
+
+UNDEFINED
+	=	"undefined" spacing
+	;
+
+VAR
+	=	"var" spacing
+	;
+
+VARIANT
+	=	"variant" spacing
+	;
+
+VOID
+	=	"void" spacing
+	;
+
+WHILE
+	=	"while" spacing
+	;
+
+BLTCONFAKE // built-in constant __fake__
+	=	"__fake__" spacing
+	;
+
+BLTCONNOCONVERT // built-in constant __noconvert__
+	=	"__noconvert__" spacing
+	;
+
+BLTCONPURE // built-in constant __pure__
+	=	"__pure__" spacing
+	;
+
+BLTCONREADONLY // built-in constant __readonly__
+	=	"__readonly__" spacing
 	;

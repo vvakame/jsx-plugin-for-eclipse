@@ -22,6 +22,10 @@ public class ParserBaseExtend {
 		return base.endpos;
 	}
 
+	public Source getSource() {
+		return base.source;
+	}
+
 	/**
 	 * @param obj
 	 * @return

@@ -1,4 +1,4 @@
-package net.vvakame.peg;
+package net.vvakame.jsx.peg;
 
 import java.util.ArrayList;
 import java.util.List;

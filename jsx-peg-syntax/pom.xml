@@ -58,7 +58,7 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<mkdir dir="${peg-generated-dir}/net/vvakame/peg" />
+								<mkdir dir="${peg-generated-dir}/net/vvakame/jsx/peg" />
 							</tasks>
 						</configuration>
 					</execution>
@@ -78,7 +78,7 @@
 						<configuration>
 							<grammar>src/main/peg/JSX.peg</grammar>
 							<directory>${peg-generated-dir}</directory>
-							<package>net.vvakame.peg</package>
+							<package>net.vvakame.jsx.peg</package>
 							<parser>JsxParser</parser>
 							<semantics>JsxSemantics</semantics>
 							<skeleton>true</skeleton>
@@ -99,7 +99,7 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<move todir="${peg-generated-dir}/net/vvakame/peg">
+								<move todir="${peg-generated-dir}/net/vvakame/jsx/peg">
 									<fileset dir="${peg-generated-dir}" includes="*.java" />
 								</move>
 							</tasks>

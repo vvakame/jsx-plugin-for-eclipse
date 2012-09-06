@@ -1,4 +1,4 @@
-package net.vvakame.peg;
+package net.vvakame.jsx.peg;
 
 import mouse.runtime.Phrase;
 import mouse.runtime.SemanticsBase;
