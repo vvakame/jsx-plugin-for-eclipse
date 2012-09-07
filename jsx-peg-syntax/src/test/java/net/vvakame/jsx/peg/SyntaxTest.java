@@ -18,6 +18,13 @@ public class SyntaxTest {
 
 	// TODO turn memoize on. at pom.xml
 
+	// デバッグのヒント。
+	// mvn clean compile でJsxParserが生成される。
+	// JsxParserの中で Debug.dump(this) とかやると現在どこまで食ってるかわかる。
+	// mouse.runtime.ParserBaseExtend.get(this).getPos()
+	// で現在見てる(食ってないものも含む)位置が見える
+	// 実行中にデバッガで止めてEclipseのDisplayビューを上手に活用すること。
+
 	@Test
 	public void valid() throws IOException {
 		List<String> ignoreFiles = Arrays
