@@ -3,7 +3,7 @@
 .settings/
 target/
 
-src/main/antlr3/net/vvakame/jsx/antlr/output/
+peg-generated/
 
 *.tokens
 
