@@ -333,7 +333,7 @@ mulExpr
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2266
 unaryExpr
-	=	(INC / DEC / ADD / SUB / NOT / TYPEOF) unaryExpr
+	=	(INC / DEC / ADD / SUB / BITNOT / NOT / TYPEOF) unaryExpr
 	/	asExpr
 	;
 
@@ -456,7 +456,7 @@ regexpLiteral
 
 
 numberLiteral
-	=	numberLiteral2 spacing
+	=	!("0" [xX]) numberLiteral2 spacing
 	/	integerLiteral spacing
 	;
 
@@ -478,7 +478,7 @@ numberLiteral2
 	;
 
 integerLiteral
-	=	"0" [xX] [0-9a-fA-F]+
+	=	"0" [xX] ([0-9] / [a-f] / [A-F])+
 	/	decimalIntegerLiteral
 	;
 
@@ -521,6 +521,10 @@ SUREQ // sur eq
 
 AND
 	=	"&&" spacing
+	;
+
+BITNOT // bit not
+	=	"~" spacing
 	;
 
 BITAND // bit and

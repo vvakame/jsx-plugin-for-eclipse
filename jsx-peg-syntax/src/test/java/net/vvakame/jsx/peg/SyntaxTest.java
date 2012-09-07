@@ -78,9 +78,6 @@ public class SyntaxTest {
 				"run/190.as_noconvert-exception.jsx", "run/204.array-map.jsx",
 				"lib/002.timer.jsx",
 
-				// FIXME unknown
-				"078.bitnot.jsx", "lib/007.typedarray.jsx",
-
 		});
 
 		for (String dirPath : jsxExistsDirPaths) {
