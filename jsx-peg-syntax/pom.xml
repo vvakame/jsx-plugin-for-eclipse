@@ -82,7 +82,7 @@
 							<parser>JsxParser</parser>
 							<semantics>JsxSemantics</semantics>
 							<skeleton>true</skeleton>
-							<memoizing>true</memoizing>
+							<memoizing>false</memoizing>
 						</configuration>
 					</execution>
 				</executions>

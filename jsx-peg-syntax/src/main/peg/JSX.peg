@@ -19,25 +19,25 @@ oClassModifiers
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oClassDef
-	=	CLASS ident formalTypeArguments? (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
+	=	CLASS ident formalTypeArguments (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oInterfaceDef
-	=	INTERFACE ident formalTypeArguments? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
+	=	INTERFACE ident formalTypeArguments (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oMixinDef	
-	=	MIXIN ident formalTypeArguments? LWING memberDefinition* RWING
+	=	MIXIN ident formalTypeArguments LWING memberDefinition* RWING
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1090
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1159
 memberDefinition
-	= 	oMemberDefinitionModifiers* CONST ident (COLON typeDeclaration)? (EQ assignExpr)? SEMI
+	= 	oMemberDefinitionModifiers* CONST ident (COLON typeDeclaration)? (ASSIGN assignExpr)? SEMI
 	/	oMemberDefinitionModifiers* FUNCTION functionDefinition
-	/	oMemberDefinitionModifiers* VAR ident (COLON typeDeclaration)? (EQ assignExpr)? SEMI
+	/	oMemberDefinitionModifiers* VAR ident (COLON typeDeclaration)? (ASSIGN assignExpr)? SEMI
 	;
 
 oMemberDefinitionModifiers
@@ -102,13 +102,15 @@ lightFunctionTypeDeclaration
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1552
 functionTypeDeclaration
-	=	ident? LPAR (ARGS ident? COLON typeDeclaration RPAR)? COLON typeDeclaration
-	/	ident? LPAR (ident? COLON typeDeclaration) (COMMA ident? COLON typeDeclaration)* COMMA (ARGS ident? COLON typeDeclaration RPAR)? COLON typeDeclaration
+	=	ident? LPAR RPAR COLON typeDeclaration
+	/	ident? LPAR ARGS ident? COLON typeDeclaration RPAR COLON typeDeclaration
+	/	ident? LPAR ident? COLON typeDeclaration (COMMA ident? COLON typeDeclaration)* COMMA ARGS ident? COLON typeDeclaration RPAR COLON typeDeclaration
+	/	ident? LPAR ident? COLON typeDeclaration (COMMA ident? COLON typeDeclaration)* RPAR COLON typeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1598
 initializeBlock
-	=	constructorInvocationStatement* (block? / RWING)
+	=	constructorInvocationStatement* block
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1610
@@ -129,62 +131,292 @@ statement
 	/	ASSERT assertStatement
 	/	LOG logStatement
 	/	DELETE deleteStatement
-	/	DEBUGGER debuggerStatement
+	/	DEBUGGER // debuggerStatement
 	/	FUNCTION functionStatement
 	/	VOID
 	/	LWING block
+	/	(ident COLON)? DO doWhileStatement
+	/	(ident COLON)? WHILE whileStatement
+	/	(ident COLON)? FOR forStatement
+	/	(ident COLON)? SWITCH switchStatement
 	/	expr SEMI
-	/	(ident SEMI)? DO doWhileStatement
-	/	(ident SEMI)? WHILE whileStatement
-	/	(ident SEMI)? FOR forStatement
-	/	(ident SEMI)? SWITCH switchStatement
 	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1696
+constructorInvocationStatement
+	=	(SUPER / THIS / objectTypeDeclaration) LPAR argsExpr SEMI
+	;
 
-assignExpr = "a";
-tryStatement = "a";
-logStatement = "a";
-breakStatement = "a";
-switchStatement = "a";
-continueStatement = "a";
-forStatement = "a";
-doWhileStatement = "a";
-functionStatement = "a";
-throwStatement = "a";
-returnStatement = "a";
-variableStatement = "a";
-deleteStatement = "a";
-debuggerStatement = "a";
-assertStatement = "a";
-ifStatement = "a";
-whileStatement = "a";
-constructorInvocationStatement = "a";
-expr = "a";
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1736
+variableStatement
+	=	variableDeclarations SEMI
+	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1748
+functionStatement
+	=	ident functionExpr
+	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1764
+ifStatement
+	=	LPAR expr RPAR subStatements (ELSE subStatements)?
+	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1781
+doWhileStatement
+	=	subStatements WHILE LPAR expr RPAR
+	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1796
+whileStatement
+	=	LPAR expr RPAR subStatements
+	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1809
+forStatement
+	=	forInStatement
+	/	LPAR (expr / VAR variableDeclarations)? SEMI expr? SEMI expr? RPAR subStatements
+	;
 
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1866
+forInStatement
+	=	LPAR (VAR variableDeclaration / lhsExpr) IN expr RPAR subStatements
+	;
 
-// Literals
-ident
-	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1889
+continueStatement
+	=	ident? SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1897
+breakStatement
+	=	ident? SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1905
+returnStatement
+	=	SEMI
+	/	expr SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1919
+switchStatement
+	=	LPAR expr RPAR LWING ((CASE expr COLON / DEFAULT COLON) statement*)* RWING
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1981
+throwStatement
+	=	expr
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1989
+tryStatement
+	=	LWING block (CATCH LPAR ident COLON typeDeclaration RPAR LWING block)* (FINALLY LWING block )?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2037
+assertStatement
+	=	expr SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2047
+logStatement
+	=	assignExpr (COMMA assignExpr)* SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2065
+deleteStatement
+	=	expr SEMI
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2075
+// debuggerStatement
+// 	=
+// 	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2080
+subStatements
+	=	statement
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2087
+variableDeclarations
+	=	variableDeclaration (COMMA variableDeclaration)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2103
+variableDeclaration
+	=	ident (COLON typeDeclaration)? (ASSIGN assignExpr)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2125
+expr
+	=	assignExpr (COMMA assignExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
+assignExpr
+	=	lhsExpr oAssignExprOpe assignExpr
+	/	condExpr
+	;
+
+oAssignExprOpe
+	=	ASSIGN
+	/	MULEQ
+	/	DIVEQ
+	/	SUREQ
+	/	ADDEQ
+	/	SUBEQ
+	/	UNSIGNEDRSHIFTEQ
+	/	LSHIFTEQ
+	/	RSHIFTEQ
+	/	BITANDEQ
+	/	XOREQ
+	/	BITOREQ
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
+condExpr
+	=	lorExpr (COND assignExpr? COLON assignExpr)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2196
+lorExpr
+	=	landExpr (OR landExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2202
+landExpr
+	=	borExpr (AND borExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2208
+borExpr
+	=	bxorExpr (!OR BITOR bxorExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2214
+bxorExpr
+	=	bandExpr (XOR bandExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2220
+bandExpr
+	=	eqExpr (!AND BITAND eqExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2226
+eqExpr
+	=	relExpr ((EQ / NOTEQ) relExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2232
+// FIXME in?
+relExpr
+	=	shiftExpr ((LTEQ / GTEQ / LT / GT / IN) shiftExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2244
+shiftExpr
+	=	addExpr ((UNSIGNEDRSHIFT / LSHIFT / RSHIFT) addExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2251
+addExpr
+	=	mulExpr (!INC !DEC (ADD / SUB) mulExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2260
+mulExpr
+	=	unaryExpr ((MUL / DIV / SUR) unaryExpr)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2266
+unaryExpr
+	=	(INC / DEC / ADD / SUB / NOT / TYPEOF) unaryExpr
+	/	asExpr
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2290
+asExpr
+	=	postfixExpr (AS BLTCONNOCONVERT? typeDeclaration)*
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2305
+postfixExpr
+	=	lhsExpr (INC / DEC / INSTANCEOF typeDeclaration)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
+lhsExpr
+	=	SUPER superExpr
+	/	LPAR lambdaExpr oLhsExprSub*
+	/	FUNCTION functionExpr oLhsExprSub*
+	/	NEW newExpr oLhsExprSub*
+	/	primaryExpr oLhsExprSub*
+	;
+
+oLhsExprSub
+	=	LPAR argsExpr
+	/	LBRA expr RBRA
+	/	DOT ident actualTypeArguments
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2381
+newExpr
+	=	typeDeclarationNoArrayNoVoid (LBRA assignExpr? RBRA)* (LPAR argsExpr)?
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2415
+superExpr
+	=	DOT ident LPAR argsExpr
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2431
+lambdaExpr
+	=	functionArgumentsExpr (COLON typeDeclaration)? ARROW lambdaBody
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2449
+lambdaBody
+	=	LWING block
+	/	expr
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2471
+functionExpr
+	=	LPAR functionArgumentsExpr COLON? typeDeclaration LWING block
+	;
+
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2554
+primaryExpr
+	=	THIS
+	/	UNDEFINED
+	/	NULL nullLiteral
+	/	FALSE
+	/	TRUE
+	/	LBRA arrayLiteral
+	/	LWING hashLiteral
+	/	LPAR expr RPAR
+	/	numberLiteral
+	/	ident objectTypeDeclaration
+	/	string
+	/	regexpLiteral
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
 nullLiteral
-	=	(":" typeDeclaration)?
+	=	(COLON typeDeclaration)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2613
 arrayLiteral
-	=	(assignExpr ("," assignExpr)*)? "]" (":" typeDeclaration)?
+	=	(assignExpr (COMMA assignExpr)*)? RBRA (COLON typeDeclaration)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2633
 hashLiteral
-	=	((ident / numberLiteral / string) COLON assignExpr (COMMA (ident / numberLiteral / string) COLON assignExpr)*)? RBRA (COLON typeDeclaration)?
+	=	((ident / numberLiteral / string) COLON assignExpr (COMMA (ident / numberLiteral / string) COLON assignExpr)*)? RWING (COLON typeDeclaration)?
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
@@ -199,9 +431,15 @@ argsExpr
 	/	assignExpr (COMMA assignExpr)* RPAR
 	;
 
+
+// Literals
+ident
+	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing
+	;
+
 string
-	=	doubleQuoted spacing?
-	/	singleQuoted spacing?
+	=	doubleQuoted spacing
+	/	singleQuoted spacing
 	;
 
 doubleQuoted
@@ -212,14 +450,14 @@ singleQuoted
 	=	"'" (!"'" !"\\" _)* ("\\" _ (!"'" !"\\" _)*)* "'"
 	;
 
-regexp
-	=	"/" (!"/" !"\\" _)* ("\\" _ (!"/" !"\\" _)*)* "/" ("m" / "g" / "i")*
+regexpLiteral
+	=	"/" (!"/" !"\\" _)* ("\\" _ (!"/" !"\\" _)*)* "/" ("m" / "g" / "i")* spacing
 	;
 
 
 numberLiteral
-	=	numberLiteral2
-	/	integerLiteral
+	=	numberLiteral2 spacing
+	/	integerLiteral spacing
 	;
 
 decimalIntegerLiteral
@@ -246,16 +484,16 @@ integerLiteral
 
 
 // hidden
+spacing
+	=	(space / multilineComment / singlelineComment)*
+	;
+
 multilineComment
 	=	"/*" ( !"*/" _ )* "*/"
 	;
 
 singlelineComment
 	=	"//" ( !"\n" !"\r" _)* ("\r" / "\r\n" / "\n")
-	;
-
-spacing
-	=	(space / multilineComment / singlelineComment)*
 	;
 
 space
@@ -277,7 +515,7 @@ SUR
 	=	"%" spacing
 	;
 
-SUREEQ // sur eq
+SUREQ // sur eq
 	=	"%=" spacing
 	;
 
@@ -375,6 +613,22 @@ LSHIFT // L shift
 
 LSHIFTEQ // L shift eq
 	=	"<<=" spacing
+	;
+
+UNSIGNEDRSHIFT // unsigned R shift
+	=	">>>" spacing
+	;
+
+UNSIGNEDRSHIFTEQ // unsigned R shift eq
+	=	">>>=" spacing
+	;
+
+RSHIFT // R shift
+	=	">>" spacing
+	;
+
+RSHIFTEQ // R shift eq
+	=	">>=" spacing
 	;
 
 LTEQ // lt eq
