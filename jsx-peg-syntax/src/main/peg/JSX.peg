@@ -246,7 +246,7 @@ variableDeclarations
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2103
 variableDeclaration
-	=	ident (COLON typeDeclaration)? (ASSIGN assignExpr)?
+	=	ident (COLON typeDeclaration)? (ASSIGN assignExpr)? {}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2125
@@ -399,9 +399,9 @@ primaryExpr
 	/	LWING hashLiteral
 	/	LPAR expr RPAR
 	/	numberLiteral
-	/	ident objectTypeDeclaration
 	/	string
 	/	regexpLiteral
+	/	ident objectTypeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
