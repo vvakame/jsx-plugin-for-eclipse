@@ -28,7 +28,7 @@ public class SyntaxTest {
 	@Test
 	public void valid() throws IOException {
 		List<String> ignoreFiles = Arrays
-				.asList(new String[] { "/jsx/valid/003.jsx", });
+				.asList(new String[] { });
 
 		for (int i = 1;; i++) {
 			final String fileName = String.format("/jsx/valid/%03d.jsx", i);

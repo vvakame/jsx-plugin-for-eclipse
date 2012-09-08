@@ -175,7 +175,7 @@ whileStatement
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1809
 forStatement
 	=	forInStatement
-	/	LPAR (expr / VAR variableDeclarations)? SEMI expr? SEMI expr? RPAR subStatements
+	/	LPAR (VAR variableDeclarations / expr)? SEMI expr? SEMI expr? RPAR subStatements
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1866
@@ -399,9 +399,9 @@ primaryExpr
 	/	LWING hashLiteral
 	/	LPAR expr RPAR
 	/	numberLiteral
+	/	&ident objectTypeDeclaration
 	/	string
 	/	regexpLiteral
-	/	ident objectTypeDeclaration
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
