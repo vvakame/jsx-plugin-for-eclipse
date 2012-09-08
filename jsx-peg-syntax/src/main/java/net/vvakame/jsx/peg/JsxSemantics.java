@@ -41,7 +41,6 @@ public class JsxSemantics extends SemanticsBase {
 	}
 
 	public void variableDeclaration() {
-		dump();
 	}
 
 	public void dump() {

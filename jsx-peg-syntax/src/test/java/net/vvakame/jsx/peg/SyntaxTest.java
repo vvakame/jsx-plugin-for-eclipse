@@ -16,8 +16,6 @@ import org.junit.Test;
 
 public class SyntaxTest {
 
-	// TODO turn memoize on. at pom.xml
-
 	// デバッグのヒント。
 	// mvn clean compile でJsxParserが生成される。
 	// JsxParserの中で Debug.dump(this) とかやると現在どこまで食ってるかわかる。
@@ -27,8 +25,7 @@ public class SyntaxTest {
 
 	@Test
 	public void valid() throws IOException {
-		List<String> ignoreFiles = Arrays
-				.asList(new String[] { });
+		List<String> ignoreFiles = Arrays.asList(new String[] {});
 
 		for (int i = 1;; i++) {
 			final String fileName = String.format("/jsx/valid/%03d.jsx", i);
@@ -66,19 +63,7 @@ public class SyntaxTest {
 		String[] jsxExistsDirPaths = { "JSX/t/run/", "JSX/t/lib/",
 				"JSX/t/optimize/", "JSX/t/source-map/" };
 
-		List<String> ignoreFiles = Arrays.asList(new String[] {
-				// FIXME "as" was consume at
-				// "primaryExpr -> ident objectTypeDeclaration"
-				// please resolve SyntaxTest#valid case "/jsx/valid/003.jsx".
-				"run/036.variant.jsx", "051.call-variant.jsx",
-				"run/055.downcast.jsx", "run/057.downcast-interface.jsx",
-				"run/107.try-catch-finally.jsx",
-				"run/109.nested-caught-variables.jsx",
-				"run/189.as_noconvert-to-nullable.jsx",
-				"run/190.as_noconvert-exception.jsx", "run/204.array-map.jsx",
-				"lib/002.timer.jsx",
-
-		});
+		List<String> ignoreFiles = Arrays.asList(new String[] {});
 
 		for (String dirPath : jsxExistsDirPaths) {
 			File dir = new File(gitRoot, dirPath);
