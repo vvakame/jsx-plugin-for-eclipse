@@ -13,5 +13,48 @@
             id="net.vvakame.ide.jsx.editors.JsxEditor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="net.vvakame.ide.jsx.editors.commands.category.Source"
+            name="SourceCategory">
+      </category>
+      <command
+            categoryId="net.vvakame.ide.jsx.editors.commands.category.Source"
+            id="net.vvakame.ide.jsx.editors.command.Format"
+            name="FormatCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="net.vvakame.ide.jsx.editors.JsxFormatHandler"
+            commandId="net.vvakame.ide.jsx.editors.command.Format">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="net.vvakame.ide.jsx.editors.command.Format"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+F">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:#TextEditorContext?after=additions">
+         <menu
+               label="Source">
+            <command
+                  commandId="net.vvakame.ide.jsx.editors.command.Format"
+                  label="Format"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
 
 </plugin>
