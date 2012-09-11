@@ -89,6 +89,15 @@ public class SyntaxTest {
 		}
 	}
 
+	@Test
+	public void test() throws IOException {
+		File gitRoot = getGitRootDirectory();
+		File file = new File(gitRoot, "JSX/t/run/016.switch.jsx");
+
+		InputStream stream = getStream(file);
+		assertParseSuccess(file.getName(), stream);
+	}
+
 	static InputStream getStream(String fileName) {
 		InputStream stream = SyntaxTest.class.getResourceAsStream(fileName);
 		return stream;
@@ -106,6 +115,20 @@ public class SyntaxTest {
 		JsxParser parser = new JsxParser();
 		boolean result = parser.parse(src);
 		assertThat(fileName + " is valid", result, is(true));
+
+		{
+			SyntaxTreeMouseImpl syntaxTree = parser.semantics()
+					.getSyntaxTreeWithCompress();
+			String reconstructSource = Debug.replayText(syntaxTree);
+
+			System.out.println("----- generated");
+			System.out.println(reconstructSource);
+			System.out.println("----- original");
+			System.out.println(src.src);
+			System.out.println("-----");
+
+			assertReconstructSource(fileName, src.src, reconstructSource);
+		}
 	}
 
 	static void assertParseFailure(String fileName, InputStream stream)
@@ -115,6 +138,19 @@ public class SyntaxTest {
 		JsxParser parser = new JsxParser();
 		boolean result = parser.parse(src);
 		assertThat(fileName + " is invalid", result, is(false));
+	}
+
+	static void assertReconstructSource(String fileName, String originalSource,
+			String reconstructSource) {
+		String[] originalLines = originalSource.split("(\r\n|\r|\n)");
+		String[] reconstructLines = reconstructSource.split("(\r\n|\r|\n)");
+
+		for (int i = 0; i < originalLines.length; i++) {
+			assertThat(fileName + " L" + (i + 1), reconstructLines[i],
+					is(originalLines[i]));
+		}
+		assertThat(fileName + " source re-construct", reconstructSource,
+				equalTo(originalSource));
 	}
 
 	static File getGitRootDirectory() {

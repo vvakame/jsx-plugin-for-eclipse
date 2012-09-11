@@ -10,6 +10,7 @@ import mouse.runtime.SourceString;
 public class SourceStream implements Source {
 
 	SourceString sourceString;
+	public final String src;
 
 	public SourceStream(InputStream stream) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -20,7 +21,8 @@ public class SourceStream implements Source {
 			baos.write(date, 0, len);
 		}
 
-		sourceString = new SourceString(baos.toString());
+		src = baos.toString();
+		sourceString = new SourceString(src);
 	}
 
 	@Override

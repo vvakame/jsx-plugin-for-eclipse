@@ -21,6 +21,18 @@ public class SyntaxTreeMouseImpl implements SyntaxTree {
 	SyntaxTreeMouseImpl() {
 	}
 
+	void init(JsxSemantics sem) {
+		ParserBase.Phrase phrase = (mouse.runtime.ParserBase.Phrase) sem.lhs();
+		PhraseExtend extend = PhraseExtend.get((ParserBase.Phrase) phrase);
+		this.index = extend.getStart();
+		this.type = phrase.rule();
+		if ("space".equals(this.type)) {
+			this.name = sem.lhs().text();
+		} else {
+			this.name = sem.lhs().text().trim();
+		}
+	}
+
 	void init(Phrase phrase) {
 		if (phrase instanceof ParserBase.Phrase) {
 			PhraseExtend extend = PhraseExtend.get((ParserBase.Phrase) phrase);

@@ -15,6 +15,10 @@ public class PhraseExtend {
 		return phrase.start;
 	}
 
+	public int getEnd() {
+		return phrase.end;
+	}
+
 	/**
 	 * @param o
 	 * @see mouse.runtime.ParserBase.Phrase#put(java.lang.Object)

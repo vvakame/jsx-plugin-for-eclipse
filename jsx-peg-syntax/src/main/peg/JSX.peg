@@ -1,232 +1,232 @@
 programFile
-	=	spacing importStatement* classDefinition* !_ {}
+	=	spacing importStatement* classDefinition* !_ {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L926
 importStatement
-	=	IMPORT (ident (COMMA ident)* FROM)? string (INTO ident)? SEMI {}
+	=	IMPORT (ident (COMMA ident)* FROM)? string (INTO ident)? SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L986
 classDefinition
-	=	oClassModifiers* (oClassDef / oInterfaceDef / oMixinDef) spacing
+	=	oClassModifiers (oClassDef / oInterfaceDef / oMixinDef) {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1016
 oClassModifiers
-	=	ABSTRACT / FINAL / NATIVE / BLTCONFAKE
+	=	(ABSTRACT / FINAL / NATIVE / BLTCONFAKE)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oClassDef
-	=	CLASS ident formalTypeArguments (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
+	=	CLASS ident formalTypeArguments (EXTENDS objectTypeDeclaration)? (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oInterfaceDef
-	=	INTERFACE ident formalTypeArguments (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING
+	=	INTERFACE ident formalTypeArguments (IMPLEMENTS objectTypeDeclaration (COMMA objectTypeDeclaration)*)? LWING memberDefinition* RWING {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1038
 oMixinDef	
-	=	MIXIN ident formalTypeArguments LWING memberDefinition* RWING
+	=	MIXIN ident formalTypeArguments LWING memberDefinition* RWING {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1090
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1159
 memberDefinition
-	= 	oMemberDefinitionModifiers* CONST ident (COLON typeDeclaration)? (ASSIGN assignExpr)? SEMI
-	/	oMemberDefinitionModifiers* FUNCTION functionDefinition
-	/	oMemberDefinitionModifiers* VAR ident (COLON typeDeclaration)? (ASSIGN assignExpr)? SEMI
+	= 	oMemberDefinitionModifiers CONST ident (COLON typeDeclaration)? (ASSIGN assignExpr)? SEMI {construct}
+	/	oMemberDefinitionModifiers FUNCTION functionDefinition {construct}
+	/	oMemberDefinitionModifiers VAR ident (COLON typeDeclaration)? (ASSIGN assignExpr)? SEMI {construct}
 	;
 
 oMemberDefinitionModifiers
-	=	STATIC / ABSTRACT / OVERRIDE / FINAL / NATIVE / BLTCONREADONLY / INLINE / BLTCONPURE
+	=	(STATIC / ABSTRACT / OVERRIDE / FINAL / NATIVE / BLTCONREADONLY / INLINE / BLTCONPURE)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1264
 functionDefinition
-	=	CONSTRUCTOR formalTypeArguments LPAR functionArgumentsExpr LWING initializeBlock
-	/	ident formalTypeArguments LPAR functionArgumentsExpr COLON typeDeclaration (SEMI / LWING block)
+	=	CONSTRUCTOR formalTypeArguments LPAR functionArgumentsExpr LWING initializeBlock {construct}
+	/	ident formalTypeArguments LPAR functionArgumentsExpr COLON typeDeclaration (SEMI / LWING block) {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1355
 formalTypeArguments
-	=	(DOT LT ident (COMMA ident)* GT)?
+	=	(DOT LT ident (COMMA ident)* GT)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1375
 actualTypeArguments
-	=	(DOT LT typeDeclaration (COMMA typeDeclaration)* GT)?
+	=	(DOT LT typeDeclaration (COMMA typeDeclaration)* GT)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1398
 typeDeclaration
-	=	VOID
-	/	typeDeclarationNoArrayNoVoid (LBRA RBRA)?
+	=	VOID {construct}
+	/	typeDeclarationNoArrayNoVoid (LBRA RBRA)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1422
 typeDeclarationNoArrayNoVoid
-	=	MAYBEUNDEFINED
-	/	NULLABLE nullableTypeDeclaration
-	/	VARIANT
-	/	primaryTypeDeclaration
+	=	MAYBEUNDEFINED {construct}
+	/	NULLABLE nullableTypeDeclaration {construct}
+	/	VARIANT {construct}
+	/	primaryTypeDeclaration {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1440
 nullableTypeDeclaration
-	=	DOT LT typeDeclaration GT
+	=	DOT LT typeDeclaration GT {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1466
 primaryTypeDeclaration
-	=	LPAR lightFunctionTypeDeclaration
-	/	FUNCTION functionTypeDeclaration
-	/	BOOLEAN
-	/	INT
-	/	NUMBER
-	/	STRING
-	/	objectTypeDeclaration
+	=	LPAR lightFunctionTypeDeclaration {construct}
+	/	FUNCTION functionTypeDeclaration {construct}
+	/	BOOLEAN {construct}
+	/	INT {construct}
+	/	NUMBER {construct}
+	/	STRING {construct}
+	/	objectTypeDeclaration {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1490
 objectTypeDeclaration
-	=	((SUPER / ident) actualTypeArguments)? (DOT ident)? actualTypeArguments
+	=	((SUPER / ident) actualTypeArguments)? (DOT ident)? actualTypeArguments {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1519
 lightFunctionTypeDeclaration
-	=	ARGS? typeDeclaration (COMMA ARGS? typeDeclaration)* RPAR ARROW typeDeclaration
+	=	ARGS? typeDeclaration (COMMA ARGS? typeDeclaration)* RPAR ARROW typeDeclaration {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1552
 functionTypeDeclaration
-	=	ident? LPAR RPAR COLON typeDeclaration
-	/	ident? LPAR ARGS ident? COLON typeDeclaration RPAR COLON typeDeclaration
-	/	ident? LPAR ident? COLON typeDeclaration (COMMA ident? COLON typeDeclaration)* COMMA ARGS ident? COLON typeDeclaration RPAR COLON typeDeclaration
-	/	ident? LPAR ident? COLON typeDeclaration (COMMA ident? COLON typeDeclaration)* RPAR COLON typeDeclaration
+	=	ident? LPAR RPAR COLON typeDeclaration {construct}
+	/	ident? LPAR ARGS ident? COLON typeDeclaration RPAR COLON typeDeclaration {construct}
+	/	ident? LPAR ident? COLON typeDeclaration (COMMA ident? COLON typeDeclaration)* COMMA ARGS ident? COLON typeDeclaration RPAR COLON typeDeclaration {construct}
+	/	ident? LPAR ident? COLON typeDeclaration (COMMA ident? COLON typeDeclaration)* RPAR COLON typeDeclaration {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1598
 initializeBlock
-	=	constructorInvocationStatement* block
+	=	constructorInvocationStatement* block {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1610
 block
-	=	statement* RWING
+	=	statement* RWING {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1621
 statement
-	=	SEMI
-	/	VAR variableStatement
-	/	IF ifStatement
-	/	CONTINUE continueStatement
-	/	BREAK breakStatement
-	/	RETURN returnStatement
-	/	THROW throwStatement
-	/	TRY tryStatement
-	/	ASSERT assertStatement
-	/	LOG logStatement
-	/	DELETE deleteStatement
-	/	DEBUGGER // debuggerStatement
-	/	FUNCTION functionStatement
-	/	VOID
-	/	LWING block
-	/	(ident COLON)? DO doWhileStatement
-	/	(ident COLON)? WHILE whileStatement
-	/	(ident COLON)? FOR forStatement
-	/	(ident COLON)? SWITCH switchStatement
-	/	expr SEMI
+	=	SEMI {construct}
+	/	VAR variableStatement {construct}
+	/	IF ifStatement {construct}
+	/	CONTINUE continueStatement {construct}
+	/	BREAK breakStatement {construct}
+	/	RETURN returnStatement {construct}
+	/	THROW throwStatement {construct}
+	/	TRY tryStatement {construct}
+	/	ASSERT assertStatement {construct}
+	/	LOG logStatement {construct}
+	/	DELETE deleteStatement {construct}
+	/	DEBUGGER {construct} // debuggerStatement
+	/	FUNCTION functionStatement {construct}
+	/	VOID {construct}
+	/	LWING block {construct}
+	/	(ident COLON)? DO doWhileStatement {construct}
+	/	(ident COLON)? WHILE whileStatement {construct}
+	/	(ident COLON)? FOR forStatement {construct}
+	/	(ident COLON)? SWITCH switchStatement {construct}
+	/	expr SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1696
 constructorInvocationStatement
-	=	(SUPER / THIS / objectTypeDeclaration) LPAR argsExpr SEMI
+	=	(SUPER / THIS / objectTypeDeclaration) LPAR argsExpr SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1736
 variableStatement
-	=	variableDeclarations SEMI
+	=	variableDeclarations SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1748
 functionStatement
-	=	ident functionExpr
+	=	ident functionExpr {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1764
 ifStatement
-	=	LPAR expr RPAR subStatements (ELSE subStatements)?
+	=	LPAR expr RPAR subStatements (ELSE subStatements)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1781
 doWhileStatement
-	=	subStatements WHILE LPAR expr RPAR
+	=	subStatements WHILE LPAR expr RPAR {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1796
 whileStatement
-	=	LPAR expr RPAR subStatements
+	=	LPAR expr RPAR subStatements {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1809
 forStatement
-	=	forInStatement
-	/	LPAR (VAR variableDeclarations / expr)? SEMI expr? SEMI expr? RPAR subStatements
+	=	forInStatement {construct}
+	/	LPAR (VAR variableDeclarations / expr)? SEMI expr? SEMI expr? RPAR subStatements {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1866
 forInStatement
-	=	LPAR (VAR variableDeclaration / lhsExpr) IN expr RPAR subStatements
+	=	LPAR (VAR variableDeclaration / lhsExpr) IN expr RPAR subStatements {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1889
 continueStatement
-	=	ident? SEMI
+	=	ident? SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1897
 breakStatement
-	=	ident? SEMI
+	=	ident? SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1905
 returnStatement
-	=	SEMI
-	/	expr SEMI
+	=	SEMI {construct}
+	/	expr SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1919
 switchStatement
-	=	LPAR expr RPAR LWING ((CASE expr COLON / DEFAULT COLON) statement*)* RWING
+	=	LPAR expr RPAR LWING ((CASE expr COLON / DEFAULT COLON) statement*)* RWING {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1981
 throwStatement
-	=	expr
+	=	expr {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L1989
 tryStatement
-	=	LWING block (CATCH LPAR ident COLON typeDeclaration RPAR LWING block)* (FINALLY LWING block )?
+	=	LWING block (CATCH LPAR ident COLON typeDeclaration RPAR LWING block)* (FINALLY LWING block )? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2037
 assertStatement
-	=	expr SEMI
+	=	expr SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2047
 logStatement
-	=	assignExpr (COMMA assignExpr)* SEMI
+	=	assignExpr (COMMA assignExpr)* SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2065
 deleteStatement
-	=	expr SEMI
+	=	expr SEMI {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2075
@@ -236,701 +236,699 @@ deleteStatement
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2080
 subStatements
-	=	statement
+	=	statement {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2087
 variableDeclarations
-	=	variableDeclaration (COMMA variableDeclaration)*
+	=	variableDeclaration (COMMA variableDeclaration)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2103
 variableDeclaration
-	=	ident (COLON typeDeclaration)? (ASSIGN assignExpr)? {}
+	=	ident (COLON typeDeclaration)? (ASSIGN assignExpr)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2125
 expr
-	=	assignExpr (COMMA assignExpr)*
+	=	assignExpr (COMMA assignExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2139
 assignExpr
-	=	lhsExpr oAssignExprOpe assignExpr
-	/	condExpr
+	=	lhsExpr oAssignExprOpe assignExpr {construct}
+	/	condExpr {construct}
 	;
 
 oAssignExprOpe
-	=	ASSIGN
-	/	MULEQ
-	/	DIVEQ
-	/	SUREQ
-	/	ADDEQ
-	/	SUBEQ
-	/	UNSIGNEDRSHIFTEQ
-	/	LSHIFTEQ
-	/	RSHIFTEQ
-	/	BITANDEQ
-	/	XOREQ
-	/	BITOREQ
+	=	ASSIGN {construct}
+	/	MULEQ {construct}
+	/	DIVEQ {construct}
+	/	SUREQ {construct}
+	/	ADDEQ {construct}
+	/	SUBEQ {construct}
+	/	UNSIGNEDRSHIFTEQ {construct}
+	/	LSHIFTEQ {construct}
+	/	RSHIFTEQ {construct}
+	/	BITANDEQ {construct}
+	/	XOREQ {construct}
+	/	BITOREQ {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2158
 condExpr
-	=	lorExpr (COND assignExpr? COLON assignExpr)?
+	=	lorExpr (COND assignExpr? COLON assignExpr)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2196
 lorExpr
-	=	landExpr (OR landExpr)*
+	=	landExpr (OR landExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2202
 landExpr
-	=	borExpr (AND borExpr)*
+	=	borExpr (AND borExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2208
 borExpr
-	=	bxorExpr (!OR BITOR bxorExpr)*
+	=	bxorExpr (!OR BITOR bxorExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2214
 bxorExpr
-	=	bandExpr (XOR bandExpr)*
+	=	bandExpr (XOR bandExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2220
 bandExpr
-	=	eqExpr (!AND BITAND eqExpr)*
+	=	eqExpr (!AND BITAND eqExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2226
 eqExpr
-	=	relExpr ((EQ / NOTEQ) relExpr)*
+	=	relExpr ((EQ / NOTEQ) relExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2232
 // FIXME in?
 relExpr
-	=	shiftExpr ((LTEQ / GTEQ / LT / GT / IN) shiftExpr)*
+	=	shiftExpr ((LTEQ / GTEQ / LT / GT / IN) shiftExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2244
 shiftExpr
-	=	addExpr ((UNSIGNEDRSHIFT / LSHIFT / RSHIFT) addExpr)*
+	=	addExpr ((UNSIGNEDRSHIFT / LSHIFT / RSHIFT) addExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2251
 addExpr
-	=	mulExpr (!INC !DEC (ADD / SUB) mulExpr)*
+	=	mulExpr (!INC !DEC (ADD / SUB) mulExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2260
 mulExpr
-	=	unaryExpr ((MUL / DIV / SUR) unaryExpr)*
+	=	unaryExpr ((MUL / DIV / SUR) unaryExpr)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2266
 unaryExpr
-	=	(INC / DEC / ADD / SUB / BITNOT / NOT / TYPEOF) unaryExpr
-	/	asExpr
+	=	(INC / DEC / ADD / SUB / BITNOT / NOT / TYPEOF) unaryExpr {construct}
+	/	asExpr {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2290
 asExpr
-	=	postfixExpr (AS BLTCONNOCONVERT? typeDeclaration)*
+	=	postfixExpr (AS BLTCONNOCONVERT? typeDeclaration)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2305
 postfixExpr
-	=	lhsExpr (INC / DEC / INSTANCEOF typeDeclaration)?
+	=	lhsExpr (INC / DEC / INSTANCEOF typeDeclaration)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2321
 lhsExpr
-	=	SUPER superExpr
-	/	LPAR lambdaExpr oLhsExprSub*
-	/	FUNCTION functionExpr oLhsExprSub*
-	/	NEW newExpr oLhsExprSub*
-	/	primaryExpr oLhsExprSub*
+	=	SUPER superExpr {construct}
+	/	LPAR lambdaExpr oLhsExprSub {construct}
+	/	FUNCTION functionExpr oLhsExprSub {construct}
+	/	NEW newExpr oLhsExprSub {construct}
+	/	primaryExpr oLhsExprSub {construct}
 	;
 
 oLhsExprSub
-	=	LPAR argsExpr
-	/	LBRA expr RBRA
-	/	DOT ident actualTypeArguments
+	=	(LPAR argsExpr / LBRA expr RBRA / DOT ident actualTypeArguments)* {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2381
 newExpr
-	=	typeDeclarationNoArrayNoVoid (LBRA assignExpr? RBRA)* (LPAR argsExpr)?
+	=	typeDeclarationNoArrayNoVoid (LBRA assignExpr? RBRA)* (LPAR argsExpr)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2415
 superExpr
-	=	DOT ident LPAR argsExpr
+	=	DOT ident LPAR argsExpr {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2431
 lambdaExpr
-	=	functionArgumentsExpr (COLON typeDeclaration)? ARROW lambdaBody
+	=	functionArgumentsExpr (COLON typeDeclaration)? ARROW lambdaBody {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2449
 lambdaBody
-	=	LWING block
-	/	expr
+	=	LWING block {construct}
+	/	expr {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2471
 functionExpr
-	=	LPAR functionArgumentsExpr COLON? typeDeclaration LWING block
+	=	LPAR functionArgumentsExpr COLON? typeDeclaration LWING block {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2554
 primaryExpr
-	=	THIS
-	/	UNDEFINED
-	/	NULL nullLiteral
-	/	FALSE
-	/	TRUE
-	/	LBRA arrayLiteral
-	/	LWING hashLiteral
-	/	LPAR expr RPAR
-	/	numberLiteral
-	/	&ident objectTypeDeclaration
-	/	string
-	/	regexpLiteral
+	=	THIS {construct}
+	/	UNDEFINED {construct}
+	/	NULL nullLiteral {construct}
+	/	FALSE {construct}
+	/	TRUE {construct}
+	/	LBRA arrayLiteral {construct}
+	/	LWING hashLiteral {construct}
+	/	LPAR expr RPAR {construct}
+	/	numberLiteral {construct}
+	/	&ident objectTypeDeclaration {construct}
+	/	string {construct}
+	/	regexpLiteral {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2600
 nullLiteral
-	=	(COLON typeDeclaration)?
+	=	(COLON typeDeclaration)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2613
 arrayLiteral
-	=	(assignExpr (COMMA assignExpr)*)? RBRA (COLON typeDeclaration)?
+	=	(assignExpr (COMMA assignExpr)*)? RBRA (COLON typeDeclaration)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2633
 hashLiteral
-	=	((ident / numberLiteral / string) COLON assignExpr (COMMA (ident / numberLiteral / string) COLON assignExpr)*)? RWING (COLON typeDeclaration)?
+	=	((ident / numberLiteral / string) COLON assignExpr (COMMA (ident / numberLiteral / string) COLON assignExpr)*)? RWING (COLON typeDeclaration)? {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2666
 functionArgumentsExpr
-	=	RPAR
-	/	(ARGS ident / ident)? (COLON typeDeclaration)? (COMMA (ARGS ident / ident)? (COLON typeDeclaration)?)* RPAR
+	=	RPAR {construct}
+	/	(ARGS ident / ident)? (COLON typeDeclaration)? (COMMA (ARGS ident / ident)? (COLON typeDeclaration)?)* RPAR {construct}
 	;
 
 // https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L2711
 argsExpr
-	=	RPAR
-	/	assignExpr (COMMA assignExpr)* RPAR
+	=	RPAR {construct}
+	/	assignExpr (COMMA assignExpr)* RPAR {construct}
 	;
 
 
 // Literals
 ident
-	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing
+	=	([a-z] / [A-Z] / "_") ([a-z] / [A-Z] / "_" / [0-9])* spacing {construct}
 	;
 
 string
-	=	doubleQuoted spacing
-	/	singleQuoted spacing
+	=	doubleQuoted spacing {construct}
+	/	singleQuoted spacing {construct}
 	;
 
 doubleQuoted
-	=	"\"" ^["\\]* ("\\" _ (!"\"" !"\\" _)*)* "\""
+	=	"\"" ^["\\]* ("\\" _ (!"\"" !"\\" _)*)* "\"" {construct}
 	;
 
 singleQuoted
-	=	"'" (!"'" !"\\" _)* ("\\" _ (!"'" !"\\" _)*)* "'"
+	=	"'" (!"'" !"\\" _)* ("\\" _ (!"'" !"\\" _)*)* "'" {construct}
 	;
 
 regexpLiteral
-	=	"/" (!"/" !"\\" _)* ("\\" _ (!"/" !"\\" _)*)* "/" ("m" / "g" / "i")* spacing
+	=	"/" (!"/" !"\\" _)* ("\\" _ (!"/" !"\\" _)*)* "/" ("m" / "g" / "i")* spacing {construct}
 	;
 
 
 numberLiteral
-	=	!("0" [xX]) numberLiteral2 spacing
-	/	integerLiteral spacing
+	=	!("0" [xX]) numberLiteral2 spacing {construct}
+	/	integerLiteral spacing {construct}
 	;
 
 decimalIntegerLiteral
-	=	"0"
-	/	[1-9] [0-9]*
+	=	"0" {construct}
+	/	[1-9] [0-9]* {construct}
 	;
 
 exponentPart
-	=	[eE] [+-]? [0-9]+
+	=	[eE] [+-]? [0-9]+ {construct}
 	;
 
 // TODO rename
 numberLiteral2
-	=	decimalIntegerLiteral ("." [0-9]*)? exponentPart?
-	/	"." [0-9]+ exponentPart?
-	/	"NaN"
-	/	"Infinity"
+	=	decimalIntegerLiteral ("." [0-9]*)? exponentPart? {construct}
+	/	"." [0-9]+ exponentPart? {construct}
+	/	"NaN" {construct}
+	/	"Infinity" {construct}
 	;
 
 integerLiteral
-	=	"0" [xX] ([0-9] / [a-f] / [A-F])+
-	/	decimalIntegerLiteral
+	=	"0" [xX] ([0-9] / [a-f] / [A-F])+ {construct}
+	/	decimalIntegerLiteral {construct}
 	;
 
 
 // hidden
 spacing
-	=	(space / multilineComment / singlelineComment)*
+	=	(space / multilineComment / singlelineComment)* {construct}
 	;
 
 multilineComment
-	=	"/*" ( !"*/" _ )* "*/"
+	=	"/*" ( !"*/" _ )* "*/" {construct}
 	;
 
 singlelineComment
-	=	"//" ( !"\n" !"\r" _)* ("\r" / "\r\n" / "\n")
+	=	"//" ( !"\n" !"\r" _)* ("\r" / "\r\n" / "\n") {construct}
 	;
 
 space
-	=	[ \t\r\n]
+	=	[ \t\r\n] {construct}
 	;
 
 
 
 // Tokens
 NOT
-	=	"!" spacing
+	=	"!" spacing {construct}
 	;
 
 NOTEQ // not eq
-	=	"!=" spacing
+	=	"!=" spacing {construct}
 	;
 
 SUR
-	=	"%" spacing
+	=	"%" spacing {construct}
 	;
 
 SUREQ // sur eq
-	=	"%=" spacing
+	=	"%=" spacing {construct}
 	;
 
 AND
-	=	"&&" spacing
+	=	"&&" spacing {construct}
 	;
 
 BITNOT // bit not
-	=	"~" spacing
+	=	"~" spacing {construct}
 	;
 
 BITAND // bit and
-	=	"&" spacing
+	=	"&" spacing {construct}
 	;
 
 BITANDEQ // bit and eq
-	=	"&=" spacing
+	=	"&=" spacing {construct}
 	;
 
 LPAR // L par
-	=	"(" spacing
+	=	"(" spacing {construct}
 	;
 
 RPAR // R par
-	=	")" spacing
+	=	")" spacing {construct}
 	;
 
 MUL
-	=	"*" spacing
+	=	"*" spacing {construct}
 	;
 
 MULEQ // mul eq
-	=	"*=" spacing
+	=	"*=" spacing {construct}
 	;
 
 ADD
-	=	"+" spacing
+	=	"+" spacing {construct}
 	;
 
 INC
-	=	"++" spacing
+	=	"++" spacing {construct}
 	;
 
 ADDEQ // add eq
-	=	"+=" spacing
+	=	"+=" spacing {construct}
 	;
 
 COMMA
-	=	"," spacing
+	=	"," spacing {construct}
 	;
 
 SUB
-	=	"-" spacing
+	=	"-" spacing {construct}
 	;
 
 DEC
-	=	"--" spacing
+	=	"--" spacing {construct}
 	;
 
 SUBEQ // subeq
-	=	"-=" spacing
+	=	"-=" spacing {construct}
 	;
 
 ARROW
-	=	"->" spacing
+	=	"->" spacing {construct}
 	;
 
 DOT
-	=	"." spacing
+	=	"." spacing {construct}
 	;
 
 ARGS
-	=	"..." spacing
+	=	"..." spacing {construct}
 	;
 
 DIV
-	=	"/" spacing
+	=	"/" spacing {construct}
 	;
 
 DIVEQ // div eq
-	=	"/=" spacing
+	=	"/=" spacing {construct}
 	;
 
 COLON
-	=	":" spacing
+	=	":" spacing {construct}
 	;
 
 SEMI
-	=	";" spacing
+	=	";" spacing {construct}
 	;
 
 LT
-	=	"<" spacing
+	=	"<" spacing {construct}
 	;
 
 LSHIFT // L shift
-	=	"<<" spacing
+	=	"<<" spacing {construct}
 	;
 
 LSHIFTEQ // L shift eq
-	=	"<<=" spacing
+	=	"<<=" spacing {construct}
 	;
 
 UNSIGNEDRSHIFT // unsigned R shift
-	=	">>>" spacing
+	=	">>>" spacing {construct}
 	;
 
 UNSIGNEDRSHIFTEQ // unsigned R shift eq
-	=	">>>=" spacing
+	=	">>>=" spacing {construct}
 	;
 
 RSHIFT // R shift
-	=	">>" spacing
+	=	">>" spacing {construct}
 	;
 
 RSHIFTEQ // R shift eq
-	=	">>=" spacing
+	=	">>=" spacing {construct}
 	;
 
 LTEQ // lt eq
-	=	"<=" spacing
+	=	"<=" spacing {construct}
 	;
 
 ASSIGN
-	=	"=" spacing
+	=	"=" spacing {construct}
 	;
 
 EQ
-	=	"==" spacing
+	=	"==" spacing {construct}
 	;
 
 GT
-	=	">" spacing
+	=	">" spacing {construct}
 	;
 
 GTEQ // gt eq
-	=	">=" spacing
+	=	">=" spacing {construct}
 	;
 
 COND
-	=	"?" spacing
+	=	"?" spacing {construct}
 	;
 
 LBRA // L bra
-	=	"[" spacing
+	=	"[" spacing {construct}
 	;
 
 RBRA // r bra
-	=	"]" spacing
+	=	"]" spacing {construct}
 	;
 
 XOR
-	=	"^" spacing
+	=	"^" spacing {construct}
 	;
 
 XOREQ // xor eq
-	=	"^=" spacing
+	=	"^=" spacing {construct}
 	;
 
 LWING // L wing
-	=	"{" spacing
+	=	"{" spacing {construct}
 	;
 
 BITOR // bit or
-	=	"|" spacing
+	=	"|" spacing {construct}
 	;
 
 BITOREQ // bit or eq
-	=	"|=" spacing
+	=	"|=" spacing {construct}
 	;
 
 OR
-	=	"||" spacing
+	=	"||" spacing {construct}
 	;
 
 RWING // R wing
-	=	"}" spacing
+	=	"}" spacing {construct}
 	;
 
 MAYBEUNDEFINED // may be undefined
-	=	"MayBeUndefined" spacing
+	=	"MayBeUndefined" spacing {construct}
 	;
 
 NULLABLE
-	=	"Nullable" spacing
+	=	"Nullable" spacing {construct}
 	;
 
 ABSTRACT
-	=	"abstract" spacing
+	=	"abstract" spacing {construct}
 	;
 
 AS
-	=	"as" spacing
+	=	"as" spacing {construct}
 	;
 
 ASSERT
-	=	"assert" spacing
+	=	"assert" spacing {construct}
 	;
 
 BOOLEAN
-	=	"boolean" spacing
+	=	"boolean" spacing {construct}
 	;
 
 BREAK
-	=	"break" spacing
+	=	"break" spacing {construct}
 	;
 
 CASE
-	=	"case" spacing
+	=	"case" spacing {construct}
 	;
 
 CATCH
-	=	"catch" spacing
+	=	"catch" spacing {construct}
 	;
 
 CLASS
-	=	"class" spacing
+	=	"class" spacing {construct}
 	;
 
 CONST
-	=	"const" spacing
+	=	"const" spacing {construct}
 	;
 
 CONSTRUCTOR
-	=	"constructor" spacing
+	=	"constructor" spacing {construct}
 	;
 
 CONTINUE
-	=	"continue" spacing
+	=	"continue" spacing {construct}
 	;
 
 DEBUGGER
-	=	"debugger" spacing
+	=	"debugger" spacing {construct}
 	;
 
 DEFAULT
-	=	"default" spacing
+	=	"default" spacing {construct}
 	;
 
 DELETE
-	=	"delete" spacing
+	=	"delete" spacing {construct}
 	;
 
 DO
-	=	"do" spacing
+	=	"do" spacing {construct}
 	;
 
 ELSE
-	=	"else" spacing
+	=	"else" spacing {construct}
 	;
 
 EXTENDS
-	=	"extends" spacing
+	=	"extends" spacing {construct}
 	;
 
 FALSE
-	=	"false" spacing
+	=	"false" spacing {construct}
 	;
 
 FINAL
-	=	"final" spacing
+	=	"final" spacing {construct}
 	;
 
 FINALLY
-	=	"finally" spacing
+	=	"finally" spacing {construct}
 	;
 
 FOR
-	=	"for" spacing
+	=	"for" spacing {construct}
 	;
 
 FROM
-	=	"from" spacing
+	=	"from" spacing {construct}
 	;
 
 FUNCTION
-	=	"function" spacing
+	=	"function" spacing {construct}
 	;
 
 IF
-	=	"if" spacing
+	=	"if" spacing {construct}
 	;
 
 IMPLEMENTS
-	=	"implements" spacing
+	=	"implements" spacing {construct}
 	;
 
 IMPORT
-	=	"import" spacing
+	=	"import" spacing {construct}
 	;
 
 IN
-	=	"in" spacing
+	=	"in" spacing {construct}
 	;
 
 INLINE
-	=	"inline" spacing
+	=	"inline" spacing {construct}
 	;
 
 INSTANCEOF
-	=	"instanceof" spacing
+	=	"instanceof" spacing {construct}
 	;
 
 INT
-	=	"int" spacing
+	=	"int" spacing {construct}
 	;
 
 INTERFACE
-	=	"interface" spacing
+	=	"interface" spacing {construct}
 	;
 
 INTO
-	=	"into" spacing
+	=	"into" spacing {construct}
 	;
 
 LOG
-	=	"log" spacing
+	=	"log" spacing {construct}
 	;
 
 MIXIN
-	=	"mixin" spacing
+	=	"mixin" spacing {construct}
 	;
 
 NATIVE
-	=	"native" spacing
+	=	"native" spacing {construct}
 	;
 
 NEW
-	=	"new" spacing
+	=	"new" spacing {construct}
 	;
 
 NULL
-	=	"null" spacing
+	=	"null" spacing {construct}
 	;
 
 NUMBER
-	=	"number" spacing
+	=	"number" spacing {construct}
 	;
 
 OVERRIDE
-	=	"override" spacing
+	=	"override" spacing {construct}
 	;
 
 RETURN
-	=	"return" spacing
+	=	"return" spacing {construct}
 	;
 
 STATIC
-	=	"static" spacing
+	=	"static" spacing {construct}
 	;
 
 STRING
-	=	"string" spacing
+	=	"string" spacing {construct}
 	;
 
 SUPER
-	=	"super" spacing
+	=	"super" spacing {construct}
 	;
 
 SWITCH
-	=	"switch" spacing
+	=	"switch" spacing {construct}
 	;
 
 THIS
-	=	"this" spacing
+	=	"this" spacing {construct}
 	;
 
 THROW
-	=	"throw" spacing
+	=	"throw" spacing {construct}
 	;
 
 TRUE
-	=	"true" spacing
+	=	"true" spacing {construct}
 	;
 
 TRY
-	=	"try" spacing
+	=	"try" spacing {construct}
 	;
 
 TYPEOF
-	=	"typeof" spacing
+	=	"typeof" spacing {construct}
 	;
 
 UNDEFINED
-	=	"undefined" spacing
+	=	"undefined" spacing {construct}
 	;
 
 VAR
-	=	"var" spacing
+	=	"var" spacing {construct}
 	;
 
 VARIANT
-	=	"variant" spacing
+	=	"variant" spacing {construct}
 	;
 
 VOID
-	=	"void" spacing
+	=	"void" spacing {construct}
 	;
 
 WHILE
-	=	"while" spacing
+	=	"while" spacing {construct}
 	;
 
 BLTCONFAKE // built-in constant __fake__
-	=	"__fake__" spacing
+	=	"__fake__" spacing {construct}
 	;
 
 BLTCONNOCONVERT // built-in constant __noconvert__
-	=	"__noconvert__" spacing
+	=	"__noconvert__" spacing {construct}
 	;
 
 BLTCONPURE // built-in constant __pure__
-	=	"__pure__" spacing
+	=	"__pure__" spacing {construct}
 	;
 
 BLTCONREADONLY // built-in constant __readonly__
-	=	"__readonly__" spacing
+	=	"__readonly__" spacing {construct}
 	;
