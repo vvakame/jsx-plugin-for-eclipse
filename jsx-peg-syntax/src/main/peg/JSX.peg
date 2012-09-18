@@ -454,7 +454,7 @@ regexpLiteral
 
 
 numberLiteral
-	=	!("0" [xX]) numberLiteral2 spacing {construct}
+	=	floatingNumberLiteral spacing {construct}
 	/	integerLiteral spacing {construct}
 	;
 
@@ -468,11 +468,21 @@ exponentPart
 	;
 
 // TODO rename
-numberLiteral2
-	=	decimalIntegerLiteral ("." [0-9]*)? exponentPart? {construct}
-	/	"." [0-9]+ exponentPart? {construct}
+// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L110
+floatingNumberLiteral
+	=	decimalIntegerLiteral oFloatingNumberLiteral1 exponentPart? {construct}
+	/	oFloatingNumberLiteral2 exponentPart? {construct}
+	/	decimalIntegerLiteral exponentPart {construct}
 	/	"NaN" {construct}
 	/	"Infinity" {construct}
+	;
+
+oFloatingNumberLiteral1
+	=	"." [0-9]* {construct}
+	;
+
+oFloatingNumberLiteral2
+	=	"." [0-9]+ {construct}
 	;
 
 integerLiteral
