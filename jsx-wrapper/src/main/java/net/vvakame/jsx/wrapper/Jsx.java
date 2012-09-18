@@ -30,6 +30,9 @@ public class Jsx {
 		String jsxSource = "main.jsx";
 		Mode mode;
 		boolean release;
+		boolean profile;
+		boolean enableTypeCheck;
+		boolean enableSourceMap;
 
 		public Builder setNodeJsPath(String nodeJsPath) {
 			this.nodeJsPath = nodeJsPath;
@@ -66,6 +69,21 @@ public class Jsx {
 			return this;
 		}
 
+		public Builder profile(boolean profile) {
+			this.profile = profile;
+			return this;
+		}
+
+		public Builder enableTypeCheck(boolean enableTypeCheck) {
+			this.enableTypeCheck = enableTypeCheck;
+			return this;
+		}
+
+		public Builder enableSourceMap(boolean enableSourceMap) {
+			this.enableSourceMap = enableSourceMap;
+			return this;
+		}
+
 		public Args build() {
 			Args args = new Args();
 			args.nodeJsPath = nodeJsPath;
@@ -79,6 +97,9 @@ public class Jsx {
 				args.mode = mode.getOptionValue();
 			}
 			args.release = release;
+			args.profile = profile;
+			args.enableTypeCheck = enableTypeCheck;
+			args.enableSourceMap = enableSourceMap;
 			return args;
 		}
 	}
@@ -107,6 +128,9 @@ public class Jsx {
 		String jsxSource;
 		String mode;
 		boolean release;
+		boolean profile;
+		boolean enableTypeCheck;
+		boolean enableSourceMap;
 	}
 
 	public Process exec(Args args) throws IOException, InterruptedException {
@@ -138,6 +162,18 @@ public class Jsx {
 
 		if (args.release) {
 			argList.add("--release");
+		}
+
+		if (args.profile) {
+			argList.add("--profile");
+		}
+
+		if (args.enableTypeCheck) {
+			argList.add("--enable-type-check");
+		}
+
+		if (args.enableSourceMap) {
+			argList.add("--enable-source-map");
 		}
 
 		argList.add(args.jsxSource);

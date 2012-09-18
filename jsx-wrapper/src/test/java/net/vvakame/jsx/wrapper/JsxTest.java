@@ -127,6 +127,55 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	@Test
+	public void profile() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.profile(true);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/JSX/t/lib/001.hello.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		process.waitFor();
+
+		// System.out.println(streamToString(process.getInputStream()));
+
+		assertThat(process.exitValue(), is(0));
+	}
+
+	@Test
+	public void enableTypeCheck() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.enableTypeCheck(true);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/JSX/t/lib/001.hello.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		process.waitFor();
+
+		// System.out.println(streamToString(process.getInputStream()));
+
+		assertThat(process.exitValue(), is(0));
+	}
+
+	// TODO source map required --output option.
+	@Test
+	public void enableSourceMap() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.enableSourceMap(true);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/JSX/t/lib/001.hello.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		process.waitFor();
+
+		// System.out.println(streamToString(process.getInputStream()));
+
+		assertThat(process.exitValue(), is(0));
+	}
+
 	Builder makeDefault() {
 		Builder builder = new Jsx.Builder();
 		builder.setNodeJsPath("/opt/local/bin/node");
