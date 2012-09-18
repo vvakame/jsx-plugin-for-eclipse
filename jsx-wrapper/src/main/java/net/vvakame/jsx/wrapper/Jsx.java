@@ -9,6 +9,8 @@ import java.util.Map;
 import net.vvakame.jsx.wrapper.entity.Ast;
 import net.vvakame.jsx.wrapper.entity.AstGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.JsonPullParser;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 public class Jsx {
 
@@ -37,6 +39,9 @@ public class Jsx {
 		boolean profile;
 		boolean enableTypeCheck;
 		boolean enableSourceMap;
+		boolean complete;
+		int lineIndex;
+		int columnIndex;
 
 		public Builder setNodeJsPath(String nodeJsPath) {
 			this.nodeJsPath = nodeJsPath;
@@ -88,6 +93,13 @@ public class Jsx {
 			return this;
 		}
 
+		public Builder complete(boolean complete, int lineIndex, int columnIndex) {
+			this.complete = complete;
+			this.lineIndex = lineIndex;
+			this.columnIndex = columnIndex;
+			return this;
+		}
+
 		public Args build() {
 			Args args = new Args();
 			args.nodeJsPath = nodeJsPath;
@@ -104,6 +116,10 @@ public class Jsx {
 			args.profile = profile;
 			args.enableTypeCheck = enableTypeCheck;
 			args.enableSourceMap = enableSourceMap;
+			args.complete = complete;
+			args.lineIndex = lineIndex;
+			args.columnIndex = columnIndex;
+
 			return args;
 		}
 	}
@@ -135,6 +151,9 @@ public class Jsx {
 		boolean profile;
 		boolean enableTypeCheck;
 		boolean enableSourceMap;
+		boolean complete;
+		int lineIndex;
+		int columnIndex;
 	}
 
 	public Process exec(Args args) throws IOException, InterruptedException {
@@ -180,6 +199,12 @@ public class Jsx {
 			argList.add("--enable-source-map");
 		}
 
+		if (args.complete) {
+			argList.add("--complete");
+			argList.add(String.valueOf(args.lineIndex) + ":"
+					+ String.valueOf(args.columnIndex));
+		}
+
 		argList.add(args.jsxSource);
 
 		System.out.println(argList.toString());
@@ -201,6 +226,20 @@ public class Jsx {
 		List<Ast> list = AstGen.getList(process.getInputStream());
 
 		return list;
+	}
+
+	public JsonArray complete(Args args, int lineIndex, int columnIndex)
+			throws IOException, JsonFormatException, InterruptedException {
+		args.complete = true;
+		args.lineIndex = lineIndex;
+		args.columnIndex = columnIndex;
+
+		Process process = exec(args);
+
+		JsonArray jsonArray = JsonArray.fromParser(JsonPullParser
+				.newParser(process.getInputStream()));
+
+		return jsonArray;
 	}
 
 	void addPath(ProcessBuilder builder, String path) {

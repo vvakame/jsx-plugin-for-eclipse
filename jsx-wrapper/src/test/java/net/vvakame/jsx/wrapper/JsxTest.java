@@ -1,15 +1,13 @@
 package net.vvakame.jsx.wrapper;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 import net.vvakame.jsx.wrapper.Jsx.Builder;
@@ -17,6 +15,7 @@ import net.vvakame.jsx.wrapper.Jsx.Excecutable;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
 import net.vvakame.jsx.wrapper.entity.Ast;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
+import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 import org.junit.Test;
 
@@ -83,6 +82,21 @@ public class JsxTest {
 				}
 			}
 		}
+	}
+
+	@Test
+	public void complete() throws IOException, InterruptedException,
+			JsonFormatException {
+
+		Builder builder = makeDefault();
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/JSX/t/lib/001.hello.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+
+		JsonArray completeList = jsx.complete(builder.build(), 1, 1);
+
+		assertThat(completeList.size(), is(not(0)));
 	}
 
 	@Test
