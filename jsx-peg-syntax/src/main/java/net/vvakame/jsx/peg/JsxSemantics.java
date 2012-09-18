@@ -145,8 +145,6 @@ public class JsxSemantics extends SemanticsBase {
 		cleanUpFailedBranch(current);
 		cleanUpEmptyBranch(current);
 
-		Debug.dump(current);
-
 		SyntaxTreeMouseImpl parent = new SyntaxTreeMouseImpl();
 		convert(current, parent);
 
@@ -161,7 +159,6 @@ public class JsxSemantics extends SemanticsBase {
 		cleanUpEmptyBranch(current);
 
 		compressBranch(current);
-		Debug.dump(current);
 
 		SyntaxTreeMouseImpl parent = new SyntaxTreeMouseImpl();
 		convert(current, parent);
