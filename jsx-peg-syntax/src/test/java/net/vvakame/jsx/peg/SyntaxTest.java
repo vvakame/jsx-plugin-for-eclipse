@@ -92,7 +92,7 @@ public class SyntaxTest {
 	@Test
 	public void test() throws IOException {
 		File gitRoot = getGitRootDirectory();
-		File file = new File(gitRoot, "JSX/t/run/034.as.jsx");
+		File file = new File(gitRoot, "JSX/t/run/079.logical-op.jsx");
 
 		InputStream stream = getStream(file);
 		assertParseSuccess(file.getName(), stream);

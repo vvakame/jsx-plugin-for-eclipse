@@ -157,12 +157,11 @@ public class JsxSemantics extends SemanticsBase {
 		cleanUpInvalidBranch(current);
 		fixMemoizedBranch(current);
 		sortBranch(current);
-		Debug.dump(current);
 		cleanUpFailedBranch(current);
 		cleanUpEmptyBranch(current);
 
 		compressBranch(current);
-
+		Debug.dump(current);
 
 		SyntaxTreeMouseImpl parent = new SyntaxTreeMouseImpl();
 		convert(current, parent);
@@ -268,6 +267,11 @@ public class JsxSemantics extends SemanticsBase {
 
 				ROOT: for (int i = 0; i < rhsArray.length; i++) {
 					PhraseExtend current = rhsArray[i].lhsExtend;
+
+					if (tree.lhsExtend.getEnd() < current.getEnd()) {
+						removeList.add(rhsArray[i]);
+						continue;
+					}
 
 					for (int j = i + 1; j < rhsArray.length; j++) {
 						PhraseExtend next = rhsArray[j].lhsExtend;
