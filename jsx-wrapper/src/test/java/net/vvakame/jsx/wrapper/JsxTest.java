@@ -1,16 +1,22 @@
 package net.vvakame.jsx.wrapper;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.Jsx.Excecutable;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
+import net.vvakame.jsx.wrapper.entity.Ast;
+import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
 
@@ -33,6 +39,50 @@ public class JsxTest {
 		process.waitFor();
 
 		assertThat(process.exitValue(), is(0));
+	}
+
+	@Test
+	public void parse() throws IOException, InterruptedException,
+			JsonFormatException {
+		{
+			Builder builder = makeDefault();
+			builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+					+ "/JSX/t/lib/001.hello.jsx");
+
+			Jsx jsx = Jsx.getInstance();
+
+			List<Ast> astList = jsx.parse(builder.build());
+
+			assertThat(astList.size(), is(not(0)));
+		}
+
+		{
+			File gitRoot = getGitRootDirectory();
+
+			String[] jsxExistsDirPaths = { "JSX/t/run/", "JSX/t/lib/",
+					"JSX/t/optimize/", "JSX/t/source-map/" };
+
+			for (String dirPath : jsxExistsDirPaths) {
+				File dir = new File(gitRoot, dirPath);
+				File[] jsxFiles = dir.listFiles(new FilenameFilter() {
+					@Override
+					public boolean accept(File file, String name) {
+						return name.endsWith(".jsx");
+					}
+				});
+
+				for (File file : jsxFiles) {
+					Builder builder = makeDefault();
+					builder.jsxSource(file.getAbsolutePath());
+
+					Jsx jsx = Jsx.getInstance();
+
+					List<Ast> astList = jsx.parse(builder.build());
+
+					assertThat(astList.size(), is(not(0)));
+				}
+			}
+		}
 	}
 
 	@Test
@@ -104,9 +154,9 @@ public class JsxTest {
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
 		streamToString(process.getInputStream());
-		process.waitFor();
+		System.out.println(streamToString(process.getInputStream()));
 
-		// System.out.println(streamToString(process.getInputStream()));
+		process.waitFor();
 
 		assertThat(process.exitValue(), is(0));
 	}

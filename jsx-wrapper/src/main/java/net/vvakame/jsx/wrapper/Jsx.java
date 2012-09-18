@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.vvakame.jsx.wrapper.entity.Ast;
+import net.vvakame.jsx.wrapper.entity.AstGen;
+import net.vvakame.util.jsonpullparser.JsonFormatException;
+
 public class Jsx {
 
 	static Jsx instance;
@@ -186,6 +190,17 @@ public class Jsx {
 		Process process = builder.start();
 
 		return process;
+	}
+
+	public List<Ast> parse(Args args) throws IOException, JsonFormatException,
+			InterruptedException {
+		args.mode = Mode.Parse.getOptionValue();
+
+		Process process = exec(args);
+
+		List<Ast> list = AstGen.getList(process.getInputStream());
+
+		return list;
 	}
 
 	void addPath(ProcessBuilder builder, String path) {
