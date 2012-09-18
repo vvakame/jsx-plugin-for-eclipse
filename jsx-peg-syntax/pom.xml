@@ -5,7 +5,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsx-peg-syntax</artifactId>
-	<name>ANTLR3 project: net.vvakame.jsx.antlr</name>
+	<name>JSX parser by PEG</name>
 
 	<version>0.0.1</version>
 
