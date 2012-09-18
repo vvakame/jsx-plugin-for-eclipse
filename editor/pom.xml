@@ -18,7 +18,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.vvakame</groupId>
-			<artifactId>jsx-antlr-syntax</artifactId>
+			<artifactId>jsx-peg-syntax</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 	</dependencies>

@@ -19,8 +19,6 @@ Export-Package: net.vvakame.ide.jsx,
  net.vvakame.ide.jsx.editors.misc,
  net.vvakame.ide.jsx.editors.viewerconfiguration
 Bundle-ClassPath: .,
- jsx-antlr-syntax-0.0.1.jar,
- antlr-runtime-3.4.jar,
- stringtemplate-3.2.1.jar,
- antlr-2.7.7.jar,
+ jsx-peg-syntax-0.0.1.jar,
+ mouse-runtime-1.5.1.jar,
  junit.jar

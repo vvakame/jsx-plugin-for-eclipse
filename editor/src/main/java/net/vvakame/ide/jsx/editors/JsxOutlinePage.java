@@ -1,20 +1,10 @@
 package net.vvakame.ide.jsx.editors;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import net.vvakame.ide.jsx.parser.SourceInfo;
+import mouse.runtime.Source;
+import mouse.runtime.SourceString;
 import net.vvakame.ide.jsx.parser.SyntaxTree;
-import net.vvakame.ide.jsx.parser.antlr.SourceInfoAntlrImpl;
-import net.vvakame.ide.jsx.parser.antlr.SyntaxTreeAntlrImpl;
-import net.vvakame.jsx.antlr.JSXLexer;
-import net.vvakame.jsx.antlr.JSXParser;
-import net.vvakame.jsx.antlr.JSXParser.programFile_return;
+import net.vvakame.jsx.peg.JsxParser;
 
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.tree.Tree;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -64,29 +54,18 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		IDocument document = provider.getDocument(editor.getEditorInput());
 		final String source = document.get();
 
-		JSXLexer lexer = new JSXLexer();
-		ByteArrayInputStream stream = new ByteArrayInputStream(
-				source.getBytes());
-		try {
-			lexer.setCharStream(new ANTLRInputStream(stream));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		Source src = new SourceString(source);
+
+		JsxParser parser = new JsxParser();
+		boolean result = parser.parse(src);
+
+		SyntaxTree syntaxTree;
+
+		if (result) {
+			syntaxTree = parser.semantics().getSyntaxTreeWithCompress();
+		} else {
+			syntaxTree = null;
 		}
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		JSXParser parser = new JSXParser(tokens);
-
-		tokens.LT(1);
-		programFile_return programFileReturn;
-		try {
-			programFileReturn = parser.programFile();
-		} catch (RecognitionException e) {
-			return;
-		}
-
-		SourceInfo srcInfo = new SourceInfoAntlrImpl(source);
-
-		Tree t = (Tree) programFileReturn.getTree();
-		SyntaxTree syntaxTree = SyntaxTreeAntlrImpl.construct(srcInfo, t);
 
 		TreeViewer viewer = getTreeViewer();
 		viewer.setInput(syntaxTree);
