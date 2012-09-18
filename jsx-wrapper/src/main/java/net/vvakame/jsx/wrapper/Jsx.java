@@ -29,6 +29,7 @@ public class Jsx {
 		Excecutable executable;
 		String jsxSource = "main.jsx";
 		Mode mode;
+		boolean release;
 
 		public Builder setNodeJsPath(String nodeJsPath) {
 			this.nodeJsPath = nodeJsPath;
@@ -60,6 +61,11 @@ public class Jsx {
 			return this;
 		}
 
+		public Builder release(boolean release) {
+			this.release = release;
+			return this;
+		}
+
 		public Args build() {
 			Args args = new Args();
 			args.nodeJsPath = nodeJsPath;
@@ -72,6 +78,7 @@ public class Jsx {
 			if (mode != null) {
 				args.mode = mode.getOptionValue();
 			}
+			args.release = release;
 			return args;
 		}
 	}
@@ -99,6 +106,7 @@ public class Jsx {
 		String executable;
 		String jsxSource;
 		String mode;
+		boolean release;
 	}
 
 	public Process exec(Args args) throws IOException, InterruptedException {
@@ -126,6 +134,10 @@ public class Jsx {
 		if (args.mode != null) {
 			argList.add("--mode");
 			argList.add(args.mode);
+		}
+
+		if (args.release) {
+			argList.add("--release");
 		}
 
 		argList.add(args.jsxSource);
