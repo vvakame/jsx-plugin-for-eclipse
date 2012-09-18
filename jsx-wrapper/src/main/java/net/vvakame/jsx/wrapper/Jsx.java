@@ -26,8 +26,9 @@ public class Jsx {
 		String nodeJsPath;
 		String jsxPath;
 		boolean help;
-		Excecutable executable = Excecutable.Web;
+		Excecutable executable;
 		String jsxSource = "main.jsx";
+		Mode mode;
 
 		public Builder setNodeJsPath(String nodeJsPath) {
 			this.nodeJsPath = nodeJsPath;
@@ -54,13 +55,23 @@ public class Jsx {
 			return this;
 		}
 
+		public Builder mode(Mode mode) {
+			this.mode = mode;
+			return this;
+		}
+
 		public Args build() {
 			Args args = new Args();
 			args.nodeJsPath = nodeJsPath;
 			args.jsxPath = jsxPath;
 			args.help = help;
-			args.executable = executable.getOptionValue();
+			if (executable != null) {
+				args.executable = executable.getOptionValue();
+			}
 			args.jsxSource = jsxSource;
+			if (mode != null) {
+				args.mode = mode.getOptionValue();
+			}
 			return args;
 		}
 	}
@@ -73,12 +84,21 @@ public class Jsx {
 		}
 	}
 
+	public static enum Mode {
+		Compile, Parse;
+
+		String getOptionValue() {
+			return name().toLowerCase();
+		}
+	}
+
 	public static class Args {
 		String nodeJsPath;
 		String jsxPath;
 		boolean help;
 		String executable;
 		String jsxSource;
+		String mode;
 	}
 
 	public Process exec(Args args) throws IOException, InterruptedException {
@@ -95,20 +115,28 @@ public class Jsx {
 
 		if (args.help) {
 			argList.add("--help");
-		} else {
+		}
 
+		if (args.executable != null) {
 			argList.add("--executable");
 			argList.add(args.executable);
 
-			argList.add(args.jsxSource);
 		}
+
+		if (args.mode != null) {
+			argList.add("--mode");
+			argList.add(args.mode);
+		}
+
+		argList.add(args.jsxSource);
+
+		System.out.println(argList.toString());
 
 		ProcessBuilder builder = new ProcessBuilder(argList);
 		addPath(builder, new File(args.nodeJsPath).getParent());
 
 		Process process = builder.start();
 
-		process.waitFor();
 		return process;
 	}
 

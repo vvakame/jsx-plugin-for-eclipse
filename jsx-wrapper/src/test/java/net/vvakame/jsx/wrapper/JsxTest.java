@@ -10,10 +10,14 @@ import java.io.InputStream;
 
 import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.Jsx.Excecutable;
+import net.vvakame.jsx.wrapper.Jsx.Mode;
 
 import org.junit.Test;
 
 public class JsxTest {
+
+	// hint: if remove process.waitFor(),
+	// flush process.getInputStream() or process.getErrorStream()
 
 	@Test
 	public void exec() throws IOException, InterruptedException {
@@ -26,6 +30,7 @@ public class JsxTest {
 		Jsx jsx = Jsx.getInstance();
 
 		Process process = jsx.exec(builder.build());
+		process.waitFor();
 
 		assertThat(process.exitValue(), is(0));
 	}
@@ -36,6 +41,7 @@ public class JsxTest {
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
+		process.waitFor();
 
 		assertThat(process.exitValue(), is(1));
 	}
@@ -49,6 +55,7 @@ public class JsxTest {
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
+		process.waitFor();
 
 		// System.out.println(streamToString(process.getInputStream()));
 
@@ -64,8 +71,42 @@ public class JsxTest {
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
+		process.waitFor();
 
-		System.out.println(streamToString(process.getInputStream()));
+		// System.out.println(streamToString(process.getInputStream()));
+
+		assertThat(process.exitValue(), is(0));
+	}
+
+	@Test
+	public void modeCompile() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.mode(Mode.Compile);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/JSX/t/lib/001.hello.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		process.waitFor();
+
+		// System.out.println(streamToString(process.getInputStream()));
+
+		assertThat(process.exitValue(), is(0));
+	}
+
+	@Test
+	public void modeParse() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.mode(Mode.Parse);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/JSX/t/lib/001.hello.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		streamToString(process.getInputStream());
+		process.waitFor();
+
+		// System.out.println(streamToString(process.getInputStream()));
 
 		assertThat(process.exitValue(), is(0));
 	}
