@@ -261,7 +261,7 @@ assignExpr
 	;
 
 oAssignExprOpe
-	=	ASSIGN {construct}
+	=	!EQ ASSIGN {construct}
 	/	MULEQ {construct}
 	/	DIVEQ {construct}
 	/	SUREQ {construct}

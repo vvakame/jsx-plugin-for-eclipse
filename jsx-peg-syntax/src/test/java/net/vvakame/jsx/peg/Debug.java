@@ -1,5 +1,8 @@
 package net.vvakame.jsx.peg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mouse.runtime.ParserBaseExtend;
 import mouse.runtime.PhraseExtend;
 import mouse.runtime.Source;
@@ -37,7 +40,16 @@ public class Debug {
 		builder.append(extend.getStart()).append(":");
 		builder.append(extend.getEnd()).append(" ");
 		if (extend.getStart() == extend.getEnd()) {
-			builder.append("*empty");
+			builder.append("*empty ");
+		}
+
+		List<String> valuesToken = new ArrayList<String>();
+		valuesToken.add("ident");
+		valuesToken.add("doubleQuoted");
+		valuesToken.add("singleQuoted");
+		valuesToken.add("decimalIntegerLiteral");
+		if (valuesToken.contains(extend.rule())) {
+			builder.append(extend.text()).append(" ");
 		}
 
 		System.out.println(builder.toString());

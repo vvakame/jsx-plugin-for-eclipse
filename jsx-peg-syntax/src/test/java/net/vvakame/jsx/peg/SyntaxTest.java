@@ -92,7 +92,7 @@ public class SyntaxTest {
 	@Test
 	public void test() throws IOException {
 		File gitRoot = getGitRootDirectory();
-		File file = new File(gitRoot, "JSX/t/run/016.switch.jsx");
+		File file = new File(gitRoot, "JSX/t/run/034.as.jsx");
 
 		InputStream stream = getStream(file);
 		assertParseSuccess(file.getName(), stream);
@@ -121,11 +121,13 @@ public class SyntaxTest {
 					.getSyntaxTreeWithCompress();
 			String reconstructSource = Debug.replayText(syntaxTree);
 
-			System.out.println("----- generated");
-			System.out.println(reconstructSource);
+			/*
 			System.out.println("----- original");
 			System.out.println(src.src);
+			System.out.println("----- generated");
+			System.out.println(reconstructSource);
 			System.out.println("-----");
+			 */
 
 			assertReconstructSource(fileName, src.src, reconstructSource);
 		}
