@@ -10,6 +10,10 @@ import net.vvakame.util.jsonpullparser.JsonPullParser.State;
 import net.vvakame.util.jsonpullparser.util.OnJsonObjectAddListener;
 import net.vvakame.util.jsonpullparser.util.TokenConverter;
 
+/**
+ * {@link TokenConverter} aboud {@link List} of {@link Args}
+ * @author vvakame
+ */
 public class ArgsListConverter extends TokenConverter<List<Args>> {
 
 	static ArgsListConverter converter;
@@ -17,6 +21,11 @@ public class ArgsListConverter extends TokenConverter<List<Args>> {
 	static ArgsConverter argsConverter;
 
 
+	/**
+	 * get instance.
+	 * @return singleton instance
+	 * @author vvakame
+	 */
 	public static ArgsListConverter getInstance() {
 		if (converter != null) {
 			return converter;

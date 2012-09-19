@@ -1,8 +1,5 @@
 package net.vvakame.jsx.wrapper;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -11,7 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import net.vvakame.jsx.wrapper.Jsx.Builder;
-import net.vvakame.jsx.wrapper.Jsx.Excecutable;
+import net.vvakame.jsx.wrapper.Jsx.Executable;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
 import net.vvakame.jsx.wrapper.entity.Ast;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -19,11 +16,25 @@ import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * Test for {@link Jsx}
+ * @author vvakame
+ */
 public class JsxTest {
 
 	// hint: if remove process.waitFor(),
 	// flush process.getInputStream() or process.getErrorStream()
 
+	/**
+	 * Test for {@link Jsx#exec(net.vvakame.jsx.wrapper.Jsx.Args)}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void exec() throws IOException, InterruptedException {
 		Builder builder = new Jsx.Builder();
@@ -40,13 +51,18 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Jsx#parse(net.vvakame.jsx.wrapper.Jsx.Args)}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
-	public void parse() throws IOException, InterruptedException,
-			JsonFormatException {
+	public void parse() throws IOException, InterruptedException, JsonFormatException {
 		{
 			Builder builder = makeDefault();
-			builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-					+ "/JSX/t/run/001.hello.jsx");
+			builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/run/001.hello.jsx");
 
 			Jsx jsx = Jsx.getInstance();
 
@@ -58,12 +74,17 @@ public class JsxTest {
 		{
 			File gitRoot = getGitRootDirectory();
 
-			String[] jsxExistsDirPaths = { "JSX/t/run/", "JSX/t/lib/",
-					"JSX/t/optimize/", "JSX/t/source-map/" };
+			String[] jsxExistsDirPaths = {
+				"JSX/t/run/",
+				"JSX/t/lib/",
+				"JSX/t/optimize/",
+				"JSX/t/source-map/"
+			};
 
 			for (String dirPath : jsxExistsDirPaths) {
 				File dir = new File(gitRoot, dirPath);
 				File[] jsxFiles = dir.listFiles(new FilenameFilter() {
+
 					@Override
 					public boolean accept(File file, String name) {
 						return name.endsWith(".jsx");
@@ -78,20 +99,24 @@ public class JsxTest {
 
 					List<Ast> astList = jsx.parse(builder.build());
 
-					assertThat(file.getAbsolutePath(), astList.size(),
-							is(not(0)));
+					assertThat(file.getAbsolutePath(), astList.size(), is(not(0)));
 				}
 			}
 		}
 	}
 
+	/**
+	 * Test for {@link Jsx#complete(net.vvakame.jsx.wrapper.Jsx.Args, int, int)}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
 	@Test
-	public void complete() throws IOException, InterruptedException,
-			JsonFormatException {
+	public void complete() throws IOException, InterruptedException, JsonFormatException {
 
 		Builder builder = makeDefault();
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 
@@ -100,6 +125,12 @@ public class JsxTest {
 		assertThat(completeList.size(), is(not(0)));
 	}
 
+	/**
+	 * Test for plane {@link Builder}.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void noArgs() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
@@ -111,12 +142,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(1));
 	}
 
+	/**
+	 * Test for {@link Builder#executable(Executable)} with {@link Executable#Web}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void executableWeb() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
-		builder.executable(Excecutable.Web);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.executable(Executable.Web);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -127,12 +163,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#executable(Executable)} with {@link Executable#Node}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void executableNode() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
-		builder.executable(Excecutable.Node);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.executable(Executable.Node);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -143,12 +184,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#mode(Mode)} with {@link Mode#Compile}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void modeCompile() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
 		builder.mode(Mode.Compile);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -159,12 +205,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#mode(Mode)} with {@link Mode#Parse}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void modeParse() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
 		builder.mode(Mode.Parse);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -176,12 +227,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#release(boolean)}.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void release() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
 		builder.release(true);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -192,12 +248,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#profile(boolean)}.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void profile() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
 		builder.profile(true);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -208,12 +269,17 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#enableTypeCheck(boolean)}.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	@Test
 	public void enableTypeCheck() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
 		builder.enableTypeCheck(true);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
@@ -224,13 +290,18 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
+	/**
+	 * Test for {@link Builder#enableSourceMap(boolean)}.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
 	// TODO source map required --output option.
 	@Test
 	public void enableSourceMap() throws IOException, InterruptedException {
 		Builder builder = makeDefault();
 		builder.enableSourceMap(true);
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-				+ "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());

@@ -3,6 +3,10 @@ package net.vvakame.jsx.wrapper.entity;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
+/**
+ * Token in JSX AST.
+ * @author vvakame
+ */
 @JsonModel(treatUnknownKeyAsError = true)
 public class Token {
 
@@ -20,6 +24,7 @@ public class Token {
 
 	@JsonKey("_columnNumber")
 	Integer columnNumber;
+
 
 	/**
 	 * @return the value

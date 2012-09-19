@@ -5,6 +5,10 @@ import java.util.List;
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 
+/**
+ * Ast in JSX AST.
+ * @author vvakame
+ */
 @JsonModel(treatUnknownKeyAsError = true)
 public class Ast {
 
@@ -25,6 +29,7 @@ public class Ast {
 
 	@JsonKey
 	List<Member> members;
+
 
 	/**
 	 * @return the token

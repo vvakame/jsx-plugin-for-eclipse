@@ -13,6 +13,10 @@ import mouse.runtime.Phrase;
 import mouse.runtime.PhraseExtend;
 import mouse.runtime.SemanticsBase;
 
+/**
+ * {@link SemanticsBase} of JSX. construct SyntaxTree.
+ * @author vvakame
+ */
 public class JsxSemantics extends SemanticsBase {
 
 	Tree current;
@@ -20,7 +24,11 @@ public class JsxSemantics extends SemanticsBase {
 	Map<String, Tree> treeHolder = new LinkedHashMap<String, Tree>();
 
 
-	public static class Tree implements Comparable<Tree> {
+	/**
+	 * Simple tree for Mouse generated parser.
+	 * @author vvakame
+	 */
+	static class Tree implements Comparable<Tree> {
 
 		Tree parent;
 
@@ -70,6 +78,10 @@ public class JsxSemantics extends SemanticsBase {
 	}
 
 
+	/**
+	 * construct method. call from {@link JsxParser}.
+	 * @author vvakame
+	 */
 	public void construct() {
 		final String parentRuleName = getParentRuleName();
 		Tree parent = treeHolder.get(parentRuleName);
@@ -140,11 +152,11 @@ public class JsxSemantics extends SemanticsBase {
 		return super.rhsText(i, j);
 	}
 
-	@Deprecated
-	public Tree getTree() {
-		return current;
-	}
-
+	/**
+	 * Get {@link SyntaxTreeMouseImpl} without compress.
+	 * @return {@link SyntaxTreeMouseImpl}
+	 * @author vvakame
+	 */
 	public SyntaxTreeMouseImpl getSyntaxTree() {
 		cleanUpInvalidBranch(current);
 		fixMemoizedBranch(current);
@@ -158,6 +170,11 @@ public class JsxSemantics extends SemanticsBase {
 		return (SyntaxTreeMouseImpl) parent.children.get(0);
 	}
 
+	/**
+	 * Get {@link SyntaxTreeMouseImpl} with compress.
+	 * @return {@link SyntaxTreeMouseImpl}
+	 * @author vvakame
+	 */
 	public SyntaxTreeMouseImpl getSyntaxTreeWithCompress() {
 		cleanUpInvalidBranch(current);
 		fixMemoizedBranch(current);
@@ -338,7 +355,7 @@ public class JsxSemantics extends SemanticsBase {
 	}
 
 
-	public static abstract class TreeVisitor {
+	static abstract class TreeVisitor {
 
 		public void visit(Tree tree) {
 			visit(tree, 0);

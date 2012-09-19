@@ -8,6 +8,10 @@ import mouse.runtime.Phrase;
 import mouse.runtime.PhraseExtend;
 import net.vvakame.ide.jsx.parser.SyntaxTree;
 
+/**
+ * {@link SyntaxTree} for Mouse PEG Parser.
+ * @author vvakame
+ */
 public class SyntaxTreeMouseImpl implements SyntaxTree {
 
 	SyntaxTree parent;
@@ -30,7 +34,7 @@ public class SyntaxTreeMouseImpl implements SyntaxTree {
 
 	void init(JsxSemantics sem) {
 		ParserBase.Phrase phrase = (mouse.runtime.ParserBase.Phrase) sem.lhs();
-		PhraseExtend extend = PhraseExtend.get((ParserBase.Phrase) phrase);
+		PhraseExtend extend = PhraseExtend.get(phrase);
 		this.index = extend.getStart();
 		this.type = phrase.rule();
 		if ("space".equals(this.type)) {
@@ -74,16 +78,6 @@ public class SyntaxTreeMouseImpl implements SyntaxTree {
 	@Override
 	public int index() {
 		return this.index;
-	}
-
-	@Override
-	public int line() {
-		return this.line;
-	}
-
-	@Override
-	public int column() {
-		return this.column;
 	}
 
 	@Override

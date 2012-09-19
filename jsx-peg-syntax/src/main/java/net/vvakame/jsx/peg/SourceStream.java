@@ -7,13 +7,24 @@ import java.io.InputStream;
 import mouse.runtime.Source;
 import mouse.runtime.SourceString;
 
+/**
+ * {@link Source} implementation for use {@link InputStream}.
+ * @author vvakame
+ */
 public class SourceStream implements Source {
 
 	SourceString sourceString;
 
+	/** source code string */
 	public final String src;
 
 
+	/**
+	 * the constructor.
+	 * @param stream
+	 * @throws IOException
+	 * @category constructor
+	 */
 	public SourceStream(InputStream stream) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

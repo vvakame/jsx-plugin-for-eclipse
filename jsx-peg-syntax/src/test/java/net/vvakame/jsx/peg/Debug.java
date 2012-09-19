@@ -9,11 +9,21 @@ import mouse.runtime.Source;
 import net.vvakame.ide.jsx.parser.SyntaxTree;
 import net.vvakame.jsx.peg.JsxSemantics.Tree;
 
+/**
+ * Debugging tools.
+ * @author vvakame
+ */
 public class Debug {
 
 	private Debug() {
 	}
 
+	/**
+	 * dump {@link JsxParser} state. get current cunsuming.
+	 * @param parser
+	 * @return state string
+	 * @author vvakame
+	 */
 	public static String dump(JsxParser parser) {
 		ParserBaseExtend extend = ParserBaseExtend.get(parser);
 		final int pos = extend.getPos();
@@ -22,11 +32,14 @@ public class Debug {
 		@SuppressWarnings("unused")
 		String all = source.at(0, extend.getEndpos());
 
-		System.out.println("current\n" + current);
-		System.out.println("<---");
 		return current;
 	}
 
+	/**
+	 * dump {@link Tree}. print the syntax tree.
+	 * @param syntaxTree
+	 * @author vvakame
+	 */
 	public static void dump(Tree syntaxTree) {
 		dump(syntaxTree, 0);
 	}
@@ -59,6 +72,12 @@ public class Debug {
 		}
 	}
 
+	/**
+	 * dump {@link SyntaxTreeMouseImpl}. print syntax tree.
+	 * TODO for vvakame
+	 * @param syntaxTree
+	 * @author vvakame
+	 */
 	public static void dump(SyntaxTreeMouseImpl syntaxTree) {
 		dump(syntaxTree, 0);
 	}
@@ -75,6 +94,13 @@ public class Debug {
 		}
 	}
 
+	/**
+	 * construct source code from {@link Tree}.
+	 * @param syntaxTree
+	 * @return JSX source code
+	 * @author vvakame
+	 */
+	@Deprecated
 	public static String replayText(Tree syntaxTree) {
 		StringBuilder builder = new StringBuilder();
 		replayText(syntaxTree, builder);
@@ -95,6 +121,12 @@ public class Debug {
 		}
 	}
 
+	/**
+	 * construct source code from {@link SyntaxTreeMouseImpl}.
+	 * @param syntaxTree
+	 * @return JSX source code.
+	 * @author vvakame
+	 */
 	public static String replayText(SyntaxTreeMouseImpl syntaxTree) {
 		StringBuilder builder = new StringBuilder();
 		replayText(syntaxTree, builder);

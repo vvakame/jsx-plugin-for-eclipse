@@ -3,7 +3,7 @@ package mouse.runtime;
 import mouse.runtime.ParserBase.Phrase;
 
 /**
- * {@link ParserBase} wrapper.
+ * {@link ParserBase} wrapper. this class has getPos, getEndpos and getSource method.
  * @author vvakame
  */
 public class ParserBaseExtend {
@@ -14,20 +14,41 @@ public class ParserBaseExtend {
 	private ParserBaseExtend() {
 	}
 
+	/**
+	 * converter.
+	 * @param base
+	 * @return {@link ParserBaseExtend}
+	 * @author vvakame
+	 */
 	public static ParserBaseExtend get(ParserBase base) {
 		ParserBaseExtend extend = new ParserBaseExtend();
 		extend.base = base;
 		return extend;
 	}
 
+	/**
+	 * delegate to base#pos .
+	 * @return current possition
+	 * @author vvakame
+	 */
 	public int getPos() {
 		return base.pos;
 	}
 
+	/**
+	 * delegate to base#endpos .
+	 * @return current end possition
+	 * @author vvakame
+	 */
 	public int getEndpos() {
 		return base.endpos;
 	}
 
+	/**
+	 * delegate to base.sourece .
+	 * @return source string
+	 * @author vvakame
+	 */
 	public Source getSource() {
 		return base.source;
 	}
@@ -44,8 +65,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
-	 * @return
+	 * @return delegate to base.
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -54,7 +74,6 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
 	 * @param src
 	 * @see mouse.runtime.ParserBase#init(mouse.runtime.Source)
 	 */
@@ -63,8 +82,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
-	 * @return
+	 * @return delegate to base.
 	 * @see mouse.runtime.ParserBase#lhs()
 	 */
 	public Phrase lhs() {
@@ -72,9 +90,8 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
 	 * @param i
-	 * @return
+	 * @return delegate to base.
 	 * @see mouse.runtime.ParserBase#rhs(int)
 	 */
 	public Phrase rhs(int i) {
@@ -82,8 +99,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
-	 * @return
+	 * @return delegate to base.
 	 * @see mouse.runtime.ParserBase#rhsSize()
 	 */
 	public int rhsSize() {
@@ -91,10 +107,9 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
 	 * @param i
 	 * @param j
-	 * @return
+	 * @return delegate to base.
 	 * @see mouse.runtime.ParserBase#rhsText(int, int)
 	 */
 	public String rhsText(int i, int j) {
@@ -102,7 +117,6 @@ public class ParserBaseExtend {
 	}
 
 	/**
-	 * TODO for vvakame
 	 * @param trace
 	 * @see mouse.runtime.ParserBase#setTrace(java.lang.String)
 	 */
@@ -110,11 +124,6 @@ public class ParserBaseExtend {
 		base.setTrace(trace);
 	}
 
-	/**
-	 * TODO for vvakame
-	 * @return
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return base.toString();

@@ -6,6 +6,10 @@ import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
 import net.vvakame.util.jsonpullparser.util.JsonArray;
 
+/**
+ * Member in JSX AST.
+ * @author vvakame
+ */
 @JsonModel(treatUnknownKeyAsError = true)
 public class Member {
 
@@ -40,6 +44,7 @@ public class Member {
 	@JsonKey
 	// TODO create token converter
 	JsonArray statements;
+
 
 	/**
 	 * @return the token

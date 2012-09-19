@@ -1,8 +1,15 @@
 package net.vvakame.jsx.wrapper.entity;
 
+/**
+ * Arguments in JSX AST.
+ * @author vvakame
+ */
 public class Args {
+
 	Token token;
+
 	String type;
+
 
 	/**
 	 * @return the token

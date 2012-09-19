@@ -1,8 +1,5 @@
 package net.vvakame.jsx.peg;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +11,14 @@ import java.util.List;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * Test for parse JSX code.
+ * @author vvakame
+ */
 public class SyntaxTest {
 
 	// デバッグのヒント。
@@ -23,6 +28,11 @@ public class SyntaxTest {
 	// で現在見てる(食ってないものも含む)位置が見える
 	// 実行中にデバッガで止めてEclipseのDisplayビューを上手に活用すること。
 
+	/**
+	 * check valid pattern. (but not valid JSX code. only syntax.)
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	@Test
 	public void valid() throws IOException {
 		List<String> ignoreFiles = Arrays.asList(new String[] {});
@@ -42,6 +52,11 @@ public class SyntaxTest {
 		}
 	}
 
+	/**
+	 * check invalid patter.
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	@Test
 	public void invalid() throws IOException {
 		for (int i = 1;; i++) {
@@ -56,6 +71,11 @@ public class SyntaxTest {
 		}
 	}
 
+	/**
+	 * try parse the real jsx code. from official repository.
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	@Test
 	public void tryParseJsxTestCode() throws IOException {
 		File gitRoot = getGitRootDirectory();
@@ -94,6 +114,11 @@ public class SyntaxTest {
 		}
 	}
 
+	/**
+	 * test for debug.
+	 * @throws IOException
+	 * @author vvakame
+	 */
 	@Test
 	public void test() throws IOException {
 		File gitRoot = getGitRootDirectory();
