@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>net.vvakame</groupId>
-	<artifactId>jsx.eclipse.plugin</artifactId>
+	<artifactId>jsx-plugin-editor-for-eclipse</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
 	<name>JSX Plugin for Eclipse - main</name>
@@ -36,7 +36,7 @@
 					<extraClasspathElements>
 						<extraClasspathElement>
 							<groupId>net.vvakame</groupId>
-							<artifactId>jsx-antlr-syntax</artifactId>
+							<artifactId>jsx-peg-syntax</artifactId>
 							<version>0.0.1</version>
 						</extraClasspathElement>
 					</extraClasspathElements>
