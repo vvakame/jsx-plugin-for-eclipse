@@ -10,7 +10,9 @@ import mouse.runtime.SourceString;
 public class SourceStream implements Source {
 
 	SourceString sourceString;
+
 	public final String src;
+
 
 	public SourceStream(InputStream stream) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

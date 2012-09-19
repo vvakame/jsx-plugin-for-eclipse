@@ -2,8 +2,14 @@ package mouse.runtime;
 
 import mouse.runtime.ParserBase.Phrase;
 
+/**
+ * {@link ParserBase} wrapper.
+ * @author vvakame
+ */
 public class ParserBaseExtend {
+
 	ParserBase base;
+
 
 	private ParserBaseExtend() {
 	}
@@ -27,23 +33,28 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * same as {@link ParserBase#equals(Object)}
 	 * @param obj
-	 * @return
+	 * @return same as {@link ParserBase#equals(Object)}
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		return base.equals(obj);
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @return
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return base.hashCode();
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @param src
 	 * @see mouse.runtime.ParserBase#init(mouse.runtime.Source)
 	 */
@@ -52,6 +63,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @return
 	 * @see mouse.runtime.ParserBase#lhs()
 	 */
@@ -60,6 +72,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @param i
 	 * @return
 	 * @see mouse.runtime.ParserBase#rhs(int)
@@ -69,6 +82,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @return
 	 * @see mouse.runtime.ParserBase#rhsSize()
 	 */
@@ -77,6 +91,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @param i
 	 * @param j
 	 * @return
@@ -87,6 +102,7 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @param trace
 	 * @see mouse.runtime.ParserBase#setTrace(java.lang.String)
 	 */
@@ -95,9 +111,11 @@ public class ParserBaseExtend {
 	}
 
 	/**
+	 * TODO for vvakame
 	 * @return
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return base.toString();
 	}

@@ -3,7 +3,9 @@ package mouse.runtime;
 import mouse.runtime.ParserBase.Phrase;
 
 public class PhraseExtend {
+
 	Phrase phrase;
+
 
 	public static PhraseExtend get(Phrase phrase) {
 		PhraseExtend extend = new PhraseExtend();

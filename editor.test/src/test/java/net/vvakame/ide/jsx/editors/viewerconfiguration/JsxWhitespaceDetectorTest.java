@@ -12,32 +12,46 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.junit.Test;
 
 public class JsxWhitespaceDetectorTest {
+
 	final Object tokenObj = new Object();
+
 
 	@Test
 	public void test() {
-		String[] valid = { " ", "\t", "\n", "\r" };
+		String[] valid = {
+			" ",
+			"\t",
+			"\n",
+			"\r"
+		};
 
 		for (String word : valid) {
-			WhitespaceRule rule = new WhitespaceRule(
-					new JsxWhitespaceDetector(), new Token(tokenObj));
+			WhitespaceRule rule =
+					new WhitespaceRule(new JsxWhitespaceDetector(), new Token(tokenObj));
 
 			RuleBasedScanner scanner = new RuleBasedScanner();
-			scanner.setRules(new IRule[] { rule });
+			scanner.setRules(new IRule[] {
+				rule
+			});
 			scanner.setRange(new Document(word), 0, word.length());
 
 			IToken token = scanner.nextToken();
 			assertThat(word + " is valid.", token.getData(), is(tokenObj));
 		}
 
-		String[] invalid = { "", "　" };
+		String[] invalid = {
+			"",
+			"　"
+		};
 
 		for (String word : invalid) {
-			WhitespaceRule rule = new WhitespaceRule(
-					new JsxWhitespaceDetector(), new Token(tokenObj));
+			WhitespaceRule rule =
+					new WhitespaceRule(new JsxWhitespaceDetector(), new Token(tokenObj));
 
 			RuleBasedScanner scanner = new RuleBasedScanner();
-			scanner.setRules(new IRule[] { rule });
+			scanner.setRules(new IRule[] {
+				rule
+			});
 			scanner.setRange(new Document(word), 0, word.length());
 
 			IToken token = scanner.nextToken();

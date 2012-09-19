@@ -19,12 +19,19 @@ public class JsxSemantics extends SemanticsBase {
 
 	Map<String, Tree> treeHolder = new LinkedHashMap<String, Tree>();
 
+
 	public static class Tree implements Comparable<Tree> {
+
 		Tree parent;
+
 		Phrase lhs; // this Token
+
 		PhraseExtend lhsExtend;
+
 		LinkedHashSet<Tree> rhs = new LinkedHashSet<Tree>(); // child Token
+
 		List<Phrase> rhsRaw = new ArrayList<Phrase>();
+
 
 		@Override
 		public int compareTo(Tree o) {
@@ -62,6 +69,7 @@ public class JsxSemantics extends SemanticsBase {
 		}
 	}
 
+
 	public void construct() {
 		final String parentRuleName = getParentRuleName();
 		Tree parent = treeHolder.get(parentRuleName);
@@ -79,8 +87,7 @@ public class JsxSemantics extends SemanticsBase {
 		}
 		current.parent = parent;
 		current.lhs = lhs();
-		current.lhsExtend = PhraseExtend
-				.get((mouse.runtime.ParserBase.Phrase) lhs());
+		current.lhsExtend = PhraseExtend.get((mouse.runtime.ParserBase.Phrase) lhs());
 
 		parent.rhs.add(current);
 
@@ -199,6 +206,7 @@ public class JsxSemantics extends SemanticsBase {
 
 	private void cleanUpInvalidBranch(Tree tree) {
 		new TreeVisitor() {
+
 			@Override
 			public void lhs(Tree tree, int depth) {
 				List<Tree> removeList = new ArrayList<Tree>();
@@ -230,6 +238,7 @@ public class JsxSemantics extends SemanticsBase {
 
 	private void cleanUpEmptyBranch(Tree tree) {
 		new TreeVisitor() {
+
 			@Override
 			public void lhs(Tree tree, int depth) {
 				final List<Tree> removeList = new ArrayList<Tree>();
@@ -239,10 +248,10 @@ public class JsxSemantics extends SemanticsBase {
 						removeList.add(rhs);
 
 						new TreeVisitor() {
+
 							@Override
 							public void lhs(Tree tree, int depth) {
-								if (extend.getStart() != tree.lhsExtend
-										.getEnd()) {
+								if (extend.getStart() != tree.lhsExtend.getEnd()) {
 									removeList.remove(rhs);
 								}
 							}
@@ -256,6 +265,7 @@ public class JsxSemantics extends SemanticsBase {
 
 	private void cleanUpFailedBranch(Tree tree) {
 		new TreeVisitor() {
+
 			@Override
 			public void lhs(Tree tree, int depth) {
 				List<Tree> removeList = new ArrayList<Tree>();
@@ -290,6 +300,7 @@ public class JsxSemantics extends SemanticsBase {
 
 	private void sortBranch(Tree tree) {
 		new TreeVisitor() {
+
 			@Override
 			public void lhs(Tree tree, int depth) {
 				Tree[] trees = tree.rhs.toArray(new Tree[0]);
@@ -304,19 +315,18 @@ public class JsxSemantics extends SemanticsBase {
 
 	private void compressBranch(Tree tree) {
 		new TreeVisitor() {
+
 			@Override
 			public void lhs(Tree tree, int depth) {
-				if (tree.rhs.size() == 1
-						&& tree.rhs.iterator().next().rhs.size() == 1) {
+				if (tree.rhs.size() == 1 && tree.rhs.iterator().next().rhs.size() == 1) {
 
 					PhraseExtend child = tree.rhs.iterator().next().lhsExtend;
-					PhraseExtend grandChild = tree.rhs.iterator().next().rhs
-							.iterator().next().lhsExtend;
+					PhraseExtend grandChild =
+							tree.rhs.iterator().next().rhs.iterator().next().lhsExtend;
 
 					if (child.getStart() == grandChild.getStart()
 							&& child.getEnd() == grandChild.getEnd()) {
-						Tree grandChildTree = tree.rhs.iterator().next().rhs
-								.iterator().next();
+						Tree grandChildTree = tree.rhs.iterator().next().rhs.iterator().next();
 						tree.rhs.clear();
 						tree.rhs.add(grandChildTree);
 						// recursive
@@ -327,7 +337,9 @@ public class JsxSemantics extends SemanticsBase {
 		}.visit(tree);
 	}
 
+
 	public static abstract class TreeVisitor {
+
 		public void visit(Tree tree) {
 			visit(tree, 0);
 		}
@@ -363,6 +375,7 @@ public class JsxSemantics extends SemanticsBase {
 			return null;
 		}
 	}
+
 
 	void convert(Tree tree, SyntaxTreeMouseImpl parent) {
 		SyntaxTreeMouseImpl syntaxTree = new SyntaxTreeMouseImpl();

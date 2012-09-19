@@ -11,12 +11,19 @@ import net.vvakame.ide.jsx.parser.SyntaxTree;
 public class SyntaxTreeMouseImpl implements SyntaxTree {
 
 	SyntaxTree parent;
+
 	List<SyntaxTree> children = new ArrayList<SyntaxTree>();
+
 	String type;
+
 	String name;
+
 	int index;
+
 	int line;
+
 	int column;
+
 
 	SyntaxTreeMouseImpl() {
 	}
@@ -40,8 +47,7 @@ public class SyntaxTreeMouseImpl implements SyntaxTree {
 			this.type = phrase.rule();
 			this.name = phrase.text();
 		} else {
-			throw new IllegalArgumentException("rule is "
-					+ phrase.getClass().getCanonicalName());
+			throw new IllegalArgumentException("rule is " + phrase.getClass().getCanonicalName());
 		}
 	}
 
@@ -82,7 +88,7 @@ public class SyntaxTreeMouseImpl implements SyntaxTree {
 
 	@Override
 	public String toString() {
-		return "SyntaxTreeMouseImpl [type=" + type + ", name=" + name
-				+ ", index=" + index + ", children=" + children + "]";
+		return "SyntaxTreeMouseImpl [type=" + type + ", name=" + name + ", index=" + index
+				+ ", children=" + children + "]";
 	}
 }

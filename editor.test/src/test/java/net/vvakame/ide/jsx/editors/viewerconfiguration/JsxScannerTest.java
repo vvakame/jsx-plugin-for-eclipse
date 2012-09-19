@@ -15,6 +15,7 @@ public class JsxScannerTest {
 
 	ColorManager manager = new ColorManager();
 
+
 	// TODO implement more effective test
 
 	@Test
@@ -25,8 +26,7 @@ public class JsxScannerTest {
 
 		String documentString = "\"\"; class {}";
 
-		scanner.setRange(new Document(documentString), 0,
-				documentString.length());
+		scanner.setRange(new Document(documentString), 0, documentString.length());
 
 		IToken token;
 

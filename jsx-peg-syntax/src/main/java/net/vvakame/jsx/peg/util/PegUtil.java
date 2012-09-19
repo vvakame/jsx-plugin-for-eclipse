@@ -6,6 +6,7 @@ import mouse.runtime.Phrase;
 import mouse.runtime.SemanticsBase;
 
 public class PegUtil {
+
 	public static void walk(ParserBase parser) {
 		Phrase lhs = parser.lhs();
 		walk("lhs", lhs, 1);

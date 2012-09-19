@@ -60,14 +60,19 @@ public class SyntaxTest {
 	public void tryParseJsxTestCode() throws IOException {
 		File gitRoot = getGitRootDirectory();
 
-		String[] jsxExistsDirPaths = { "JSX/t/run/", "JSX/t/lib/",
-				"JSX/t/optimize/", "JSX/t/source-map/" };
+		String[] jsxExistsDirPaths = {
+			"JSX/t/run/",
+			"JSX/t/lib/",
+			"JSX/t/optimize/",
+			"JSX/t/source-map/"
+		};
 
 		List<String> ignoreFiles = Arrays.asList(new String[] {});
 
 		for (String dirPath : jsxExistsDirPaths) {
 			File dir = new File(gitRoot, dirPath);
 			File[] jsxFiles = dir.listFiles(new FilenameFilter() {
+
 				@Override
 				public boolean accept(File file, String name) {
 					return name.endsWith(".jsx");
@@ -108,8 +113,7 @@ public class SyntaxTest {
 		return stream;
 	}
 
-	static void assertParseSuccess(String fileName, InputStream stream)
-			throws IOException {
+	static void assertParseSuccess(String fileName, InputStream stream) throws IOException {
 		SourceStream src = new SourceStream(stream);
 
 		JsxParser parser = new JsxParser();
@@ -117,8 +121,7 @@ public class SyntaxTest {
 		assertThat(fileName + " is valid", result, is(true));
 
 		{
-			SyntaxTreeMouseImpl syntaxTree = parser.semantics()
-					.getSyntaxTreeWithCompress();
+			SyntaxTreeMouseImpl syntaxTree = parser.semantics().getSyntaxTreeWithCompress();
 			String reconstructSource = Debug.replayText(syntaxTree);
 
 			/*
@@ -133,8 +136,7 @@ public class SyntaxTest {
 		}
 	}
 
-	static void assertParseFailure(String fileName, InputStream stream)
-			throws IOException {
+	static void assertParseFailure(String fileName, InputStream stream) throws IOException {
 		SourceStream src = new SourceStream(stream);
 
 		JsxParser parser = new JsxParser();
@@ -148,11 +150,9 @@ public class SyntaxTest {
 		String[] reconstructLines = reconstructSource.split("(\r\n|\r|\n)");
 
 		for (int i = 0; i < originalLines.length; i++) {
-			assertThat(fileName + " L" + (i + 1), reconstructLines[i],
-					is(originalLines[i]));
+			assertThat(fileName + " L" + (i + 1), reconstructLines[i], is(originalLines[i]));
 		}
-		assertThat(fileName + " source re-construct", reconstructSource,
-				equalTo(originalSource));
+		assertThat(fileName + " source re-construct", reconstructSource, equalTo(originalSource));
 	}
 
 	static File getGitRootDirectory() {

@@ -10,6 +10,7 @@ import net.vvakame.ide.jsx.parser.SyntaxTree;
 import net.vvakame.jsx.peg.JsxSemantics.Tree;
 
 public class Debug {
+
 	private Debug() {
 	}
 
