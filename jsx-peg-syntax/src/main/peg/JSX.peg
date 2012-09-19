@@ -1,3 +1,5 @@
+// currently head: https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js
+
 programFile
 	=	spacing importStatement* classDefinition* !_ {construct}
 	;
