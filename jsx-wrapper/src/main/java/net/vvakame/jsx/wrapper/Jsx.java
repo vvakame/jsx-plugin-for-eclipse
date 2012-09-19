@@ -8,9 +8,9 @@ import java.util.Map;
 
 import net.vvakame.jsx.wrapper.entity.Ast;
 import net.vvakame.jsx.wrapper.entity.AstGen;
+import net.vvakame.jsx.wrapper.entity.Complete;
+import net.vvakame.jsx.wrapper.entity.CompleteGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
-import net.vvakame.util.jsonpullparser.JsonPullParser;
-import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 /**
  * Wrapper of JSX command.
@@ -186,7 +186,7 @@ public class Jsx {
 		 * set --complete X:X option.
 		 * @param complete
 		 * @param lineIndex
-		 * @param columnIndex
+		 * @param columnIndex columnIndex. tab length is 1.
 		 * @return this
 		 * @author vvakame
 		 */
@@ -379,14 +379,14 @@ public class Jsx {
 	 * Execute --complete, get completion list.
 	 * @param args
 	 * @param lineIndex
-	 * @param columnIndex
+	 * @param columnIndex columnIndex. tab length is 1.
 	 * @return Completion list
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @throws InterruptedException
 	 * @author vvakame
 	 */
-	public JsonArray complete(Args args, int lineIndex, int columnIndex) throws IOException,
+	public List<Complete> complete(Args args, int lineIndex, int columnIndex) throws IOException,
 			JsonFormatException, InterruptedException {
 		args.complete = true;
 		args.lineIndex = lineIndex;
@@ -394,10 +394,10 @@ public class Jsx {
 
 		Process process = exec(args);
 
-		JsonArray jsonArray =
-				JsonArray.fromParser(JsonPullParser.newParser(process.getInputStream()));
+		// System.out.println(JsxTest.streamToString(process.getInputStream()));
+		List<Complete> list = CompleteGen.getList(process.getInputStream());
 
-		return jsonArray;
+		return list;
 	}
 
 	void addPath(ProcessBuilder builder, String path) {
