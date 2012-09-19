@@ -1,7 +1,5 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
-
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -18,19 +16,37 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
+import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
+
+/**
+ * source configuration for JSX.
+ * @author vvakame
+ */
 public class JsxConfiguration extends SourceViewerConfiguration {
-	Map<Class<? extends ITokenScanner>, ITokenScanner> scannerHash = new WeakHashMap<Class<? extends ITokenScanner>, ITokenScanner>();
+
+	Map<Class<? extends ITokenScanner>, ITokenScanner> scannerHash =
+			new WeakHashMap<Class<? extends ITokenScanner>, ITokenScanner>();
 
 	private ColorManager colorManager;
 
+
+	/**
+	 * the constructor.
+	 * @param colorManager
+	 * @category constructor
+	 */
 	public JsxConfiguration(ColorManager colorManager) {
 		this.colorManager = colorManager;
 	}
 
 	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, JSX_KEYWORD,
-				JSX_COMMENT, JSX_STRING };
+		return new String[] {
+			IDocument.DEFAULT_CONTENT_TYPE,
+			JSX_KEYWORD,
+			JSX_COMMENT,
+			JSX_STRING
+		};
 	}
 
 	protected ITokenScanner getJsxScanner() {
@@ -38,8 +54,8 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 			return scannerHash.get(JsxScanner.class);
 		} else {
 			JsxScanner scanner = new JsxScanner(colorManager);
-			scanner.setDefaultReturnToken(new Token(new TextAttribute(
-					colorManager.getColor(IJsxColorConstants.DEFAULT))));
+			scanner.setDefaultReturnToken(new Token(new TextAttribute(colorManager
+				.getColor(IJsxColorConstants.DEFAULT))));
 			scannerHash.put(JsxScanner.class, scanner);
 			return scanner;
 		}
@@ -50,28 +66,26 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 			return scannerHash.get(BlockCommentScanner.class);
 		} else {
 			BlockCommentScanner scanner = new BlockCommentScanner();
-			scanner.setDefaultReturnToken(new Token(new TextAttribute(
-					colorManager.getColor(IJsxColorConstants.COMMENT))));
+			scanner.setDefaultReturnToken(new Token(new TextAttribute(colorManager
+				.getColor(IJsxColorConstants.COMMENT))));
 			scannerHash.put(BlockCommentScanner.class, scanner);
 			return scanner;
 		}
 	}
 
 	@Override
-	public IPresentationReconciler getPresentationReconciler(
-			ISourceViewer sourceViewer) {
+	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
 
 		{
-			DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
-					getJsxScanner());
+			DefaultDamagerRepairer dr = new DefaultDamagerRepairer(getJsxScanner());
 			reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 			reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		}
 
 		{
-			NonRuleBasedDamagerRepairer ndr = new NonRuleBasedDamagerRepairer(
-					new TextAttribute(
+			NonRuleBasedDamagerRepairer ndr =
+					new NonRuleBasedDamagerRepairer(new TextAttribute(
 							colorManager.getColor(IJsxColorConstants.COMMENT)));
 			reconciler.setDamager(ndr, JSX_COMMENT);
 			reconciler.setRepairer(ndr, JSX_COMMENT);

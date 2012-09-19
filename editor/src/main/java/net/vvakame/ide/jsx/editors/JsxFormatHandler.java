@@ -1,10 +1,13 @@
 package net.vvakame.ide.jsx.editors;
 
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 
+/**
+ * JSX Format action handler.
+ * @author u1aryz
+ */
 public class JsxFormatHandler implements IHandler {
 
 	@Override
@@ -16,7 +19,7 @@ public class JsxFormatHandler implements IHandler {
 	}
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(ExecutionEvent event) {
 		return null;
 	}
 

@@ -1,8 +1,5 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.misc.IJsxToken;
 
@@ -11,6 +8,14 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * Test for {@link JsxScanner}.
+ * @author vvakame
+ */
 public class JsxScannerTest {
 
 	ColorManager manager = new ColorManager();
@@ -18,6 +23,10 @@ public class JsxScannerTest {
 
 	// TODO implement more effective test
 
+	/**
+	 * test.
+	 * @author vvakame
+	 */
 	@Test
 	public void test() {
 		JsxScanner scanner = new JsxScanner(manager);

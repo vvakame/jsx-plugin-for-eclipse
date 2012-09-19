@@ -17,14 +17,25 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
+/**
+ * JSX code outline page.
+ * @author vvakame
+ */
 public class JsxOutlinePage extends ContentOutlinePage {
 
 	private JsxEditor editor;
 
+
+	/**
+	 * the constructor.
+	 * @param editor
+	 * @category constructor
+	 */
 	public JsxOutlinePage(JsxEditor editor) {
 		this.editor = editor;
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 
@@ -34,9 +45,10 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		viewer.setLabelProvider(new JsxLabelProvider());
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection sel = (IStructuredSelection) event
-						.getSelection();
+				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
 				Object el = sel.getFirstElement();
 				if (el instanceof SyntaxTree) {
 					SyntaxTree tree = (SyntaxTree) el;
@@ -49,6 +61,10 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		refresh();
 	}
 
+	/**
+	 * Refresh outline.
+	 * @author vvakame
+	 */
 	public void refresh() {
 		IDocumentProvider provider = editor.getDocumentProvider();
 		IDocument document = provider.getDocument(editor.getEditorInput());
@@ -71,6 +87,7 @@ public class JsxOutlinePage extends ContentOutlinePage {
 		viewer.setInput(syntaxTree);
 		viewer.refresh();
 	}
+
 
 	private static class JsxContentProvider implements ITreeContentProvider {
 
@@ -106,6 +123,7 @@ public class JsxOutlinePage extends ContentOutlinePage {
 	}
 
 	private static class JsxLabelProvider extends LabelProvider {
+
 		@Override
 		public String getText(Object element) {
 			SyntaxTree tree = (SyntaxTree) element;

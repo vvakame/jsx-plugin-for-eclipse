@@ -1,7 +1,5 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,40 +13,91 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
+import static net.vvakame.ide.jsx.editors.misc.IJsxToken.*;
+
+/**
+ * JSX keyword and literal scanner.
+ * @author vvakame
+ */
 public class JsxScanner extends RuleBasedScanner {
 
 	// from here.
 	// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L132
 	static final String[] KEYWORDS = {
-			// literals shared with ECMA 262
-			"null", "true", "false",
-			"NaN",
-			"Infinity",
-			// keywords shared with ECMA 262
-			"break", "do", "instanceof", "typeof", "case", "else", "new",
-			"var", "catch", "finally", "return", "void", "continue", "for",
-			"switch", "while", "function", "this",
-			/* "default", */// contextual keywords
-			"if", "throw",
-			/* "assert", "log", // contextual keywords */
-			"delete", "in", "try",
-			// keywords of JSX
-			"class", "extends", "super", "import", "implements", "interface",
-			"static", "__FILE__", "__LINE__", "undefined" };
+		// literals shared with ECMA 262
+		"null",
+		"true",
+		"false",
+		"NaN",
+		"Infinity",
+		// keywords shared with ECMA 262
+		"break",
+		"do",
+		"instanceof",
+		"typeof",
+		"case",
+		"else",
+		"new",
+		"var",
+		"catch",
+		"finally",
+		"return",
+		"void",
+		"continue",
+		"for",
+		"switch",
+		"while",
+		"function",
+		"this",
+		/* "default", */// contextual keywords
+		"if",
+		"throw",
+		/* "assert", "log", // contextual keywords */
+		"delete",
+		"in",
+		"try",
+		// keywords of JSX
+		"class",
+		"extends",
+		"super",
+		"import",
+		"implements",
+		"interface",
+		"static",
+		"__FILE__",
+		"__LINE__",
+		"undefined"
+	};
 
 	// from here.
 	// https://github.com/jsx/JSX/blob/4053b064a59c387dfcfcc9eb3fbd85750cc0a658/src/parser.js#L153
 	static final String[] RESERVED = {
-			// literals of ECMA 262 but not used by JSX
-			"debugger", "with",
-			// future reserved words of ECMA 262
-			"const", "export",
-			// future reserved words within strict mode of ECMA 262
-			"let", "private", "public", "yield", "protected",
+		// literals of ECMA 262 but not used by JSX
+		"debugger",
+		"with",
+		// future reserved words of ECMA 262
+		"const",
+		"export",
+		// future reserved words within strict mode of ECMA 262
+		"let",
+		"private",
+		"public",
+		"yield",
+		"protected",
 
-			// JSX specific reserved words
-			"extern", "native", "as", "operator" };
+		// JSX specific reserved words
+		"extern",
+		"native",
+		"as",
+		"operator"
+	};
 
+
+	/**
+	 * the constructor.
+	 * @param manager
+	 * @category constructor
+	 */
 	public JsxScanner(ColorManager manager) {
 		final IToken def = manager.getToken(JSX_DEFAULT);
 		final IToken keyword = manager.getToken(JSX_KEYWORD);

@@ -1,8 +1,5 @@
 package net.vvakame.ide.jsx.editors.misc;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import java.lang.reflect.Field;
 
 import org.eclipse.jface.text.rules.IToken;
@@ -10,11 +7,24 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * Test for {@link ColorManager}.
+ * @author vvakame
+ */
 public class ColorManagerTest {
 
+	/**
+	 * test.
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @author vvakame
+	 */
 	@Test
-	public void getToken() throws IllegalArgumentException,
-			IllegalAccessException {
+	public void getToken() throws IllegalArgumentException, IllegalAccessException {
 		ColorManager manager = new ColorManager();
 
 		for (Field field : IJsxToken.class.getFields()) {
@@ -29,9 +39,14 @@ public class ColorManagerTest {
 		}
 	}
 
+	/**
+	 * test.
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @author vvakame
+	 */
 	@Test
-	public void getColor() throws IllegalArgumentException,
-			IllegalAccessException {
+	public void getColor() throws IllegalArgumentException, IllegalAccessException {
 		ColorManager manager = new ColorManager();
 
 		for (Field field : IJsxColorConstants.class.getFields()) {

@@ -1,5 +1,6 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -10,11 +11,9 @@ import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.jface.text.presentation.IPresentationDamager;
 import org.eclipse.jface.text.presentation.IPresentationRepairer;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.custom.StyleRange;
 
-class NonRuleBasedDamagerRepairer implements IPresentationDamager,
-		IPresentationRepairer {
+class NonRuleBasedDamagerRepairer implements IPresentationDamager, IPresentationRepairer {
 
 	/** The document this object works on */
 	protected IDocument fDocument;
@@ -25,8 +24,10 @@ class NonRuleBasedDamagerRepairer implements IPresentationDamager,
 	 */
 	protected TextAttribute fDefaultTextAttribute;
 
+
 	/**
 	 * Constructor for NonRuleBasedDamagerRepairer.
+	 * @param defaultTextAttribute 
 	 */
 	public NonRuleBasedDamagerRepairer(TextAttribute defaultTextAttribute) {
 		Assert.isNotNull(defaultTextAttribute);
@@ -78,23 +79,21 @@ class NonRuleBasedDamagerRepairer implements IPresentationDamager,
 		if (!documentPartitioningChanged) {
 			try {
 
-				IRegion info = fDocument.getLineInformationOfOffset(event
-						.getOffset());
+				IRegion info = fDocument.getLineInformationOfOffset(event.getOffset());
 				int start = Math.max(partition.getOffset(), info.getOffset());
 
-				int end = event.getOffset()
-						+ (event.getText() == null ? event.getLength() : event
-								.getText().length());
+				int end =
+						event.getOffset()
+								+ (event.getText() == null ? event.getLength() : event.getText()
+									.length());
 
-				if (info.getOffset() <= end
-						&& end <= info.getOffset() + info.getLength()) {
+				if (info.getOffset() <= end && end <= info.getOffset() + info.getLength()) {
 					// optimize the case of the same line
 					end = info.getOffset() + info.getLength();
 				} else
 					end = endOfLineOf(end);
 
-				end = Math.min(partition.getOffset() + partition.getLength(),
-						end);
+				end = Math.min(partition.getOffset() + partition.getLength(), end);
 				return new Region(start, end - start);
 
 			} catch (BadLocationException x) {
@@ -109,10 +108,8 @@ class NonRuleBasedDamagerRepairer implements IPresentationDamager,
 	 *      ITypedRegion)
 	 */
 	@Override
-	public void createPresentation(TextPresentation presentation,
-			ITypedRegion region) {
-		addRange(presentation, region.getOffset(), region.getLength(),
-				fDefaultTextAttribute);
+	public void createPresentation(TextPresentation presentation, ITypedRegion region) {
+		addRange(presentation, region.getOffset(), region.getLength(), fDefaultTextAttribute);
 	}
 
 	/**
@@ -127,10 +124,10 @@ class NonRuleBasedDamagerRepairer implements IPresentationDamager,
 	 * @param attr
 	 *            the attribute describing the style of the range to be styled
 	 */
-	protected void addRange(TextPresentation presentation, int offset,
-			int length, TextAttribute attr) {
+	protected void addRange(TextPresentation presentation, int offset, int length,
+			TextAttribute attr) {
 		if (attr != null)
-			presentation.addStyleRange(new StyleRange(offset, length, attr
-					.getForeground(), attr.getBackground(), attr.getStyle()));
+			presentation.addStyleRange(new StyleRange(offset, length, attr.getForeground(), attr
+				.getBackground(), attr.getStyle()));
 	}
 }

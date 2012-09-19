@@ -7,11 +7,21 @@ import net.vvakame.ide.jsx.editors.viewerconfiguration.JsxConfiguration;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+/**
+ * Implementation of JSX code editor.
+ * @author vvakame
+ */
 public class JsxEditor extends TextEditor {
 
 	private ColorManager colorManager;
+
 	private JsxOutlinePage outlinePage;
 
+
+	/**
+	 * the constructor.
+	 * @category constructor
+	 */
 	public JsxEditor() {
 		super();
 		colorManager = new ColorManager();
@@ -19,6 +29,7 @@ public class JsxEditor extends TextEditor {
 		setDocumentProvider(new JsxDocumentProvider());
 	}
 
+	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		if (IContentOutlinePage.class.equals(adapter)) {
 			if (outlinePage == null) {

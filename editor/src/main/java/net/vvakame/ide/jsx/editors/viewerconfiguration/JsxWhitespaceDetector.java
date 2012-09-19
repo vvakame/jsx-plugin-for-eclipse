@@ -2,6 +2,10 @@ package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
 
+/**
+ * whitespace detector.
+ * @author vvakame
+ */
 public class JsxWhitespaceDetector implements IWhitespaceDetector {
 
 	@Override

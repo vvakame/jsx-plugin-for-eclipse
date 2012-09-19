@@ -1,8 +1,5 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -11,11 +8,23 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+
+import static org.junit.Assert.*;
+
+/**
+ * Test for {@link JsxWhitespaceDetector}.
+ * @author vvakame
+ */
 public class JsxWhitespaceDetectorTest {
 
 	final Object tokenObj = new Object();
 
 
+	/**
+	 * test.
+	 * @author vvakame
+	 */
 	@Test
 	public void test() {
 		String[] valid = {
