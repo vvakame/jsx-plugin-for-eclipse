@@ -28,7 +28,7 @@ public class JsxTest {
 	public void exec() throws IOException, InterruptedException {
 		Builder builder = new Jsx.Builder();
 		builder.setNodeJsPath("/opt/local/bin/node");
-		builder.setJsxPath("/Users/vvakame/work/JSX/bin/jsx");
+		builder.setJsxPath(getJsxPath());
 
 		builder.help(true);
 
@@ -46,7 +46,7 @@ public class JsxTest {
 		{
 			Builder builder = makeDefault();
 			builder.jsxSource(getGitRootDirectory().getAbsolutePath()
-					+ "/JSX/t/lib/001.hello.jsx");
+					+ "/JSX/t/run/001.hello.jsx");
 
 			Jsx jsx = Jsx.getInstance();
 
@@ -78,7 +78,8 @@ public class JsxTest {
 
 					List<Ast> astList = jsx.parse(builder.build());
 
-					assertThat(astList.size(), is(not(0)));
+					assertThat(file.getAbsolutePath(), astList.size(),
+							is(not(0)));
 				}
 			}
 		}
@@ -243,7 +244,7 @@ public class JsxTest {
 	Builder makeDefault() {
 		Builder builder = new Jsx.Builder();
 		builder.setNodeJsPath("/opt/local/bin/node");
-		builder.setJsxPath("/Users/vvakame/work/JSX/bin/jsx");
+		builder.setJsxPath(getJsxPath());
 
 		return builder;
 	}
@@ -267,5 +268,15 @@ public class JsxTest {
 			gitRoot = gitRoot.getParentFile();
 		}
 		return gitRoot.getParentFile();
+	}
+
+	static String getJsxPath() {
+		File rootDirectory = getGitRootDirectory();
+		File jsxFile = new File(rootDirectory, "JSX/bin/jsx");
+		if (!jsxFile.exists()) {
+			throw new IllegalStateException("jsx not found");
+		}
+
+		return jsxFile.getAbsolutePath();
 	}
 }
