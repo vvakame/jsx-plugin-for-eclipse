@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.vvakame.jsx.wrapper.entity.Ast;
-import net.vvakame.jsx.wrapper.entity.AstGen;
+import net.vvakame.jsx.wrapper.entity.ClassDefinition;
+import net.vvakame.jsx.wrapper.entity.ClassDefinitionGen;
 import net.vvakame.jsx.wrapper.entity.Complete;
 import net.vvakame.jsx.wrapper.entity.CompleteGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -346,7 +346,11 @@ public class Jsx {
 
 		argList.add(args.jsxSource);
 
-		System.out.println(argList.toString());
+		StringBuilder stringBuilder = new StringBuilder();
+		for (String str : argList) {
+			stringBuilder.append(str).append(" ");
+		}
+		System.out.println(stringBuilder.toString());
 
 		ProcessBuilder builder = new ProcessBuilder(argList);
 		addPath(builder, new File(args.nodeJsPath).getParent());
@@ -359,18 +363,19 @@ public class Jsx {
 	/**
 	 * Execute --mode, parse and get AST.
 	 * @param args
-	 * @return {@link List} of {@link Ast}
+	 * @return {@link List} of {@link ClassDefinition}
 	 * @throws IOException
 	 * @throws JsonFormatException
 	 * @throws InterruptedException
 	 * @author vvakame
 	 */
-	public List<Ast> parse(Args args) throws IOException, JsonFormatException, InterruptedException {
+	public List<ClassDefinition> parse(Args args) throws IOException, JsonFormatException,
+			InterruptedException {
 		args.mode = Mode.Parse.getOptionValue();
 
 		Process process = exec(args);
 
-		List<Ast> list = AstGen.getList(process.getInputStream());
+		List<ClassDefinition> list = ClassDefinitionGen.getList(process.getInputStream());
 
 		return list;
 	}

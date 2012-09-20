@@ -10,7 +10,7 @@ import java.util.List;
 import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.Jsx.Executable;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
-import net.vvakame.jsx.wrapper.entity.Ast;
+import net.vvakame.jsx.wrapper.entity.ClassDefinition;
 import net.vvakame.jsx.wrapper.entity.Complete;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
@@ -66,7 +66,7 @@ public class JsxTest {
 
 			Jsx jsx = Jsx.getInstance();
 
-			List<Ast> astList = jsx.parse(builder.build());
+			List<ClassDefinition> astList = jsx.parse(builder.build());
 
 			assertThat(astList.size(), is(not(0)));
 		}
@@ -97,7 +97,7 @@ public class JsxTest {
 
 					Jsx jsx = Jsx.getInstance();
 
-					List<Ast> astList = jsx.parse(builder.build());
+					List<ClassDefinition> astList = jsx.parse(builder.build());
 
 					assertThat(file.getAbsolutePath(), astList.size(), is(not(0)));
 				}
