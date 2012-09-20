@@ -302,7 +302,7 @@ public class Jsx {
 		if (!new File(args.jsxPath).exists()) {
 			throw new IllegalArgumentException("jsx. " + args.jsxPath + " is not exists.");
 		} else if (!new File(args.nodeJsPath).exists()) {
-			throw new IllegalArgumentException("jsx. " + args.jsxPath + " is not exists.");
+			throw new IllegalArgumentException("jsx. " + args.nodeJsPath + " is not exists.");
 		}
 
 		List<String> argList = new ArrayList<String>();
@@ -382,22 +382,30 @@ public class Jsx {
 	 * @param columnIndex columnIndex. tab length is 1.
 	 * @return Completion list
 	 * @throws IOException
-	 * @throws JsonFormatException
 	 * @throws InterruptedException
 	 * @author vvakame
 	 */
 	public List<Complete> complete(Args args, int lineIndex, int columnIndex) throws IOException,
-			JsonFormatException, InterruptedException {
+			InterruptedException {
 		args.complete = true;
 		args.lineIndex = lineIndex;
 		args.columnIndex = columnIndex;
 
 		Process process = exec(args);
 
-		// System.out.println(JsxTest.streamToString(process.getInputStream()));
-		List<Complete> list = CompleteGen.getList(process.getInputStream());
+		try {
+			List<Complete> list = CompleteGen.getList(process.getInputStream());
 
-		return list;
+			process.waitFor();
+			if (process.exitValue() != 0) {
+				throw new JsxCommandException("jsx command failure");
+			}
+
+			return list;
+		} catch (JsonFormatException e) {
+			throw new JsxCommandException("complete list JSON was unexpected. " + lineIndex + ":"
+					+ columnIndex, e);
+		}
 	}
 
 	void addPath(ProcessBuilder builder, String path) {

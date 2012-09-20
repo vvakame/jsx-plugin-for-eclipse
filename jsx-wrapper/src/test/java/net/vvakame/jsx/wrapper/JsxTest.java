@@ -286,6 +286,7 @@ public class JsxTest {
 		Process process = jsx.exec(builder.build());
 		process.waitFor();
 
+		System.out.println(streamToString(process.getErrorStream()));
 		// System.out.println(streamToString(process.getInputStream()));
 
 		assertThat(process.exitValue(), is(0));
