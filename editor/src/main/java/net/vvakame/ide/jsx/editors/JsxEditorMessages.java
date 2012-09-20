@@ -21,4 +21,10 @@ public final class JsxEditorMessages extends NLS {
 
 	@SuppressWarnings("javadoc")
 	public static String Test_test;
+
+	@SuppressWarnings("javadoc")
+	public static String Preference_jsxPath;
+
+	@SuppressWarnings("javadoc")
+	public static String Preference_nodejsPath;
 }

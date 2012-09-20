@@ -1,10 +1,14 @@
 package net.vvakame.ide.jsx.editors;
 
+import net.vvakame.ide.jsx.Activator;
 import net.vvakame.ide.jsx.editors.jsxprovider.JsxDocumentProvider;
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.viewerconfiguration.JsxConfiguration;
 
+import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.ContentAssistAction;
+import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
@@ -25,7 +29,7 @@ public class JsxEditor extends TextEditor {
 	public JsxEditor() {
 		super();
 		colorManager = new ColorManager();
-		setSourceViewerConfiguration(new JsxConfiguration(colorManager));
+		setSourceViewerConfiguration(new JsxConfiguration(this, colorManager));
 		setDocumentProvider(new JsxDocumentProvider());
 	}
 
@@ -38,6 +42,16 @@ public class JsxEditor extends TextEditor {
 			return outlinePage;
 		}
 		return super.getAdapter(adapter);
+	}
+
+	@Override
+	protected void createActions() {
+		super.createActions();
+		IAction action =
+				new ContentAssistAction(Activator.getResourceBundle(), "ContentAssistProposal",
+						this);
+		action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+		setAction("ContentAssistProposal", action);
 	}
 
 	@Override

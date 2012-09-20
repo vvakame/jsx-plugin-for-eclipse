@@ -3,11 +3,14 @@ package net.vvakame.ide.jsx.editors.viewerconfiguration;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.vvakame.ide.jsx.editors.JsxEditor;
 import net.vvakame.ide.jsx.editors.misc.ColorManager;
 import net.vvakame.ide.jsx.editors.misc.IJsxColorConstants;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
@@ -27,15 +30,19 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 	Map<Class<? extends ITokenScanner>, ITokenScanner> scannerHash =
 			new WeakHashMap<Class<? extends ITokenScanner>, ITokenScanner>();
 
+	private JsxEditor editor;
+
 	private ColorManager colorManager;
 
 
 	/**
 	 * the constructor.
+	 * @param editor 
 	 * @param colorManager
 	 * @category constructor
 	 */
-	public JsxConfiguration(ColorManager colorManager) {
+	public JsxConfiguration(JsxEditor editor, ColorManager colorManager) {
+		this.editor = editor;
 		this.colorManager = colorManager;
 	}
 
@@ -92,5 +99,17 @@ public class JsxConfiguration extends SourceViewerConfiguration {
 		}
 
 		return reconciler;
+	}
+
+	@Override
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		ContentAssistant assistant = new ContentAssistant();
+		// TODO JsxContentAssistProcessor need editor?
+		JsxContentAssistProcessor processor = new JsxContentAssistProcessor(editor);
+		assistant.setContentAssistProcessor(processor, IDocument.DEFAULT_CONTENT_TYPE);
+		assistant.enableAutoActivation(true);
+		assistant.enableAutoInsert(true);
+		assistant.install(sourceViewer);
+		return assistant;
 	}
 }

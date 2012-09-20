@@ -56,5 +56,13 @@
          </menu>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.vvakame.ide.jsx.editors.preference.JsxEditorPreferencePage"
+            id="jsx-plugin-editor-for-eclipse.editorPreferencePage"
+            name="JsxEditor Preference">
+      </page>
+   </extension>
 
 </plugin>

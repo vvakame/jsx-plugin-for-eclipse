@@ -1,5 +1,12 @@
 package net.vvakame.ide.jsx;
 
+import java.util.ResourceBundle;
+
+import net.vvakame.ide.jsx.editors.JsxEditorMessages;
+import net.vvakame.ide.jsx.editors.preference.PreferenceConstants;
+import net.vvakame.jsx.wrapper.Jsx;
+import net.vvakame.jsx.wrapper.Jsx.Builder;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -14,6 +21,9 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
+		.getBundle(JsxEditorMessages.class.getSimpleName());
 
 
 	/**
@@ -53,5 +63,39 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	/**
+	 * get string from resource bundle.
+	 * @param key
+	 * @return {@link String}
+	 * @author vvakame
+	 */
+	public static String getString(String key) {
+		return RESOURCE_BUNDLE.getString(key);
+	}
+
+	/**
+	 * get resouce bundle.
+	 * @return {@link ResourceBundle}
+	 * @author vvakame
+	 */
+	public static ResourceBundle getResourceBundle() {
+		return RESOURCE_BUNDLE;
+	}
+
+	/**
+	 * get JSX command builder with JSX bin path and Node.js bin path.
+	 * @return {@link Builder}
+	 * @author vvakame
+	 */
+	public Builder getJsxCommandBuilder() {
+		Builder builder = new Jsx.Builder();
+		String jsxPath = getPreferenceStore().getString(PreferenceConstants.JsxPath);
+		String nodeJsPath = getPreferenceStore().getString(PreferenceConstants.NodeJsPath);
+		builder.setJsxPath(jsxPath);
+		builder.setNodeJsPath(nodeJsPath);
+
+		return builder;
 	}
 }
