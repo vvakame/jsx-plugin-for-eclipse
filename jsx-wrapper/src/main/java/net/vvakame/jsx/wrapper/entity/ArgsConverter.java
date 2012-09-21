@@ -61,6 +61,18 @@ public class ArgsConverter extends TokenConverter<Args> {
 					}
 					Token token = tokenConverter.parse(parser, listener);
 					args.setToken(token);
+				} else if (parser.lookAhead() == State.START_HASH) {
+					Token token = TokenGen.get(parser, listener);
+					args.setToken(token);
+					{
+						State eventType = parser.getEventType();
+						if (eventType == State.VALUE_STRING) {
+							args.setType(parser.getValueString());
+						} else if (eventType == State.VALUE_NULL) {
+						} else {
+							throw new JsonFormatException("value is not String");
+						}
+					}
 				} else {
 					Token token = tokenConverter.parse(parser, listener);
 					args.setToken(token);

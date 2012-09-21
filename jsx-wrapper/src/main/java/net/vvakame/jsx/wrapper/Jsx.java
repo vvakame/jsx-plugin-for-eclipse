@@ -350,7 +350,7 @@ public class Jsx {
 		for (String str : argList) {
 			stringBuilder.append(str).append(" ");
 		}
-		System.out.println(stringBuilder.toString());
+		// System.out.println(stringBuilder.toString());
 
 		ProcessBuilder builder = new ProcessBuilder(argList);
 		addPath(builder, new File(args.nodeJsPath).getParent());
