@@ -248,37 +248,10 @@ public class JsxTest {
 		statement(1, jsonArray);
 	}
 
-	void singleStatementLiteral(JsonArray jsonArray) throws IOException, JsonFormatException {
-		size(2, jsonArray);
-		string(0, jsonArray);
-		token(1, jsonArray);
-	}
-
 	void expressionStatement(JsonArray jsonArray) throws IOException, JsonFormatException {
 		size(2, jsonArray);
 		string(0, jsonArray);
 		statement(1, jsonArray);
-	}
-
-	void debuggerStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		size(2, jsonArray);
-		string(0, jsonArray);
-		token(1, jsonArray);
-	}
-
-	void deleteStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		size(2, jsonArray);
-		string(0, jsonArray);
-		statement(1, jsonArray);
-	}
-
-	void functionExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		size(2, jsonArray);
-		string(0, jsonArray);
-		member(1, jsonArray);
 	}
 
 	void returnStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -288,11 +261,38 @@ public class JsxTest {
 		statement(1, jsonArray);
 	}
 
+	void deleteStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		size(2, jsonArray);
+		string(0, jsonArray);
+		statement(1, jsonArray);
+	}
+
+	void singleStatementLiteral(JsonArray jsonArray) throws IOException, JsonFormatException {
+		size(2, jsonArray);
+		string(0, jsonArray);
+		token(1, jsonArray);
+	}
+
+	void debuggerStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		size(2, jsonArray);
+		string(0, jsonArray);
+		token(1, jsonArray);
+	}
+
 	void regExpLiteralExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		size(2, jsonArray);
 		string(0, jsonArray);
 		token(1, jsonArray);
+	}
+
+	void functionExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		size(2, jsonArray);
+		string(0, jsonArray);
+		member(1, jsonArray);
 	}
 
 	void postIncrementExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -304,6 +304,14 @@ public class JsxTest {
 	}
 
 	void preIncrementExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		size(3, jsonArray);
+		string(0, jsonArray);
+		token(1, jsonArray);
+		statement(2, jsonArray);
+	}
+
+	void unaryExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		size(3, jsonArray);
 		string(0, jsonArray);
@@ -335,15 +343,15 @@ public class JsxTest {
 		string(2, jsonArray);
 	}
 
-	void unaryExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void continueStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		size(3, jsonArray);
 		string(0, jsonArray);
 		token(1, jsonArray);
-		statement(2, jsonArray);
+		token(2, jsonArray);
 	}
 
-	void continueStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void breakStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		size(3, jsonArray);
 		string(0, jsonArray);
@@ -371,14 +379,6 @@ public class JsxTest {
 		string(0, jsonArray);
 		token(1, jsonArray);
 		string(2, jsonArray);
-	}
-
-	void breakStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		size(3, jsonArray);
-		string(0, jsonArray);
-		token(1, jsonArray);
-		token(2, jsonArray);
 	}
 
 	void assertStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -439,6 +439,24 @@ public class JsxTest {
 		statementArray(3, jsonArray);
 	}
 
+	void switchStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		size(4, jsonArray);
+		string(0, jsonArray);
+		token(1, jsonArray);
+		statement(2, jsonArray);
+		statementArray(3, jsonArray);
+	}
+
+	void callExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		size(4, jsonArray);
+		string(0, jsonArray);
+		token(1, jsonArray);
+		statement(2, jsonArray);
+		statementArray(3, jsonArray);
+	}
+
 	void arrayLiteralExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		size(4, jsonArray);
@@ -483,15 +501,6 @@ public class JsxTest {
 		statement(3, jsonArray);
 	}
 
-	void switchStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		size(4, jsonArray);
-		string(0, jsonArray);
-		token(1, jsonArray);
-		statement(2, jsonArray);
-		statementArray(3, jsonArray);
-	}
-
 	void newExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		size(4, jsonArray);
@@ -515,15 +524,6 @@ public class JsxTest {
 		}
 
 		string(3, jsonArray);
-	}
-
-	void callExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		size(4, jsonArray);
-		string(0, jsonArray);
-		token(1, jsonArray);
-		statement(2, jsonArray);
-		statementArray(3, jsonArray);
 	}
 
 	void tryStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
