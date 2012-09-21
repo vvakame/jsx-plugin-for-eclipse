@@ -236,10 +236,95 @@ public class JsxTest {
 		}
 	}
 
+	void dafaultStatement(JsonArray jsonArray) {
+		assertThat(jsonArray.size(), is(1));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+	}
+
+	void caseStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		parseStatement(jsonArray.getJsonArrayOrNull(1));
+	}
+
 	void singleStatementLiteral(JsonArray jsonArray) throws IOException, JsonFormatException {
 		assertThat(jsonArray.size(), is(2));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		token(jsonArray.getJsonArrayOrNull(1));
+	}
+
+	void expressionStatement(JsonArray jsonArray) throws IOException, JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		parseStatement(jsonArray.getJsonArrayOrNull(1));
+	}
+
+	void debuggerStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+	}
+
+	void deleteStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		parseStatement(jsonArray.getJsonArrayOrNull(1));
+	}
+
+	void functionExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		member(jsonArray.getJsonHashOrNull(1));
+	}
+
+	void returnStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		parseStatement(jsonArray.getJsonArrayOrNull(1));
+	}
+
+	void regExpLiteralExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+	}
+
+	void postIncrementExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+		parseStatement(jsonArray.getJsonArrayOrNull(2));
+	}
+
+	void preIncrementExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+		parseStatement(jsonArray.getJsonArrayOrNull(2));
+	}
+
+	void logStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
+	}
+
+	void instanceofExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		parseStatement(jsonArray.getJsonArrayOrNull(1));
+		assertThat(jsonArray.getStringOrNull(2), instanceOf(String.class));
 	}
 
 	void asExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -250,16 +335,6 @@ public class JsxTest {
 		assertThat(jsonArray.getStringOrNull(2), instanceOf(String.class));
 	}
 
-	void propertyExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(4));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		parseStatement(jsonArray.getJsonArrayOrNull(1));
-		token(jsonArray.getJsonArrayOrNull(2));
-		@SuppressWarnings("unused")
-		String stringOrNull = jsonArray.getStringOrNull(3);
-	}
-
 	void unaryExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		assertThat(jsonArray.size(), is(3));
@@ -268,37 +343,12 @@ public class JsxTest {
 		parseStatement(jsonArray.getJsonArrayOrNull(2));
 	}
 
-	void binaryExpression(JsonArray jsonArray) throws IOException, JsonFormatException {
-		assertThat(jsonArray.size(), is(4));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		assertThat(jsonArray.getJsonArrayOrNull(1), instanceOf(JsonArray.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-
-		parseStatement(jsonArray.getJsonArrayOrNull(2));
-		parseStatement(jsonArray.getJsonArrayOrNull(3));
-	}
-
-	void expressionStatement(JsonArray jsonArray) throws IOException, JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		parseStatement(jsonArray.getJsonArrayOrNull(1));
-	}
-
 	void continueStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		assertThat(jsonArray.size(), is(3));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		token(jsonArray.getJsonArrayOrNull(1));
 		token(jsonArray.getJsonArrayOrNull(2));
-	}
-
-	void switchStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(4));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-		parseStatement(jsonArray.getJsonArrayOrNull(2));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
 	}
 
 	void commaExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -348,23 +398,6 @@ public class JsxTest {
 		assertThat(jsonArray.getStringOrNull(2), instanceOf(String.class));
 	}
 
-	void debuggerStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-	}
-
-	void tryStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(5));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(1));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(4));
-	}
-
 	void throwStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		assertThat(jsonArray.size(), is(3));
@@ -373,46 +406,12 @@ public class JsxTest {
 		parseStatement(jsonArray.getJsonArrayOrNull(2));
 	}
 
-	void forInStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(5));
+	void constructorInvocationStatement(JsonArray jsonArray) throws IllegalStateException,
+			IOException, JsonFormatException {
+		assertThat(jsonArray.size(), is(3));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		parseStatement(jsonArray.getJsonArrayOrNull(1));
-		parseStatement(jsonArray.getJsonArrayOrNull(2));
-		parseStatement(jsonArray.getJsonArrayOrNull(3));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(4));
-	}
-
-	void caseStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		parseStatement(jsonArray.getJsonArrayOrNull(1));
-	}
-
-	void catchStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(4));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-		args(jsonArray.getJsonArrayOrNull(2));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
-	}
-
-	void dafaultStatement(JsonArray jsonArray) {
-		assertThat(jsonArray.size(), is(1));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-	}
-
-	void forStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(6));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-		parseStatement(jsonArray.getJsonArrayOrNull(2));
-		parseStatement(jsonArray.getJsonArrayOrNull(3));
-		parseStatement(jsonArray.getJsonArrayOrNull(4));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(5));
+		assertThat(jsonArray.getStringOrNull(1), instanceOf(String.class));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
 	}
 
 	void localExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -441,16 +440,6 @@ public class JsxTest {
 		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
 	}
 
-	void conditionalExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(5));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-		parseStatement(jsonArray.getJsonArrayOrNull(2));
-		parseStatement(jsonArray.getJsonArrayOrNull(3));
-		parseStatement(jsonArray.getJsonArrayOrNull(4));
-	}
-
 	void arrayLiteralExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
 		assertThat(jsonArray.size(), is(4));
@@ -459,14 +448,6 @@ public class JsxTest {
 		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
 		@SuppressWarnings("unused")
 		String stringOrNull = jsonArray.getStringOrNull(3);
-	}
-
-	void constructorInvocationStatement(JsonArray jsonArray) throws IllegalStateException,
-			IOException, JsonFormatException {
-		assertThat(jsonArray.size(), is(3));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		assertThat(jsonArray.getStringOrNull(1), instanceOf(String.class));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
 	}
 
 	void ifStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -478,29 +459,51 @@ public class JsxTest {
 		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
 	}
 
-	void deleteStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void catchStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		parseStatement(jsonArray.getJsonArrayOrNull(1));
-	}
-
-	void superExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(5));
+		assertThat(jsonArray.size(), is(4));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		token(jsonArray.getJsonArrayOrNull(1));
-		token(jsonArray.getJsonArrayOrNull(2));
+		args(jsonArray.getJsonArrayOrNull(2));
 		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
-		parseStatement(jsonArray.getJsonArrayOrNull(4));
 	}
 
-	void instanceofExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void propertyExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
-		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.size(), is(4));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		parseStatement(jsonArray.getJsonArrayOrNull(1));
+		token(jsonArray.getJsonArrayOrNull(2));
+		@SuppressWarnings("unused")
+		String stringOrNull = jsonArray.getStringOrNull(3);
+	}
+
+	void binaryExpression(JsonArray jsonArray) throws IOException, JsonFormatException {
+		assertThat(jsonArray.size(), is(4));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		assertThat(jsonArray.getJsonArrayOrNull(1), instanceOf(JsonArray.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+
+		parseStatement(jsonArray.getJsonArrayOrNull(2));
+		parseStatement(jsonArray.getJsonArrayOrNull(3));
+	}
+
+	void switchStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(4));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+		parseStatement(jsonArray.getJsonArrayOrNull(2));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
+	}
+
+	void newExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(4));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
 		assertThat(jsonArray.getStringOrNull(2), instanceOf(String.class));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
 	}
 
 	void mapLiteralExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
@@ -530,58 +533,55 @@ public class JsxTest {
 		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
 	}
 
-	void functionExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void tryStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.size(), is(5));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		member(jsonArray.getJsonHashOrNull(1));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(1));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(4));
 	}
 
-	void returnStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void forInStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
+		assertThat(jsonArray.size(), is(5));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		parseStatement(jsonArray.getJsonArrayOrNull(1));
+		parseStatement(jsonArray.getJsonArrayOrNull(2));
+		parseStatement(jsonArray.getJsonArrayOrNull(3));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(4));
 	}
 
-	void postIncrementExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void conditionalExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
-		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.size(), is(5));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		token(jsonArray.getJsonArrayOrNull(1));
 		parseStatement(jsonArray.getJsonArrayOrNull(2));
+		parseStatement(jsonArray.getJsonArrayOrNull(3));
+		parseStatement(jsonArray.getJsonArrayOrNull(4));
 	}
 
-	void preIncrementExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
+	void superExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
 			JsonFormatException {
-		assertThat(jsonArray.size(), is(3));
+		assertThat(jsonArray.size(), is(5));
 		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
 		token(jsonArray.getJsonArrayOrNull(1));
-		parseStatement(jsonArray.getJsonArrayOrNull(2));
-	}
-
-	void regExpLiteralExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(2));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-	}
-
-	void logStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(3));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-		parseStatementArray(jsonArray.getJsonArrayOrNull(2));
-	}
-
-	void newExpression(JsonArray jsonArray) throws IllegalStateException, IOException,
-			JsonFormatException {
-		assertThat(jsonArray.size(), is(4));
-		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
-		token(jsonArray.getJsonArrayOrNull(1));
-		assertThat(jsonArray.getStringOrNull(2), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(2));
 		parseStatementArray(jsonArray.getJsonArrayOrNull(3));
+		parseStatement(jsonArray.getJsonArrayOrNull(4));
+	}
+
+	void forStatement(JsonArray jsonArray) throws IllegalStateException, IOException,
+			JsonFormatException {
+		assertThat(jsonArray.size(), is(6));
+		assertThat(jsonArray.getStringOrNull(0), instanceOf(String.class));
+		token(jsonArray.getJsonArrayOrNull(1));
+		parseStatement(jsonArray.getJsonArrayOrNull(2));
+		parseStatement(jsonArray.getJsonArrayOrNull(3));
+		parseStatement(jsonArray.getJsonArrayOrNull(4));
+		parseStatementArray(jsonArray.getJsonArrayOrNull(5));
 	}
 
 	void parseStatementArray(JsonArray jsonArray) throws IllegalStateException, IOException,
