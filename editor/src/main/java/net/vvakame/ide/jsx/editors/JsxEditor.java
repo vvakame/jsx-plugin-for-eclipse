@@ -19,7 +19,7 @@ public class JsxEditor extends TextEditor {
 
 	private ColorManager colorManager;
 
-	private JsxOutlinePage outlinePage;
+	private JsxOutlinePage2 outlinePage;
 
 
 	/**
@@ -37,7 +37,7 @@ public class JsxEditor extends TextEditor {
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		if (IContentOutlinePage.class.equals(adapter)) {
 			if (outlinePage == null) {
-				outlinePage = new JsxOutlinePage(this);
+				outlinePage = new JsxOutlinePage2(this);
 			}
 			return outlinePage;
 		}
