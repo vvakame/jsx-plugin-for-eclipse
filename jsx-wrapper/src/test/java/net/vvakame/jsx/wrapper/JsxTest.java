@@ -314,7 +314,12 @@ public class JsxTest {
 		assertThat(process.exitValue(), is(0));
 	}
 
-	Builder makeDefault() {
+	/**
+	 * make default builder.
+	 * @return {@link Builder}
+	 * @author vvakame
+	 */
+	public static Builder makeDefault() {
 		Builder builder = new Jsx.Builder();
 		builder.setNodeJsPath("/opt/local/bin/node");
 		builder.setJsxPath(getJsxPath());
@@ -334,7 +339,12 @@ public class JsxTest {
 		return baos.toString();
 	}
 
-	static File getGitRootDirectory() {
+	/**
+	 * get git root directory.
+	 * @return git root
+	 * @author vvakame
+	 */
+	public static File getGitRootDirectory() {
 		final String projectName = "jsx-wrapper";
 		File gitRoot = new File("./").getAbsoluteFile();
 		while (!projectName.equals(gitRoot.getName())) {
