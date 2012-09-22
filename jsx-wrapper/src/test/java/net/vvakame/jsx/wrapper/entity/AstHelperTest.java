@@ -51,12 +51,29 @@ public class AstHelperTest {
 	 * @author vvakame
 	 */
 	@Test
-	public void filter() throws IOException, InterruptedException, JsonFormatException {
+	public void filterByDefinedFile() throws IOException, InterruptedException, JsonFormatException {
 		List<ClassDefinition> list = getSampleAst();
 
 		List<ClassDefinition> filtered = AstHelper.filterByDefinedFile(list, "001.hello.jsx");
 
 		assertThat(filtered.size(), is(1));
+	}
+
+	/**
+	 * Test.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	@Test
+	public void filterFunction() throws IOException, InterruptedException, JsonFormatException {
+		List<ClassDefinition> list = getSampleAst();
+
+		List<ClassDefinition> filtered = AstHelper.filterByDefinedFile(list, "001.hello.jsx");
+		List<Member> filteredMembers = AstHelper.filterFunction(filtered.get(0).getMembers());
+
+		assertThat(filteredMembers.size(), is(1));
 	}
 
 	static List<ClassDefinition> getSampleAst() throws IOException, InterruptedException,

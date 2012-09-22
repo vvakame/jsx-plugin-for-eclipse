@@ -47,4 +47,20 @@ public class AstHelper {
 
 		return newList;
 	}
+
+	/**
+	 * filter only function.
+	 * @param members
+	 * @return function members
+	 * @author vvakame
+	 */
+	public static List<Member> filterFunction(List<Member> members) {
+		List<Member> newList = new ArrayList<Member>();
+		for (Member member : members) {
+			if (member.getToken() != null && "function".equals(member.getToken().getValue())) {
+				newList.add(member);
+			}
+		}
+		return newList;
+	}
 }
