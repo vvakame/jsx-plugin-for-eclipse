@@ -12,7 +12,7 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
  * {@link TokenConverter} for {@link Token}.
  * @author vvakame
  */
-public class JsxTokenConverter extends TokenConverter<Token> {
+class JsxTokenConverter extends TokenConverter<Token> {
 
 	static JsxTokenConverter converter;
 

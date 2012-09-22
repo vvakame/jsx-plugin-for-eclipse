@@ -7,7 +7,7 @@ import net.vvakame.util.jsonpullparser.annotation.JsonModel;
  * Token in JSX AST.
  * @author vvakame
  */
-@JsonModel(treatUnknownKeyAsError = true)
+@JsonModel(treatUnknownKeyAsError = true, genToPackagePrivate = true)
 public class Token {
 
 	@JsonKey("_value")
@@ -99,5 +99,11 @@ public class Token {
 	 */
 	public void setColumnNumber(Integer columnNumber) {
 		this.columnNumber = columnNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "Token [value=" + value + ", isIdentifier=" + isIdentifier + ", filename="
+				+ filename + ", lineNumber=" + lineNumber + ", columnNumber=" + columnNumber + "]";
 	}
 }

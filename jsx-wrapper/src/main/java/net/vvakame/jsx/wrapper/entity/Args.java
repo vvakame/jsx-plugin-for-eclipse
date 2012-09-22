@@ -40,4 +40,9 @@ public class Args {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		return "Args [token=" + token + ", type=" + type + "]";
+	}
 }

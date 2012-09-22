@@ -4,13 +4,12 @@ import java.util.List;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;
-import net.vvakame.util.jsonpullparser.util.JsonArray;
 
 /**
  * Member in JSX AST.
  * @author vvakame
  */
-@JsonModel(treatUnknownKeyAsError = true)
+@JsonModel(treatUnknownKeyAsError = true, genToPackagePrivate = true)
 public class Member {
 
 	@JsonKey(converter = JsxTokenConverter.class)
@@ -25,9 +24,8 @@ public class Member {
 	@JsonKey
 	String type;
 
-	@JsonKey
-	// TODO create token converter
-	JsonArray initialValue;
+	@JsonKey(converter = StatementConverter.class)
+	Statement initialValue;
 
 	@JsonKey
 	int flags;
@@ -41,9 +39,8 @@ public class Member {
 	@JsonKey(converter = ArgsListConverter.class)
 	List<Args> locals;
 
-	@JsonKey
-	// TODO create token converter
-	JsonArray statements;
+	@JsonKey(converter = StatementListConverter.class)
+	List<Statement> statements;
 
 
 	/**
@@ -109,7 +106,7 @@ public class Member {
 	/**
 	 * @return the initialValue
 	 */
-	public JsonArray getInitialValue() {
+	public Statement getInitialValue() {
 		return initialValue;
 	}
 
@@ -117,7 +114,7 @@ public class Member {
 	 * @param initialValue
 	 *            the initialValue to set
 	 */
-	public void setInitialValue(JsonArray initialValue) {
+	public void setInitialValue(Statement initialValue) {
 		this.initialValue = initialValue;
 	}
 
@@ -184,7 +181,7 @@ public class Member {
 	/**
 	 * @return the statements
 	 */
-	public JsonArray getStatements() {
+	public List<Statement> getStatements() {
 		return statements;
 	}
 
@@ -192,7 +189,15 @@ public class Member {
 	 * @param statements
 	 *            the statements to set
 	 */
-	public void setStatements(JsonArray statements) {
+	public void setStatements(List<Statement> statements) {
 		this.statements = statements;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [token=" + token + ", nameToken=" + nameToken + ", name=" + name + ", type="
+				+ type + ", initialValue=" + initialValue + ", flags=" + flags + ", returnType="
+				+ returnType + ", args=" + args + ", locals=" + locals + ", statements="
+				+ statements + "]";
 	}
 }

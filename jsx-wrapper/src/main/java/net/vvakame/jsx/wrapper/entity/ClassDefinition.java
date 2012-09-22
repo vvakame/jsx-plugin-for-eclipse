@@ -265,4 +265,11 @@ public class ClassDefinition {
 	public void setImplementsValue(List<String> implementsValue) {
 		this.implementsValue = implementsValue;
 	}
+
+	@Override
+	public String toString() {
+		return "ClassDefinition [token=" + token + ", name=" + name + ", flags=" + flags
+				+ ", extendsValue=" + extendsValue + ", implementsValue=" + implementsValue
+				+ ", members=" + members + "]";
+	}
 }

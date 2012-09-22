@@ -14,7 +14,7 @@ import net.vvakame.util.jsonpullparser.util.TokenConverter;
  * {@link TokenConverter} aboud {@link List} of {@link Args}
  * @author vvakame
  */
-public class ArgsListConverter extends TokenConverter<List<Args>> {
+class ArgsListConverter extends TokenConverter<List<Args>> {
 
 	static ArgsListConverter converter;
 
