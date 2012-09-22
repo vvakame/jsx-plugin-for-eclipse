@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
@@ -189,6 +190,22 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 			} else {
 				throw new IllegalStateException("unknown class "
 						+ element.getClass().getCanonicalName());
+			}
+		}
+
+		@Override
+		public Image getImage(Object element) {
+			if (element instanceof ClassDefinition) {
+				ClassDefinition clazz = (ClassDefinition) element;
+				if (clazz.isInterface()) {
+					return JsxImages.INTERFACE_ICON.createImage();
+				} else if (clazz.isMixin()) {
+					return JsxImages.MIXIN_ICON.createImage();
+				} else {
+					return JsxImages.CLASS_ICON.createImage();
+				}
+			} else {
+				return JsxImages.METHOD_ICON.createImage();
 			}
 		}
 	}
