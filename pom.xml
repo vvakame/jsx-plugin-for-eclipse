@@ -21,11 +21,11 @@
 	</repositories>
 
 	<modules>
-		<module>editor.parent</module>
-		<module>editor</module>
-		<module>editor.test</module>
-		<!--<module>editor.feature</module>-->
-		<module>editor.updatesite</module>
+		<module>jsx.eclipse.plugin.build</module>
+		<module>jsx.eclipse.plugin.core</module>
+		<module>jsx.eclipse.plugin.core.tests</module>
+		<module>jsx.eclipse.plugin.feature</module>
+		<module>jsx.eclipse.plugin.updatesite</module>
 	</modules>
 
 	<build>
