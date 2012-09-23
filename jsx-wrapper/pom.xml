@@ -144,6 +144,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
 				<configuration>
 					<filesets>
 						<fileset>
@@ -164,6 +165,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
 				<configuration>
 					<excludes>
 						<exclude>net.vvakame:jsonpullparser-apt</exclude>
@@ -178,7 +180,7 @@
 				                <![CDATA[
 <factorypath>
     <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="WKSPJAR" id="/${artifactId}/${eclipse.lib}/jsonpullparser-apt-${jsonpullparser.version}.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/${project.artifactId}/${eclipse.lib}/jsonpullparser-apt-${jsonpullparser.version}.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
 				                ]]>
 							</content>

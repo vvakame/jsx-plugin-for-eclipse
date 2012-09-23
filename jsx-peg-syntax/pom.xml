@@ -49,6 +49,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
 				<executions>
 					<execution>
 						<id>make-dir</id>
@@ -59,6 +60,20 @@
 						<configuration>
 							<tasks>
 								<mkdir dir="${peg-generated-dir}/net/vvakame/jsx/peg" />
+							</tasks>
+						</configuration>
+					</execution>
+					<execution>
+						<id>move-file</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<move todir="${peg-generated-dir}/net/vvakame/jsx/peg">
+									<fileset dir="${peg-generated-dir}" includes="*.java" />
+								</move>
 							</tasks>
 						</configuration>
 					</execution>
@@ -88,33 +103,15 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>move-file</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<move todir="${peg-generated-dir}/net/vvakame/jsx/peg">
-									<fileset dir="${peg-generated-dir}" includes="*.java" />
-								</move>
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.2</version>
 				<configuration>
 					<argLine>-Xmx2048M</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.3</version>
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
@@ -137,6 +134,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
 				<configuration>
 					<filesets>
 						<fileset>
@@ -148,6 +146,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
 				<configuration>
 					<classpathContainers>
 						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
