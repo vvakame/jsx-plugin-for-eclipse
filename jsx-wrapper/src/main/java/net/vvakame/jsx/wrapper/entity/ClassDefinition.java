@@ -60,6 +60,15 @@ public class ClassDefinition {
 
 
 	/**
+	 * no has interface or mixin modifier.
+	 * @return class or not
+	 * @author vvakame
+	 */
+	public boolean isClass() {
+		return (flags & (IS_INTERFACE | IS_MIXIN)) == 0;
+	}
+
+	/**
 	 * has const modifier.
 	 * @return const or not
 	 * @author vvakame
@@ -91,6 +100,7 @@ public class ClassDefinition {
 	 * @return static or not
 	 * @author vvakame
 	 */
+	@Deprecated
 	public boolean isStatic() {
 		return (flags & IS_STATIC) != 0;
 	}
@@ -109,6 +119,7 @@ public class ClassDefinition {
 	 * @return override or not
 	 * @author vvakame
 	 */
+	@Deprecated
 	public boolean isOverride() {
 		return (flags & IS_OVERRIDE) != 0;
 	}
@@ -145,6 +156,7 @@ public class ClassDefinition {
 	 * @return readpnly or not
 	 * @author vvakame
 	 */
+	@Deprecated
 	public boolean isReadonly() {
 		return (flags & IS_READONLY) != 0;
 	}
@@ -154,6 +166,7 @@ public class ClassDefinition {
 	 * @return inline or not
 	 * @author vvakame
 	 */
+	@Deprecated
 	public boolean isInline() {
 		return (flags & IS_INLINE) != 0;
 	}
@@ -163,6 +176,7 @@ public class ClassDefinition {
 	 * @return pure or not
 	 * @author vvakame
 	 */
+	@Deprecated
 	public boolean isPure() {
 		return (flags & IS_PURE) != 0;
 	}
@@ -172,6 +186,7 @@ public class ClassDefinition {
 	 * @return delete or not
 	 * @author vvakame
 	 */
+	@Deprecated
 	public boolean isDelete() {
 		return (flags & IS_DELETE) != 0;
 	}

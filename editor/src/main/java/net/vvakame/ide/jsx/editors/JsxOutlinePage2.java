@@ -1,6 +1,7 @@
 package net.vvakame.ide.jsx.editors;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.vvakame.ide.jsx.Activator;
@@ -139,7 +140,17 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof ClassDefinition) {
 				List<Member> members = ((ClassDefinition) parentElement).getMembers();
-				return AstHelper.filterFunction(members).toArray();
+				List<Member> newList = new ArrayList<Member>();
+				for (Member member : members) {
+					if (member.isFunction()) {
+						newList.add(member);
+					} else {
+						newList.add(member);
+						System.out.println(member);
+					}
+				}
+
+				return newList.toArray();
 			} else if (parentElement instanceof Member) {
 				return new Object[0];
 			} else if (parentElement instanceof List) {
@@ -186,7 +197,11 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 				return clazz.getName();
 			} else if (element instanceof Member) {
 				Member member = (Member) element;
-				return member.getNameToken().getValue();
+				if (((Member) element).isFunction()) {
+					return member.getNameToken().getValue();
+				} else {
+					return member.getName();
+				}
 			} else {
 				throw new IllegalStateException("unknown class "
 						+ element.getClass().getCanonicalName());
@@ -204,8 +219,16 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 				} else {
 					return JsxImages.CLASS_ICON.createImage();
 				}
+			} else if (element instanceof Member) {
+				Member member = (Member) element;
+				if (member.isFunction()) {
+					return JsxImages.METHOD_ICON.createImage();
+				} else {
+					return JsxImages.VARIABLE_ICON.createImage();
+				}
 			} else {
-				return JsxImages.METHOD_ICON.createImage();
+				throw new IllegalStateException("unknown class "
+						+ element.getClass().getCanonicalName());
 			}
 		}
 	}

@@ -24,6 +24,8 @@ public class JsxImages {
 
 	static final ImageDescriptor METHOD_ICON = create("icons/method.png");
 
+	static final ImageDescriptor VARIABLE_ICON = create("icons/variable.png");
+
 
 	private JsxImages() {
 	}

@@ -44,6 +44,132 @@ public class Member {
 
 
 	/**
+	 * is function?
+	 * @return function or not
+	 * @author vvakame
+	 */
+	public boolean isFunction() {
+		return token != null && "function".equals(token.getValue());
+	}
+
+	/**
+	 * has const modifier.
+	 * @return const or not
+	 * @author vvakame
+	 */
+	public boolean isConst() {
+		return (flags & ClassDefinition.IS_CONST) != 0;
+	}
+
+	/**
+	 * has abstract modifier.
+	 * @return abstract or not
+	 * @author vvakame
+	 */
+	public boolean isAbstract() {
+		return (flags & ClassDefinition.IS_ABSTRACT) != 0;
+	}
+
+	/**
+	 * has final modifier.
+	 * @return final or not
+	 * @author vvakame
+	 */
+	public boolean isFinal() {
+		return (flags & ClassDefinition.IS_FINAL) != 0;
+	}
+
+	/**
+	 * has static modifier.
+	 * @return static or not
+	 * @author vvakame
+	 */
+	public boolean isStatic() {
+		return (flags & ClassDefinition.IS_STATIC) != 0;
+	}
+
+	/**
+	 * has native modifier.
+	 * @return native or not
+	 * @author vvakame
+	 */
+	public boolean isNative() {
+		return (flags & ClassDefinition.IS_NATIVE) != 0;
+	}
+
+	/**
+	 * has override modifier.
+	 * @return override or not
+	 * @author vvakame
+	 */
+	public boolean isOverride() {
+		return (flags & ClassDefinition.IS_OVERRIDE) != 0;
+	}
+
+	/**
+	 * has interface modifier.
+	 * @return interface or not
+	 * @author vvakame
+	 */
+	public boolean isInterface() {
+		return (flags & ClassDefinition.IS_INTERFACE) != 0;
+	}
+
+	/**
+	 * has mixin modifier.
+	 * @return mixin or not
+	 * @author vvakame
+	 */
+	public boolean isMixin() {
+		return (flags & ClassDefinition.IS_MIXIN) != 0;
+	}
+
+	/**
+	 * has face modifier.
+	 * @return face or not
+	 * @author vvakame
+	 */
+	public boolean isFake() {
+		return (flags & ClassDefinition.IS_FAKE) != 0;
+	}
+
+	/**
+	 * has readonly modifier.
+	 * @return readpnly or not
+	 * @author vvakame
+	 */
+	public boolean isReadonly() {
+		return (flags & ClassDefinition.IS_READONLY) != 0;
+	}
+
+	/**
+	 * has inline modifier.
+	 * @return inline or not
+	 * @author vvakame
+	 */
+	public boolean isInline() {
+		return (flags & ClassDefinition.IS_INLINE) != 0;
+	}
+
+	/**
+	 * has pure modifier.
+	 * @return pure or not
+	 * @author vvakame
+	 */
+	public boolean isPure() {
+		return (flags & ClassDefinition.IS_PURE) != 0;
+	}
+
+	/**
+	 * has delete modifier.
+	 * @return delete or not
+	 * @author vvakame
+	 */
+	public boolean isDelete() {
+		return (flags & ClassDefinition.IS_DELETE) != 0;
+	}
+
+	/**
 	 * @return the token
 	 */
 	public Token getToken() {
