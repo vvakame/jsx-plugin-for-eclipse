@@ -1,7 +1,5 @@
 package net.vvakame.ide.jsx.editors.viewerconfiguration;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 import net.vvakame.ide.jsx.Activator;
@@ -10,8 +8,6 @@ import net.vvakame.jsx.wrapper.Jsx;
 import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.JsxCommandException;
 import net.vvakame.jsx.wrapper.completeentity.Complete;
-import net.vvakame.jsx.wrapper.completeentity.CompleteGen;
-import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Status;
@@ -68,35 +64,15 @@ public class JsxContentAssistProcessor implements IContentAssistProcessor {
 		List<Complete> completeList = null;
 		try {
 			Builder builder = Activator.getDefault().getJsxCommandBuilder();
-			{
-				// builder.jsxSource(jsxCodePath);
-				// completeList = Jsx.getInstance().complete(builder.build(), lineIndex, columnIndex);
+			builder.jsxSource(jsxCodePath);
+			if (!editor.isDirty()) {
+				completeList = Jsx.getInstance().complete(builder.build(), lineIndex, columnIndex);
+			} else {
+				completeList =
+						Jsx.getInstance().complete(builder.build(), document.get(), lineIndex,
+								columnIndex);
 			}
-			{
-				// TODO fix Jsx.java.
-				builder.inputFilename(jsxCodePath);
-				builder.complete(true, lineIndex, columnIndex);
-				Process process = Jsx.getInstance().exec(builder.build());
-				OutputStream outputStream = process.getOutputStream();
-				outputStream.write(document.get().getBytes());
-				outputStream.close();
-				completeList = CompleteGen.getList(process.getInputStream());
-				System.out.println(process.getErrorStream().available());
-			}
-			System.out.println(completeList.toString());
-		} catch (IOException e) {
-			Activator.getDefault().getLog()
-				.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
-			return null;
-		} catch (InterruptedException e) {
-			Activator.getDefault().getLog()
-				.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
-			return null;
 		} catch (JsxCommandException e) {
-			Activator.getDefault().getLog()
-				.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
-			return null;
-		} catch (JsonFormatException e) {
 			Activator.getDefault().getLog()
 				.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
 			return null;

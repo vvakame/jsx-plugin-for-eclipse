@@ -128,6 +128,29 @@ public class JsxTest {
 	}
 
 	/**
+	 * Test for {@link Jsx#complete(net.vvakame.jsx.wrapper.Jsx.Args, String, int, int)}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws JsonFormatException
+	 * @author vvakame
+	 */
+	@Test
+	public void completeWithNewSource() throws IOException, InterruptedException,
+			JsonFormatException {
+
+		Builder builder = makeDefault();
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/jsx-code/jsx/view.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+
+		String newJsxCode = "class _Main{}";
+		List<Complete> completeList = jsx.complete(builder.build(), newJsxCode, 1, 13);
+		// System.out.println(completeList.toString());
+
+		assertThat(completeList, notNullValue());
+	}
+
+	/**
 	 * Test for plane {@link Builder}.
 	 * @throws IOException
 	 * @throws InterruptedException

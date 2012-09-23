@@ -1,6 +1,5 @@
 package net.vvakame.ide.jsx.editors;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,11 +7,11 @@ import net.vvakame.ide.jsx.Activator;
 import net.vvakame.ide.jsx.parser.SyntaxTree;
 import net.vvakame.jsx.wrapper.Jsx;
 import net.vvakame.jsx.wrapper.Jsx.Builder;
+import net.vvakame.jsx.wrapper.JsxCommandException;
 import net.vvakame.jsx.wrapper.parseentity.AstHelper;
 import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
 import net.vvakame.jsx.wrapper.parseentity.Member;
 import net.vvakame.jsx.wrapper.parseentity.Token;
-import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Status;
@@ -112,15 +111,7 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 			builder.jsxSource(jsxCodePath);
 			try {
 				classes = Jsx.getInstance().parse(builder.build());
-			} catch (IOException e) {
-				Activator.getDefault().getLog()
-					.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
-				return;
-			} catch (JsonFormatException e) {
-				Activator.getDefault().getLog()
-					.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
-				return;
-			} catch (InterruptedException e) {
+			} catch (JsxCommandException e) {
 				Activator.getDefault().getLog()
 					.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
 				return;

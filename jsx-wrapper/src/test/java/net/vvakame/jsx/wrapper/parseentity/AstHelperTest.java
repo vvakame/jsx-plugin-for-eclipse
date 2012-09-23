@@ -6,9 +6,6 @@ import java.util.List;
 import net.vvakame.jsx.wrapper.Jsx;
 import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
-import net.vvakame.jsx.wrapper.parseentity.AstHelper;
-import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
-import net.vvakame.jsx.wrapper.parseentity.Member;
 import net.vvakame.jsx.wrapper.JsxTest;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
@@ -79,8 +76,7 @@ public class AstHelperTest {
 		assertThat(filteredMembers.size(), is(1));
 	}
 
-	static List<ClassDefinition> getSampleAst() throws IOException, InterruptedException,
-			JsonFormatException {
+	static List<ClassDefinition> getSampleAst() throws IOException, JsonFormatException {
 		Builder builder = JsxTest.makeDefault();
 		builder.jsxSource(JsxTest.getGitRootDirectory().getAbsolutePath()
 				+ "/JSX/t/run/001.hello.jsx");

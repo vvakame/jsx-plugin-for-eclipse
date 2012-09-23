@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -312,11 +313,9 @@ public class Jsx {
 	 * execute JSX command.
 	 * @param args
 	 * @return {@link Process}
-	 * @throws IOException
-	 * @throws InterruptedException
 	 * @author vvakame
 	 */
-	public Process exec(Args args) throws IOException, InterruptedException {
+	public Process exec(Args args) {
 		if (!new File(args.jsxPath).exists()) {
 			throw new IllegalArgumentException("jsx. " + args.jsxPath + " is not exists.");
 		} else if (!new File(args.nodeJsPath).exists()) {
@@ -380,7 +379,12 @@ public class Jsx {
 		ProcessBuilder builder = new ProcessBuilder(argList);
 		addPath(builder, new File(args.nodeJsPath).getParent());
 
-		Process process = builder.start();
+		Process process;
+		try {
+			process = builder.start();
+		} catch (IOException e) {
+			throw new JsxCommandException("raise IOException.", e);
+		}
 
 		return process;
 	}
@@ -389,18 +393,22 @@ public class Jsx {
 	 * Execute --mode, parse and get AST.
 	 * @param args
 	 * @return {@link List} of {@link ClassDefinition}
-	 * @throws IOException
-	 * @throws JsonFormatException
-	 * @throws InterruptedException
+	 * @throws JsxCommandException 
 	 * @author vvakame
 	 */
-	public List<ClassDefinition> parse(Args args) throws IOException, JsonFormatException,
-			InterruptedException {
+	public List<ClassDefinition> parse(Args args) throws JsxCommandException {
 		args.mode = Mode.Parse.getOptionValue();
 
 		Process process = exec(args);
 
-		List<ClassDefinition> list = ClassDefinitionGen.getList(process.getInputStream());
+		List<ClassDefinition> list;
+		try {
+			list = ClassDefinitionGen.getList(process.getInputStream());
+		} catch (IOException e) {
+			throw new JsxCommandException("raise IOException.", e);
+		} catch (JsonFormatException e) {
+			throw new JsxCommandException("ast list JSON was unexpected.", e);
+		}
 
 		return list;
 	}
@@ -411,19 +419,18 @@ public class Jsx {
 	 * @param lineIndex
 	 * @param columnIndex columnIndex. tab length is 1.
 	 * @return Completion list
-	 * @throws IOException
-	 * @throws InterruptedException
+	 * @throws JsxCommandException 
 	 * @author vvakame
 	 */
-	public List<Complete> complete(Args args, int lineIndex, int columnIndex) throws IOException,
-			InterruptedException {
+	public List<Complete> complete(Args args, int lineIndex, int columnIndex)
+			throws JsxCommandException {
 		args.complete = true;
 		args.lineIndex = lineIndex;
 		args.columnIndex = columnIndex;
 
-		Process process = exec(args);
-
 		try {
+			Process process = exec(args);
+
 			List<Complete> list = CompleteGen.getList(process.getInputStream());
 
 			process.waitFor();
@@ -434,6 +441,55 @@ public class Jsx {
 			return list;
 		} catch (JsonFormatException e) {
 			throw new JsxCommandException("complete list JSON was unexpected. " + lineIndex + ":"
+					+ columnIndex, e);
+		} catch (IOException e) {
+			throw new JsxCommandException("raise IOException. " + lineIndex + ":" + columnIndex, e);
+		} catch (InterruptedException e) {
+			throw new JsxCommandException("raise InterruptedException. " + lineIndex + ":"
+					+ columnIndex, e);
+		}
+	}
+
+	/**
+	 * Execute --complete with --input-filename option, get completion list.
+	 * @param args
+	 * @param newSource new jsx source code. (unsaved)
+	 * @param lineIndex
+	 * @param columnIndex columnIndex. tab length is 1.
+	 * @return Completion list
+	 * @throws JsxCommandException 
+	 * @author vvakame
+	 */
+	public List<Complete> complete(Args args, String newSource, int lineIndex, int columnIndex)
+			throws JsxCommandException {
+		args.complete = true;
+		args.lineIndex = lineIndex;
+		args.columnIndex = columnIndex;
+		args.inputFilename = args.jsxSource;
+		args.jsxSource = null;
+
+		try {
+			Process process = exec(args);
+			OutputStream outputStream = process.getOutputStream();
+			outputStream.write(newSource.getBytes());
+			outputStream.flush();
+			outputStream.close();
+
+			List<Complete> list = CompleteGen.getList(process.getInputStream());
+
+			process.waitFor();
+			if (process.exitValue() != 0) {
+				throw new JsxCommandException("jsx command failure");
+			}
+
+			return list;
+		} catch (JsonFormatException e) {
+			throw new JsxCommandException("complete list JSON was unexpected. " + lineIndex + ":"
+					+ columnIndex, e);
+		} catch (IOException e) {
+			throw new JsxCommandException("raise IOException. " + lineIndex + ":" + columnIndex, e);
+		} catch (InterruptedException e) {
+			throw new JsxCommandException("raise InterruptedException. " + lineIndex + ":"
 					+ columnIndex, e);
 		}
 	}
