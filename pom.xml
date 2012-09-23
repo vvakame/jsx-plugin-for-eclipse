@@ -21,6 +21,9 @@
 	</repositories>
 
 	<modules>
+		<module>jsx-peg-syntax</module>
+		<module>jsx-wrapper</module>
+
 		<module>jsx.eclipse.plugin.build</module>
 		<module>jsx.eclipse.plugin.core</module>
 		<module>jsx.eclipse.plugin.core.tests</module>
