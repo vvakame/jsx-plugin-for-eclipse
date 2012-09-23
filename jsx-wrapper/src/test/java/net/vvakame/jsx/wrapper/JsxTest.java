@@ -295,6 +295,7 @@ public class JsxTest {
 		outputStream.close();
 
 		streamToString(process.getErrorStream());
+		streamToString(process.getInputStream());
 		// System.out.println(streamToString(process.getErrorStream()));
 
 		assertThat(process.exitValue(), not(0));
