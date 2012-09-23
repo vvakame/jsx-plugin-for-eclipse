@@ -31,7 +31,7 @@ public class JsxImages {
 	}
 
 	static ImageDescriptor create(String localPath) {
-		Bundle bundle = Platform.getBundle("jsx-plugin-editor-for-eclipse");
+		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
 		URL baseUrl = bundle.getEntry("/");
 		try {
 			URL url = new URL(baseUrl, localPath);
