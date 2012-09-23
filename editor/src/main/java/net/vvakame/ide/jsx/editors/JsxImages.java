@@ -10,6 +10,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.osgi.framework.Bundle;
 
+/**
+ * Images.
+ * @author vvakame
+ */
 public class JsxImages {
 
 	static final ImageDescriptor CLASS_ICON = create("icons/class.png");
