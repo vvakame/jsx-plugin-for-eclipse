@@ -1,4 +1,4 @@
-package net.vvakame.jsx.wrapper.entity;
+package net.vvakame.jsx.wrapper.parseentity;
 
 /**
  * Arguments in JSX AST.

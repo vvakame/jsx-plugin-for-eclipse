@@ -1,4 +1,4 @@
-package net.vvakame.jsx.wrapper.entity;
+package net.vvakame.jsx.wrapper.completeentity;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -27,7 +27,7 @@ public class Complete {
 	String type;
 
 	@JsonKey
-	List<String> args;
+	List<Arg> args;
 
 	@JsonKey
 	String returnType;
@@ -121,7 +121,7 @@ public class Complete {
 	 * @return the args
 	 * @category accessor
 	 */
-	public List<String> getArgs() {
+	public List<Arg> getArgs() {
 		return args;
 	}
 
@@ -129,7 +129,7 @@ public class Complete {
 	 * @param args the args to set
 	 * @category accessor
 	 */
-	public void setArgs(List<String> args) {
+	public void setArgs(List<Arg> args) {
 		this.args = args;
 	}
 

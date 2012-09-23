@@ -11,8 +11,8 @@ import java.util.List;
 import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.Jsx.Executable;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
-import net.vvakame.jsx.wrapper.entity.ClassDefinition;
-import net.vvakame.jsx.wrapper.entity.Complete;
+import net.vvakame.jsx.wrapper.completeentity.Complete;
+import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.junit.Test;
@@ -117,11 +117,11 @@ public class JsxTest {
 	public void complete() throws IOException, InterruptedException, JsonFormatException {
 
 		Builder builder = makeDefault();
-		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/JSX/t/lib/001.hello.jsx");
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath() + "/jsx-code/jsx/view.jsx");
 
 		Jsx jsx = Jsx.getInstance();
 
-		List<Complete> completeList = jsx.complete(builder.build(), 6, 4);
+		List<Complete> completeList = jsx.complete(builder.build(), 16, 15);
 		// System.out.println(completeList.toString());
 
 		assertThat(completeList, notNullValue());
@@ -248,6 +248,7 @@ public class JsxTest {
 			.getBytes());
 		outputStream.close();
 
+		streamToString(process.getInputStream());
 		// System.out.println(streamToString(process.getInputStream()));
 
 		assertThat(process.exitValue(), is(0));
@@ -270,6 +271,7 @@ public class JsxTest {
 		outputStream.write("hogehogefugafuga".getBytes());
 		outputStream.close();
 
+		streamToString(process.getErrorStream());
 		// System.out.println(streamToString(process.getErrorStream()));
 
 		assertThat(process.exitValue(), not(0));

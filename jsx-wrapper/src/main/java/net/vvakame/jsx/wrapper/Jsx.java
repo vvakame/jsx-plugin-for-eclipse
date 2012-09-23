@@ -1,15 +1,17 @@
 package net.vvakame.jsx.wrapper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.vvakame.jsx.wrapper.entity.ClassDefinition;
-import net.vvakame.jsx.wrapper.entity.ClassDefinitionGen;
-import net.vvakame.jsx.wrapper.entity.Complete;
-import net.vvakame.jsx.wrapper.entity.CompleteGen;
+import net.vvakame.jsx.wrapper.completeentity.Complete;
+import net.vvakame.jsx.wrapper.completeentity.CompleteGen;
+import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
+import net.vvakame.jsx.wrapper.parseentity.ClassDefinitionGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 /**
@@ -373,7 +375,7 @@ public class Jsx {
 		for (String str : argList) {
 			stringBuilder.append(str).append(" ");
 		}
-		// System.out.println(stringBuilder.toString());
+		System.out.println(stringBuilder.toString());
 
 		ProcessBuilder builder = new ProcessBuilder(argList);
 		addPath(builder, new File(args.nodeJsPath).getParent());
@@ -439,5 +441,17 @@ public class Jsx {
 	void addPath(ProcessBuilder builder, String path) {
 		Map<String, String> environment = builder.environment();
 		environment.put("PATH", path + ":" + environment.get("PATH"));
+	}
+
+	static String streamToString(InputStream stream) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] data = new byte[1024];
+
+		int len;
+		while ((len = stream.read(data)) != -1) {
+			baos.write(data, 0, len);
+		}
+
+		return baos.toString();
 	}
 }

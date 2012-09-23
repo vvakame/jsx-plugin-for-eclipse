@@ -1,4 +1,4 @@
-package net.vvakame.jsx.wrapper.entity;
+package net.vvakame.jsx.wrapper.parseentity;
 
 import net.vvakame.util.jsonpullparser.annotation.JsonKey;
 import net.vvakame.util.jsonpullparser.annotation.JsonModel;

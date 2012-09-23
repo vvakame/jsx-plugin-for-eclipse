@@ -8,10 +8,10 @@ import net.vvakame.ide.jsx.Activator;
 import net.vvakame.ide.jsx.parser.SyntaxTree;
 import net.vvakame.jsx.wrapper.Jsx;
 import net.vvakame.jsx.wrapper.Jsx.Builder;
-import net.vvakame.jsx.wrapper.entity.AstHelper;
-import net.vvakame.jsx.wrapper.entity.ClassDefinition;
-import net.vvakame.jsx.wrapper.entity.Member;
-import net.vvakame.jsx.wrapper.entity.Token;
+import net.vvakame.jsx.wrapper.parseentity.AstHelper;
+import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
+import net.vvakame.jsx.wrapper.parseentity.Member;
+import net.vvakame.jsx.wrapper.parseentity.Token;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
 import org.eclipse.core.resources.IFile;

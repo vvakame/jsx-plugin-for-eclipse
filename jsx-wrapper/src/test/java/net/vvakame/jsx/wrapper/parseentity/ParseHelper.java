@@ -1,7 +1,12 @@
-package net.vvakame.jsx.wrapper.entity;
+package net.vvakame.jsx.wrapper.parseentity;
 
 import java.io.IOException;
 
+import net.vvakame.jsx.wrapper.parseentity.Args;
+import net.vvakame.jsx.wrapper.parseentity.ArgsConverter;
+import net.vvakame.jsx.wrapper.parseentity.JsxTokenConverter;
+import net.vvakame.jsx.wrapper.parseentity.Member;
+import net.vvakame.jsx.wrapper.parseentity.Token;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 import net.vvakame.util.jsonpullparser.JsonPullParser;
 import net.vvakame.util.jsonpullparser.util.JsonArray;

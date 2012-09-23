@@ -1,4 +1,4 @@
-package net.vvakame.jsx.wrapper.entity;
+package net.vvakame.jsx.wrapper.parseentity;
 
 import java.io.IOException;
 import java.io.InputStream;
