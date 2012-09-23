@@ -44,6 +44,11 @@
 							<artifactId>jsx-peg-syntax</artifactId>
 							<version>0.0.1</version>
 						</extraClasspathElement>
+						<extraClasspathElement>
+							<groupId>net.vvakame</groupId>
+							<artifactId>jsx-wrapper</artifactId>
+							<version>0.0.1</version>
+						</extraClasspathElement>
 					</extraClasspathElements>
 				</configuration>
 			</plugin>
