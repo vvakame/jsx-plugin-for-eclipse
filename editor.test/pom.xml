@@ -6,6 +6,7 @@
 		<groupId>net.vvakame</groupId>
 		<artifactId>jsx.eclipse.plugin.parent</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
+		<relativePath>../editer.parent/pom.xml</relativePath>
 	</parent>
 
 	<groupId>net.vvakame</groupId>

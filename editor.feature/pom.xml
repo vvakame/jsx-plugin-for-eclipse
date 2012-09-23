@@ -6,12 +6,13 @@
 		<groupId>net.vvakame</groupId>
 		<artifactId>jsx.eclipse.plugin.parent</artifactId>
 		<version>0.2.0-SNAPSHOT</version>
+		<relativePath>../editer.parent/pom.xml</relativePath>
 	</parent>
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsx.eclipse.plugin.feature</artifactId>
+	<version>0.2.0.qualifier</version>
 	<packaging>eclipse-feature</packaging>
 
 	<name>JSX Plugin for Eclipse - feature</name>
-	<version>0.2.0.qualifier</version>
 </project>
