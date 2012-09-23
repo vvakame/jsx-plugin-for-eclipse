@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import net.vvakame.jsx.wrapper.Jsx.Builder;
@@ -221,11 +222,57 @@ public class JsxTest {
 		Jsx jsx = Jsx.getInstance();
 		Process process = jsx.exec(builder.build());
 		streamToString(process.getInputStream());
-		System.out.println(streamToString(process.getInputStream()));
+
+		// System.out.println(streamToString(process.getInputStream()));
 
 		process.waitFor();
 
 		assertThat(process.exitValue(), is(0));
+	}
+
+	/**
+	 * Test for {@link Builder#inputFilename(String)} with valid jsx code.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
+	@Test
+	public void inputFilenameValid() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.inputFilename("main.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		OutputStream outputStream = process.getOutputStream();
+		outputStream.write("class _Main{static function main(args:string[]):void{log true;}}"
+			.getBytes());
+		outputStream.close();
+
+		// System.out.println(streamToString(process.getInputStream()));
+
+		assertThat(process.exitValue(), is(0));
+	}
+
+	/**
+	 * Test for {@link Builder#inputFilename(String)} with invalid jsx code.
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @author vvakame
+	 */
+	@Test
+	public void inputFilenameInvalid() throws IOException, InterruptedException {
+		Builder builder = makeDefault();
+		builder.inputFilename("main.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		Process process = jsx.exec(builder.build());
+		OutputStream outputStream = process.getOutputStream();
+		outputStream.write("hogehogefugafuga".getBytes());
+		outputStream.close();
+
+		// System.out.println(streamToString(process.getErrorStream()));
+
+		assertThat(process.exitValue(), not(0));
 	}
 
 	/**

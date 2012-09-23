@@ -55,6 +55,8 @@ public class Jsx {
 
 		String jsxSource = "main.jsx";
 
+		String inputFilename;
+
 		Mode mode;
 
 		boolean release;
@@ -124,6 +126,17 @@ public class Jsx {
 		 */
 		public Builder jsxSource(String jsxSource) {
 			this.jsxSource = jsxSource;
+			return this;
+		}
+
+		/**
+		 * set jsx code with --input-filename option.
+		 * @param jsxSource
+		 * @return this
+		 * @author vvakame
+		 */
+		public Builder inputFilename(String jsxSource) {
+			this.inputFilename = jsxSource;
 			return this;
 		}
 
@@ -211,6 +224,7 @@ public class Jsx {
 				args.executable = executable.getOptionValue();
 			}
 			args.jsxSource = jsxSource;
+			args.inputFilename = inputFilename;
 			if (mode != null) {
 				args.mode = mode.getOptionValue();
 			}
@@ -265,6 +279,8 @@ public class Jsx {
 		String nodeJsPath;
 
 		String jsxPath;
+
+		String inputFilename;
 
 		boolean help;
 
@@ -344,7 +360,14 @@ public class Jsx {
 			argList.add(String.valueOf(args.lineIndex) + ":" + String.valueOf(args.columnIndex));
 		}
 
-		argList.add(args.jsxSource);
+		if (args.inputFilename != null) {
+			argList.add("--input-filename");
+			argList.add(args.inputFilename);
+			argList.add("--");
+			argList.add("-");
+		} else {
+			argList.add(args.jsxSource);
+		}
 
 		StringBuilder stringBuilder = new StringBuilder();
 		for (String str : argList) {
