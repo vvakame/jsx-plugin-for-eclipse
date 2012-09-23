@@ -16,7 +16,6 @@ class Cell {
   var y: int;
   var bomb: boolean;
   var _board: MineSweeper;
-  var hoge;
   
   var _opened = false;
   
