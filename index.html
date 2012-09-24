@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    margin: 10px 13px 10px 13px;
+}
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+@media screen and (min-width: 768px) {
+    body {
+        width: 748px;
+        margin:10px auto;
+    }
+}
+</style>
+<title>JSX editor for Eclipse の使い方</title>
+</head>
+<body>
+<h1>JSX editor for Eclipse の使い方</h1>
+
+<p>この説明を書いた時のバージョン v0.2.0</p>
+
+<h2>インストールします</h2>
+
+<p>EclipseのInstall New Softwareで <code>http://vvakame.github.com/jsx-plugin-for-eclipse/site/</code> をupdate siteとして指定してインストールします。</p>
+
+<h2>設定します</h2>
+
+<p>入れたそのままじゃ使えないうえに、設定が済んでなくても警告を表示してくれたりはしないのです。甘えた奴から死んでいくんだ。</p>
+
+<p>Eclipse全体の設定(Macの場合 Cmd+, で出る)に、JsxEditor Preference という項目があるので、JSXとnode.jsのパスを設定します。作者の場合、Mac OS X + MacPortsユーザなので JSXのパスには <code>~/work/JSX/bin/jsx</code>、node.jsのパスには<code>/opt/local/bin/node</code> とかって指定されています。</p>
+
+<h2>使える機能</h2>
+
+<p><a href="https://github.com/vvakame/jsx-plugin-for-eclipse/blob/master/changelog.txt">ここ</a> に書いてある通り。</p>
+
+<h2>できないこと</h2>
+
+<ul>
+<li>コンパイルエラーの表示</li>
+<li>コンパイルの実行</li>
+<li>コードフォーマット</li>
+<li>各種リファクタリング</li>
+<li>その他思いつかないけどできないこといっぱい</li>
+</ul>
+
+
+<h2>その他</h2>
+
+<h3>開発に参加したい</h3>
+
+<p>マジで？ @vvakame か @u1aryz 宛てに連絡ください。pull requestくれてもいいです。</p>
+
+<h3>欲しい機能がある</h3>
+
+<p>Issue に書いてください。できればpull requestもください。</p>
+
+<h3>機能ショボいな(鼻</h3>
+
+<p>もしEclipse Plugin開発について豊富な知識を持っていたら、聞きたい事発生した時に相談したいのでTwitter IDとか教えてください。</p>
+</body>
+</html>
