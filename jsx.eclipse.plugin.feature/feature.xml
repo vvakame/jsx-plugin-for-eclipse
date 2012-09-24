@@ -4,16 +4,16 @@
       label="JSX Plugin for Eclipse - feature"
       version="0.2.0.qualifier">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="https://github.com/vvakame/jsx-plugin-for-eclipse">
+      JSX editor for Eclipse.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="https://github.com/vvakame/jsx-plugin-for-eclipse">
+      
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="https://github.com/vvakame/jsx-plugin-for-eclipse">
+      
    </license>
 
    <plugin
