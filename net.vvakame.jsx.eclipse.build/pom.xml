@@ -4,12 +4,12 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsx.eclipse.build</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0.qualifier</version>
 	<packaging>pom</packaging>
 	<name>JSX Plugin for Eclipse</name>
 
 	<properties>
-		<jsx-plugin.version>0.2.0</jsx-plugin.version>
+		<jsx-plugin.version>0.3.0.qualifier</jsx-plugin.version>
 		<tycho-version>0.15.0</tycho-version>
 	</properties>
 
