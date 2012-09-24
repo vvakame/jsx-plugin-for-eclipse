@@ -3,6 +3,6 @@
    <description name="github" url="https://github.com/vvakame/jsx-plugin-for-eclipse">
       GitHub
    </description>
-   <feature url="features/jsx.plugin.feature_0.2.0.201208301430.jar" id="jsx.eclipse.feature" version="0.2.0.qualifier"/>
+   <feature url="features/jsx.plugin.feature_0.2.0.201208301430.jar" id="jsx.eclipse.feature" version="0.2.0"/>
    <category-def name="jsx plugin editor for eclipse" label="jsx plugin editor for eclipse"/>
 </site>
