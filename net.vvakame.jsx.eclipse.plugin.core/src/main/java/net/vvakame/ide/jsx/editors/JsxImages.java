@@ -16,15 +16,15 @@ import org.osgi.framework.Bundle;
  */
 public class JsxImages {
 
-	static final ImageDescriptor CLASS_ICON = create("icons/class.png");
+	static final ImageDescriptor CLASS_ICON = create("icons/class.gif");
 
-	static final ImageDescriptor INTERFACE_ICON = create("icons/interface.png");
+	static final ImageDescriptor INTERFACE_ICON = create("icons/interface.gif");
 
-	static final ImageDescriptor MIXIN_ICON = create("icons/mixin.png");
+	static final ImageDescriptor MIXIN_ICON = create("icons/mixin.gif");
 
-	static final ImageDescriptor METHOD_ICON = create("icons/method.png");
+	static final ImageDescriptor METHOD_ICON = create("icons/method.gif");
 
-	static final ImageDescriptor VARIABLE_ICON = create("icons/variable.png");
+	static final ImageDescriptor VARIABLE_ICON = create("icons/variable.gif");
 
 
 	private JsxImages() {
