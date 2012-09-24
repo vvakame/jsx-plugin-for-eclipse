@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.vvakame</groupId>
+	<artifactId>jsx.eclipse.plugin</artifactId>
+	<version>0.2.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>JSX Plugin for Eclipse</name>
+
+	<properties>
+		<jsx-plugin.version>${project.version}</jsx-plugin.version>
+		<tycho-version>0.15.0</tycho-version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>eclipse-juno</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/juno</url>
+		</repository>
+	</repositories>
+
+	<modules>
+		<module>jsx-peg-syntax</module>
+		<module>jsx-wrapper</module>
+
+		<module>net.vvakame.jsx.eclipse.build</module>
+		<module>net.vvakame.jsx.eclipse.plugin.core</module>
+		<module>net.vvakame.jsx.eclipse.plugin.core.tests</module>
+		<module>net.vvakame.jsx.eclipse.feature</module>
+		<module>net.vvakame.jsx.eclipse.updatesite</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

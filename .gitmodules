@@ -1,0 +1,6 @@
+[submodule "JSX"]
+	path = JSX
+	url = https://github.com/jsx/JSX.git
+[submodule "gh-pages"]
+	path = gh-pages
+	url = git@github.com:vvakame/jsx-plugin-for-eclipse.git

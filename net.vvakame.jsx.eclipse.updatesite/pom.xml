@@ -1,0 +1,18 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>jsx.eclipse.updatesite</artifactId>
+	<packaging>eclipse-update-site</packaging>
+
+	<name>JSX Plugin for Eclipse - updatesite</name>
+	<url>http://vvakame.github.com/jsx-plugin-for-eclipse/updates</url>
+
+	<parent>
+		<groupId>net.vvakame</groupId>
+		<artifactId>jsx.eclipse.build</artifactId>
+		<version>0.2.0</version>
+		<relativePath>../net.vvakame.jsx.eclipse.build</relativePath>
+	</parent>
+
+</project>

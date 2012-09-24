@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JSX Plugin for Eclipse - main
+Bundle-SymbolicName: jsx.eclipse.plugin.core;singleton:=true
+Bundle-Version: 0.2.0
+Bundle-Activator: net.vvakame.ide.jsx.Activator
+Bundle-Vendor: vvakame_u1
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.views;bundle-version="3.6.100",
+ org.junit
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: net.vvakame.ide.jsx,
+ net.vvakame.ide.jsx.editors,
+ net.vvakame.ide.jsx.editors.jsxprovider,
+ net.vvakame.ide.jsx.editors.misc,
+ net.vvakame.ide.jsx.editors.viewerconfiguration
+Bundle-ClassPath: .,
+ jsx-peg-syntax-0.0.1.jar,
+ mouse-runtime-1.5.1.jar,
+ jsx-wrapper-0.0.1.jar,
+ jsonpullparser-core-1.5.jar,
+ junit.jar
