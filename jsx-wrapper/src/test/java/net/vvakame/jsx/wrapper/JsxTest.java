@@ -272,7 +272,10 @@ public class JsxTest {
 		outputStream.close();
 
 		streamToString(process.getInputStream());
+		streamToString(process.getErrorStream());
 		// System.out.println(streamToString(process.getInputStream()));
+
+		process.waitFor();
 
 		assertThat(process.exitValue(), is(0));
 	}
@@ -297,6 +300,8 @@ public class JsxTest {
 		streamToString(process.getErrorStream());
 		streamToString(process.getInputStream());
 		// System.out.println(streamToString(process.getErrorStream()));
+
+		process.waitFor();
 
 		assertThat(process.exitValue(), not(0));
 	}

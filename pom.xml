@@ -24,11 +24,11 @@
 		<module>jsx-peg-syntax</module>
 		<module>jsx-wrapper</module>
 
-		<module>jsx.eclipse.plugin.build</module>
-		<module>jsx.eclipse.plugin.core</module>
-		<module>jsx.eclipse.plugin.core.tests</module>
-		<module>jsx.eclipse.plugin.feature</module>
-		<module>jsx.eclipse.plugin.updatesite</module>
+		<module>net.vvakame.jsx.eclipse.build</module>
+		<module>net.vvakame.jsx.eclipse.plugin.core</module>
+		<module>net.vvakame.jsx.eclipse.plugin.core.tests</module>
+		<module>net.vvakame.jsx.eclipse.feature</module>
+		<module>net.vvakame.jsx.eclipse.updatesite</module>
 	</modules>
 
 	<build>

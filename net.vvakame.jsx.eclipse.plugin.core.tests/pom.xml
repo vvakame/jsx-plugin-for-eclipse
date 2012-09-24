@@ -9,9 +9,9 @@
 
 	<parent>
 		<groupId>net.vvakame</groupId>
-		<artifactId>jsx.eclipse.plugin.build</artifactId>
+		<artifactId>jsx.eclipse.build</artifactId>
 		<version>0.2.0.qualifier</version>
-		<relativePath>../jsx.eclipse.plugin.build</relativePath>
+		<relativePath>../net.vvakame.jsx.eclipse.build</relativePath>
 	</parent>
 
 	<properties>
