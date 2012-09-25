@@ -446,6 +446,62 @@ public class Jsx {
 	}
 
 	/**
+	 * check compile error.
+	 * @param args
+	 * @param newSource 
+	 * @return error list or null
+	 * @author vvakame
+	 */
+	public List<CompileError> checkError(Args args, String newSource) {
+
+		Process process;
+		String errorString;
+		try {
+			process = exec(args);
+			OutputStream outputStream = process.getOutputStream();
+			outputStream.write(newSource.getBytes());
+			outputStream.flush();
+			outputStream.close();
+
+			streamConsume(process.getInputStream());
+			errorString = streamToString(process.getErrorStream());
+			process.waitFor();
+		} catch (IOException e) {
+			throw new JsxCommandException("raise IOException.", e);
+		} catch (InterruptedException e) {
+			throw new JsxCommandException("raise InterruptedException.", e);
+		}
+
+		if (process.exitValue() == 0) {
+			return null;
+		}
+
+		List<CompileError> result = new ArrayList<CompileError>();
+		String[] strings = errorString.split("(\r\n|\r|\n)");
+		for (String row : strings) {
+			Matcher matcher = errorMessagePattern.matcher(row);
+
+			if (matcher.find()) {
+				CompileError error = new CompileError();
+
+				String filename = matcher.group(1);
+				int line = Integer.parseInt(matcher.group(2));
+				int column = Integer.parseInt(matcher.group(3));
+				String message = matcher.group(4);
+
+				error.setFilename(filename);
+				error.setLine(line);
+				error.setColumn(column);
+				error.setMessage(message);
+
+				result.add(error);
+			}
+		}
+
+		return result;
+	}
+
+	/**
 	 * Execute --mode, parse and get AST.
 	 * @param args
 	 * @return {@link List} of {@link ClassDefinition}
