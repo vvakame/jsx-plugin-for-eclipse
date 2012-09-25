@@ -188,11 +188,7 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 				return clazz.getName();
 			} else if (element instanceof Member) {
 				Member member = (Member) element;
-				if (((Member) element).isFunction()) {
-					return member.getNameToken().getValue();
-				} else {
-					return member.getName();
-				}
+				return member.getNameToken().getValue();
 			} else {
 				throw new IllegalStateException("unknown class "
 						+ element.getClass().getCanonicalName());
