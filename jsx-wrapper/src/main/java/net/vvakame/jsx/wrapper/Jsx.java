@@ -8,9 +8,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.vvakame.jsx.wrapper.completeentity.Complete;
 import net.vvakame.jsx.wrapper.completeentity.CompleteGen;
+import net.vvakame.jsx.wrapper.errorentity.CompileError;
 import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
 import net.vvakame.jsx.wrapper.parseentity.ClassDefinitionGen;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
@@ -389,6 +392,59 @@ public class Jsx {
 		return process;
 	}
 
+
+	static Pattern errorMessagePattern = Pattern.compile("^\\[(.*?):([0-9]+):([0-9]+)\\]\\s*(.*)$");
+
+
+	/**
+	 * check compile error.
+	 * @param args
+	 * @return error list or null
+	 * @author vvakame
+	 */
+	public List<CompileError> checkError(Args args) {
+		Process process = exec(args);
+
+		String errorString;
+		try {
+			streamConsume(process.getInputStream());
+			errorString = streamToString(process.getErrorStream());
+			process.waitFor();
+		} catch (IOException e) {
+			throw new JsxCommandException("raise IOException.", e);
+		} catch (InterruptedException e) {
+			throw new JsxCommandException("raise InterruptedException.", e);
+		}
+
+		if (process.exitValue() == 0) {
+			return null;
+		}
+
+		List<CompileError> result = new ArrayList<CompileError>();
+		String[] strings = errorString.split("(\r\n|\r|\n)");
+		for (String row : strings) {
+			Matcher matcher = errorMessagePattern.matcher(row);
+
+			if (matcher.find()) {
+				CompileError error = new CompileError();
+
+				String filename = matcher.group(1);
+				int line = Integer.parseInt(matcher.group(2));
+				int column = Integer.parseInt(matcher.group(3));
+				String message = matcher.group(4);
+
+				error.setFilename(filename);
+				error.setLine(line);
+				error.setColumn(column);
+				error.setMessage(message);
+
+				result.add(error);
+			}
+		}
+
+		return result;
+	}
+
 	/**
 	 * Execute --mode, parse and get AST.
 	 * @param args
@@ -509,5 +565,12 @@ public class Jsx {
 		}
 
 		return baos.toString();
+	}
+
+	static void streamConsume(InputStream stream) throws IOException {
+		byte[] data = new byte[1024];
+
+		while (stream.read(data) != -1) {
+		}
 	}
 }

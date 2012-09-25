@@ -12,6 +12,7 @@ import net.vvakame.jsx.wrapper.Jsx.Builder;
 import net.vvakame.jsx.wrapper.Jsx.Executable;
 import net.vvakame.jsx.wrapper.Jsx.Mode;
 import net.vvakame.jsx.wrapper.completeentity.Complete;
+import net.vvakame.jsx.wrapper.errorentity.CompileError;
 import net.vvakame.jsx.wrapper.parseentity.ClassDefinition;
 import net.vvakame.util.jsonpullparser.JsonFormatException;
 
@@ -390,6 +391,26 @@ public class JsxTest {
 		// System.out.println(streamToString(process.getInputStream()));
 
 		assertThat(process.exitValue(), is(0));
+	}
+
+	/**
+	 * Test for {@link Jsx#checkError(net.vvakame.jsx.wrapper.Jsx.Args)}.
+	 * @throws IOException
+	 * @author vvakame
+	 */
+	@Test
+	public void checkError() throws IOException {
+		Builder builder = makeDefault();
+		// builder.mode(Mode.Parse);
+		builder.jsxSource(getGitRootDirectory().getAbsolutePath()
+				+ "/jsx-wrapper/src/test/resources/jsx/invalid/002.jsx");
+
+		Jsx jsx = Jsx.getInstance();
+		List<CompileError> result = jsx.checkError(builder.build());
+
+		System.out.println(result.toString());
+
+		assertThat(result.size(), not(0));
 	}
 
 	/**
