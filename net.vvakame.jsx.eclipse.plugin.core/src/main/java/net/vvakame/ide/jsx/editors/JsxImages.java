@@ -16,6 +16,8 @@ import org.osgi.framework.Bundle;
  */
 public class JsxImages {
 
+	static final ImageDescriptor PROJECT_DECORATOR = create("icons/project_decorator.gif");
+
 	static final ImageDescriptor CLASS_ICON = create("icons/class.gif");
 
 	static final ImageDescriptor INTERFACE_ICON = create("icons/interface.gif");
