@@ -85,14 +85,32 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	/**
+	 * get JSX path from preference.
+	 * @return JSX path
+	 * @author vvakame
+	 */
+	public String getJsxPath() {
+		return getPreferenceStore().getString(PreferenceConstants.JsxPath);
+	}
+
+	/**
+	 * get Node.js path from preference.
+	 * @return node.js path
+	 * @author vvakame
+	 */
+	public String getNodeJsPath() {
+		return getPreferenceStore().getString(PreferenceConstants.NodeJsPath);
+	}
+
+	/**
 	 * get JSX command builder with JSX bin path and Node.js bin path.
 	 * @return {@link Builder}
 	 * @author vvakame
 	 */
 	public Builder getJsxCommandBuilder() {
 		Builder builder = new Jsx.Builder();
-		String jsxPath = getPreferenceStore().getString(PreferenceConstants.JsxPath);
-		String nodeJsPath = getPreferenceStore().getString(PreferenceConstants.NodeJsPath);
+		String jsxPath = getJsxPath();
+		String nodeJsPath = getNodeJsPath();
 		builder.setJsxPath(jsxPath);
 		builder.setNodeJsPath(nodeJsPath);
 

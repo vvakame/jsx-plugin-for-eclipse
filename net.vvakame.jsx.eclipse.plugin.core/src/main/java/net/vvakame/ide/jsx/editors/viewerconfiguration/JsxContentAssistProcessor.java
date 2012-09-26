@@ -40,11 +40,10 @@ public class JsxContentAssistProcessor implements IContentAssistProcessor {
 
 	@Override
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
-		String jsxCodePath;
-		{
-			IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
-			jsxCodePath = file.getRawLocation().makeAbsolute().toFile().getAbsolutePath();
-		}
+		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		String jsxCodePath = file.getRawLocation().makeAbsolute().toFile().getAbsolutePath();
+
+		Builder builder = Activator.getDefault().getJsxCommandBuilder();
 
 		IDocument document = viewer.getDocument();
 		int lineIndex = -1;
@@ -63,7 +62,6 @@ public class JsxContentAssistProcessor implements IContentAssistProcessor {
 
 		List<Complete> completeList = null;
 		try {
-			Builder builder = Activator.getDefault().getJsxCommandBuilder();
 			builder.jsxSource(jsxCodePath);
 			if (!editor.isDirty()) {
 				completeList = Jsx.getInstance().complete(builder.build(), lineIndex, columnIndex);

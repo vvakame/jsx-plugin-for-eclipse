@@ -26,7 +26,13 @@ public final class JsxEditorMessages extends NLS {
 	public static String Preference_jsxPath;
 
 	@SuppressWarnings("javadoc")
+	public static String Preference_jsxPathNotSet;
+
+	@SuppressWarnings("javadoc")
 	public static String Preference_nodejsPath;
+
+	@SuppressWarnings("javadoc")
+	public static String Preference_nodejsPathNotSet;
 
 	@SuppressWarnings("javadoc")
 	public static String Workbench_addJsxNature;

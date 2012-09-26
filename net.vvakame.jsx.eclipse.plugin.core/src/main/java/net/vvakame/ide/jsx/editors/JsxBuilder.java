@@ -35,6 +35,10 @@ public class JsxBuilder extends IncrementalProjectBuilder {
 	@Override
 	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
 			throws CoreException {
+		if (!checkBinaryPath(getProject())) {
+			return null;
+		}
+
 		if (kind == FULL_BUILD) {
 			getProject().accept(new JsxVisitor());
 		} else {
@@ -70,6 +74,32 @@ public class JsxBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
+
+	/**
+	 * FIXME move method to other class.
+	 * check JSX and Node.js path preference. add Marker to Project.
+	 * @param project
+	 * @return error not exists or exists
+	 * @throws CoreException
+	 * @author vvakame
+	 */
+	public static boolean checkBinaryPath(IProject project) throws CoreException {
+		project.deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
+
+		if ("".equals(Activator.getDefault().getJsxPath())) {
+			IMarker marker = project.createMarker(IMarker.PROBLEM);
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			marker.setAttribute(IMarker.MESSAGE, JsxEditorMessages.Preference_jsxPathNotSet);
+			return false;
+		} else if ("".equals(Activator.getDefault().getNodeJsPath())) {
+			IMarker marker = project.createMarker(IMarker.PROBLEM);
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+			marker.setAttribute(IMarker.MESSAGE, JsxEditorMessages.Preference_nodejsPathNotSet);
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	void processJsxFile(IFile file) throws CoreException {
 		file.deleteMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
