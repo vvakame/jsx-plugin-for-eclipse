@@ -2,6 +2,10 @@
 JSX Plugin for Eclipse Change Log
 ===================================
 
+--- 2012.09.27 0.3.0
+add compiler error marker to editor.
+add preference error marker to project.
+
 --- 2012.09.24 0.2.0
 create welcome page http://vvakame.github.com/jsx-plugin-for-eclipse/
 create update site http://vvakame.github.com/jsx-plugin-for-eclipse/site/
