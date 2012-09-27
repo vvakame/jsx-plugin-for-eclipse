@@ -4,7 +4,7 @@
 
 	<groupId>net.vvakame</groupId>
 	<artifactId>jsx.eclipse.build</artifactId>
-	<version>0.3.0.qualifier</version>
+	<version>0.3.0</version>
 	<packaging>pom</packaging>
 	<name>JSX Plugin for Eclipse</name>
 
