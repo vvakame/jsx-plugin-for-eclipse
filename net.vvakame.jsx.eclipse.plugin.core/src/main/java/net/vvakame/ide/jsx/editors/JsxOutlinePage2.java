@@ -14,6 +14,7 @@ import net.vvakame.jsx.wrapper.parseentity.Member;
 import net.vvakame.jsx.wrapper.parseentity.Token;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -103,6 +104,16 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 		String jsxCodePath;
 		{
 			IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+			try {
+				if (!JsxBuilder.checkBinaryPath(file.getProject())) {
+					return;
+				}
+			} catch (CoreException e) {
+				Activator.getDefault().getLog()
+					.log(new Status(Status.ERROR, Activator.PLUGIN_ID, "raise error", e));
+				return;
+			}
+
 			jsxCodePath = file.getRawLocation().makeAbsolute().toFile().getAbsolutePath();
 		}
 		List<ClassDefinition> classes;
@@ -188,11 +199,7 @@ public class JsxOutlinePage2 extends ContentOutlinePage {
 				return clazz.getName();
 			} else if (element instanceof Member) {
 				Member member = (Member) element;
-				if (((Member) element).isFunction()) {
-					return member.getNameToken().getValue();
-				} else {
-					return member.getName();
-				}
+				return member.getNameToken().getValue();
 			} else {
 				throw new IllegalStateException("unknown class "
 						+ element.getClass().getCanonicalName());

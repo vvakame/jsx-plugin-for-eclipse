@@ -2,7 +2,7 @@
 <feature
       id="jsx.eclipse.feature"
       label="JSX Plugin for Eclipse - feature"
-      version="0.2.0">
+      version="0.3.0">
 
    <description url="https://github.com/vvakame/jsx-plugin-for-eclipse">
       JSX editor for Eclipse.
@@ -20,7 +20,7 @@
          id="jsx.eclipse.plugin.core"
          download-size="0"
          install-size="0"
-         version="0.2.0"
+         version="0.3.0"
          unpack="false"/>
 
 </feature>

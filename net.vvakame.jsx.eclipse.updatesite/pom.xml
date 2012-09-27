@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>net.vvakame</groupId>
 		<artifactId>jsx.eclipse.build</artifactId>
-		<version>0.2.0</version>
+		<version>0.3.0</version>
 		<relativePath>../net.vvakame.jsx.eclipse.build</relativePath>
 	</parent>
 

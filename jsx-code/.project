@@ -5,7 +5,13 @@
 	<projects>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>jsx.eclipse.plugin.core.JsxBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>jsx.eclipse.plugin.core.JsxNature</nature>
 	</natures>
 </projectDescription>
