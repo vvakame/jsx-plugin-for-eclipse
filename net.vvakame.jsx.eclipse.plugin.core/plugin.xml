@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.4"?>
+<?eclipse version="3.7"?>
 <plugin>
 	<extension
-		id="JsxNature"
+		id="jsxnature"
 		name="JSX Nature"
 		point="org.eclipse.core.resources.natures">
 		<runtime>
@@ -10,29 +10,29 @@
 			</run>
 		</runtime>
 		<builder
-			id="jsx.eclipse.plugin.core.JsxBuilder">
+			id="net.vvakame.jsx.eclipse.plugin.core.jsxbuilder">
 		</builder>
 	</extension>
    <extension
 		point="org.eclipse.ui.editors">
 		<editor
+			id="net.vvakame.jsx.eclipse.plugin.core.jsxbuilder"
 			name="JSX Editor"
 			extensions="jsx"
 			icon="icons/jsx_editor.gif"
 			contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-			class="net.vvakame.ide.jsx.editors.JsxEditor"
-			id="net.vvakame.ide.jsx.editors.JsxEditor">
+			class="net.vvakame.ide.jsx.editors.JsxEditor">
 		</editor>
 	</extension>
 	<extension
 		point="org.eclipse.ui.commands">
 		<category
-			id="net.vvakame.ide.jsx.editors.commands.category.Source"
+			id="net.vvakame.jsx.eclipse.plugin.core.category.source"
 			name="SourceCategory">
 		</category>
 		<command
-			categoryId="net.vvakame.ide.jsx.editors.commands.category.Source"
-			id="net.vvakame.ide.jsx.editors.command.Format"
+			categoryId="net.vvakame.jsx.eclipse.plugin.core.category.source"
+			id="net.vvakame.jsx.eclipse.plugin.core.format"
 			name="FormatCommand">
 		</command>
 	</extension>
@@ -40,13 +40,13 @@
 		point="org.eclipse.ui.handlers">
 		<handler
 			class="net.vvakame.ide.jsx.editors.JsxFormatHandler"
-			commandId="net.vvakame.ide.jsx.editors.command.Format">
+			commandId="net.vvakame.jsx.eclipse.plugin.core.format">
 		</handler>
 	</extension>
 	<extension
 		point="org.eclipse.ui.bindings">
 		<key
-            commandId="net.vvakame.ide.jsx.editors.command.Format"
+            commandId="net.vvakame.jsx.eclipse.plugin.core.format"
 			contextId="org.eclipse.ui.contexts.window"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 			sequence="M1+M2+F">
@@ -60,7 +60,7 @@
 			<menu
 				label="Source">
 				<command
-					commandId="net.vvakame.ide.jsx.editors.command.Format"
+					commandId="net.vvakame.jsx.eclipse.plugin.core.format"
 					label="Format"
 					style="push">
 				</command>
@@ -70,34 +70,34 @@
 	<extension
 		point="org.eclipse.ui.preferencePages">
 		<page
+			id="net.vvakame.jsx.eclipse.plugin.core.editorpreference"
 			class="net.vvakame.ide.jsx.editors.preference.JsxEditorPreferencePage"
-			id="jsx-plugin-editor-for-eclipse.editorPreferencePage"
-			name="JsxEditor Preference">
+			name="JSX">
 		</page>
 	</extension>
 	<extension
-		id="JsxBuilder"
+		id="jsxbuilder"
 		name="JSX Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder
 			hasNature="true">
 			<run
-				class="net.vvakame.ide.jsx.editors.JsxBuilder"> ... （1）
+				class="net.vvakame.ide.jsx.editors.JsxBuilder">
 			</run>
 		</builder>
 	</extension>
 	<extension
 		point="org.eclipse.ui.propertyPages">
 		<page
+			id="net.vvakame.jsx.eclipse.plugin.core.workbenchproperty"
 			class="net.vvakame.ide.jsx.editors.preference.JsxWorkbenchPropertyPage"
-			id="PropertyPage"
-			name="JSX Property Page" />
+			name="JSX Editor" />
 	</extension>
  <extension
        point="org.eclipse.ui.decorators">
     <decorator
+          id="net.vvakame.jsx.eclipse.plugin.core.projectdecorator"
           icon="icons/project_decorator.gif"
-          id="ProjectDecorator"
           label="JSX Project Decorator"
           location="TOP_LEFT"
           state="true">
@@ -111,7 +111,7 @@
              </objectClass>
              <objectState
                    name="projectNature"
-                   value="jsx.eclipse.plugin.core.JsxNature">
+                   value="net.vvakame.jsx.eclipse.plugin.core.jsxnature">
              </objectState>
           </and>
        </enablement>

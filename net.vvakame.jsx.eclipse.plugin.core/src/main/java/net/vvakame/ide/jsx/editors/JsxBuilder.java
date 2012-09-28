@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class JsxBuilder extends IncrementalProjectBuilder {
 
 	/** builder id */
-	public static final String BUILDER_ID = "jsx.eclipse.plugin.core.JsxBuilder";
+	public static final String BUILDER_ID = "net.vvakame.jsx.eclipse.plugin.core.jsxbuilder";
 
 
 	@Override
