@@ -7,19 +7,6 @@
 	<packaging>pom</packaging>
 	<name>JSX Plugin for Eclipse</name>
 
-	<properties>
-		<jsx-plugin.version>${project.version}</jsx-plugin.version>
-		<tycho-version>0.15.0</tycho-version>
-	</properties>
-
-	<repositories>
-		<repository>
-			<id>eclipse-juno</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/juno</url>
-		</repository>
-	</repositories>
-
 	<modules>
 		<module>jsx-peg-syntax</module>
 		<module>jsx-wrapper</module>
@@ -30,15 +17,4 @@
 		<module>./net.vvakame.jsx.eclipse.feature</module>
 		<module>./net.vvakame.jsx.eclipse.updatesite</module>
 	</modules>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
-			</plugin>
-		</plugins>
-	</build>
 </project>
