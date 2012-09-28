@@ -9,7 +9,6 @@
 	<name>JSX Plugin for Eclipse</name>
 
 	<properties>
-		<jsx-plugin.version>0.4.0.qualifier</jsx-plugin.version>
 		<tycho-version>0.15.0</tycho-version>
 	</properties>
 
