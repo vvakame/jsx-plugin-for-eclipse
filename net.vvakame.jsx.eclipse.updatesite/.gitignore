@@ -4,3 +4,5 @@ target/
 
 # Package Files #
 *.jar
+logs.zip
+

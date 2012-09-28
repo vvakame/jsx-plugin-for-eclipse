@@ -6,12 +6,12 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>jsx.eclipse.plugin.core.JsxBuilder</name>
+			<name>net.vvakame.jsx.eclipse.plugin.core.jsxbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>jsx.eclipse.plugin.core.JsxNature</nature>
+		<nature>net.vvakame.jsx.eclipse.plugin.core.jsxnature</nature>
 	</natures>
 </projectDescription>

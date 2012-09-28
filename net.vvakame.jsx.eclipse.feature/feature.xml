@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="jsx.eclipse.feature"
+      id="net.vvakame.jsx.eclipse.feature"
       label="JSX Plugin for Eclipse - feature"
       version="0.4.0.qualifier">
 
@@ -16,11 +16,15 @@
       
    </license>
 
+   <url>
+      <discovery label="JSX Editor for Eclipse." url="http://vvakame.github.com/jsx-plugin-for-eclipse/"/>
+   </url>
+
    <plugin
-         id="jsx.eclipse.plugin.core"
+         id="net.vvakame.jsx.eclipse.plugin.core"
          download-size="0"
          install-size="0"
-         version="0.4.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>

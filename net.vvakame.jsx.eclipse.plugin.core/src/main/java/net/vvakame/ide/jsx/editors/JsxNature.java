@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.CoreException;
 public class JsxNature implements IProjectNature {
 
 	/** nature id */
-	public static final String NATURE_ID = "jsx.eclipse.plugin.core.JsxNature";
+	public static final String NATURE_ID = "net.vvakame.jsx.eclipse.plugin.core.jsxnature";
 
 	private IProject project;
 

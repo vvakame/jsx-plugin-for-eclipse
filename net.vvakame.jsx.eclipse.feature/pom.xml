@@ -2,14 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>jsx.eclipse.feature</artifactId>
+	<artifactId>net.vvakame.jsx.eclipse.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 
 	<name>JSX Plugin for Eclipse - feature</name>
 
 	<parent>
 		<groupId>net.vvakame</groupId>
-		<artifactId>jsx.eclipse.build</artifactId>
+		<artifactId>net.vvakame.jsx.eclipse.build</artifactId>
 		<version>0.4.0.qualifier</version>
 		<relativePath>../net.vvakame.jsx.eclipse.build</relativePath>
 	</parent>
