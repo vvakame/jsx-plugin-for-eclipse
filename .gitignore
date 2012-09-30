@@ -1,5 +1,6 @@
 .project
 
+.cache
 *.class
 
 # Package Files #

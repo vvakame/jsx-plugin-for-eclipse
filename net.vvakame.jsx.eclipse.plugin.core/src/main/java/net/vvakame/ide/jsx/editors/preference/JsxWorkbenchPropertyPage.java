@@ -37,7 +37,7 @@ public class JsxWorkbenchPropertyPage extends PropertyPage implements IWorkbench
 		check.setText(JsxEditorMessages.Workbench_addJsxNature);
 		try {
 			IProject project = (IProject) getElement();
-			check.setSelection(project.hasNature(JsxNature.NATURE_ID));
+			check.setSelection(project.hasNature(JsxNature.NATURE_ID()));
 		} catch (CoreException e) {
 			throw new IllegalStateException(e);
 		}
@@ -63,11 +63,11 @@ public class JsxWorkbenchPropertyPage extends PropertyPage implements IWorkbench
 		IProject project = (IProject) getElement();
 		IProjectDescription description = project.getDescription();
 		List<String> list = Arrays.asList(description.getNatureIds());
-		if (list.contains(JsxNature.NATURE_ID)) {
+		if (list.contains(JsxNature.NATURE_ID())) {
 			return;
 		}
 		list = new ArrayList<String>(list);
-		list.add(JsxNature.NATURE_ID);
+		list.add(JsxNature.NATURE_ID());
 		description.setNatureIds(list.toArray(new String[0]));
 		project.setDescription(description, null);
 	}
@@ -76,11 +76,11 @@ public class JsxWorkbenchPropertyPage extends PropertyPage implements IWorkbench
 		IProject project = (IProject) getElement();
 		IProjectDescription description = project.getDescription();
 		List<String> list = Arrays.asList(description.getNatureIds());
-		if (!list.contains(JsxNature.NATURE_ID)) {
+		if (!list.contains(JsxNature.NATURE_ID())) {
 			return;
 		}
 		list = new ArrayList<String>(list);
-		list.remove(JsxNature.NATURE_ID);
+		list.remove(JsxNature.NATURE_ID());
 		description.setNatureIds(list.toArray(new String[0]));
 		project.setDescription(description, null);
 	}
