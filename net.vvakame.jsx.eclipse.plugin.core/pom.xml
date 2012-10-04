@@ -25,9 +25,24 @@
 			<artifactId>jsx-wrapper</artifactId>
 			<version>0.0.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>net.alchim31.maven</groupId>
+					<artifactId>scala-maven-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -50,6 +65,32 @@
 						</extraClasspathElement>
 					</extraClasspathElements>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>scala-compile-first</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>scala-test-compile</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -77,6 +118,19 @@
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.9</version>
 				<configuration>
+					<configuration>
+						<buildcommands>
+							<buildcommand>org.scala-ide.sdt.core.scalabuilder</buildcommand>
+						</buildcommands>
+						<projectnatures>
+							<projectnature>org.scala-ide.sdt.core.scalanature</projectnature>
+							<projectnature>org.eclipse.jdt.core.javanature</projectnature>
+						</projectnatures>
+						<sourceIncludes>
+							<sourceInclude>**/*.scala</sourceInclude>
+						</sourceIncludes>
+					</configuration>
+
 					<classpathContainers>
 						<classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
 					</classpathContainers>

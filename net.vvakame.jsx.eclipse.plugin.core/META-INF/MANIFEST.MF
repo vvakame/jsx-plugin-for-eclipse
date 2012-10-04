@@ -11,7 +11,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
  org.junit,
- org.scala-ide.scala.library,
  org.eclipse.ui.views;bundle-version="3.6.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
@@ -25,4 +24,5 @@ Bundle-ClassPath: .,
  mouse-runtime-1.5.1.jar,
  jsx-wrapper-0.0.1.jar,
  jsonpullparser-core-1.5.jar,
+ scala-library-2.9.2.jar,
  junit.jar
